@@ -119,6 +119,18 @@ class FDataBase:
         except sqlite3.Error as e:
             print(f"❌ Ошибка поиска перевода: {e}")
             return None
+
+    def get_informal_translation(self, formal_text: str) -> Optional[Tuple[str, str]]:
+        try:
+            self.__cur.execute(
+                'SELECT informal_text, explanation FROM words WHERE LOWER(formal_text) = LOWER(?)',
+                (formal_text,)
+            )
+            result = self.__cur.fetchone()
+            return (result[0], result[1]) if result else None
+        except sqlite3.Error as e:
+            print(f"❌ Ошибка поиска обратного перевода: {e}")
+            return None
     
     def search_translations(self, search_text: str) -> List[Dict]:
         try:
@@ -278,15 +290,3 @@ class FDataBase:
             self.__db.commit()
         except sqlite3.Error as e:
             print("Failed to update adm data by id:", str(e))
-
-    def get_informal_translation(self, formal_text: str) -> Optional[Tuple[str, str]]:
-        try:
-            self.__cur.execute(
-                'SELECT informal_text, explanation FROM words WHERE LOWER(formal_text) = LOWER(?)',
-                (formal_text,)
-            )
-            result = self.__cur.fetchone()
-            return (result[0], result[1]) if result else None
-        except sqlite3.Error as e:
-            print(f"❌ Ошибка поиска обратного перевода: {e}")
-            return None

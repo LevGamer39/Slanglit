@@ -17,7 +17,8 @@ bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
 def translate_to_formal(text: str, user_id: int = None) -> Tuple[str, Optional[str]]:
-    result = db.get_formal_translation(text)
+    original_text = text
+    result = db.get_formal_translation(text.lower())
     if result:
         formal_text, explanation = result
         explanation_text = f"{text} → {formal_text}: {explanation}" if explanation else None
@@ -33,7 +34,7 @@ def translate_to_formal(text: str, user_id: int = None) -> Tuple[str, Optional[s
         found = False
         for length in range(min(3, len(words) - i), 0, -1):
             phrase = ' '.join(words[i:i + length])
-            result = db.get_formal_translation(phrase)
+            result = db.get_formal_translation(phrase.lower())
             if result:
                 formal_phrase, explanation = result
                 formal_parts.append(formal_phrase)
@@ -64,7 +65,7 @@ def translate_to_informal(text: str, user_id: int = None) -> Tuple[str, Optional
         found = False
         for length in range(min(3, len(words) - i), 0, -1):
             phrase = ' '.join(words[i:i + length])
-            result = db.get_informal_translation(phrase)
+            result = db.get_informal_translation(phrase.lower())
             if result:
                 informal_phrase, explanation = result
                 informal_parts.append(informal_phrase)
