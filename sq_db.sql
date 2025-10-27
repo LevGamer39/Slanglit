@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS admins (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  login TEXT NOT NULL,
+  role TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS translations (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  informal_text TEXT NOT NULL,
+  formal_text TEXT NOT NULL,
+  usage_count INTEGER DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  user_id INTEGER
+);
+CREATE TABLE IF NOT EXISTS words (
+  informal_text TEXT NOT NULL,
+  formal_text TEXT NOT NULL,
+  explanation TEXT NOT NULL
+);
