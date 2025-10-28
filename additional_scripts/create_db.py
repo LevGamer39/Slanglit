@@ -18,7 +18,7 @@ def get_table_names_from_sql(file_path='sq_db.sql'):
         return []
 
 def create_database():
-    conn = sqlite3.connect('translations.db')
+    conn = sqlite3.connect('../database/translations.db')
     cursor = conn.cursor()
     
     with open('sq_db.sql', 'r', encoding='utf-8') as f:
