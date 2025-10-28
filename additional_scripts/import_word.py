@@ -7,7 +7,7 @@ def import_from_json(json_file_path):
         with open(json_file_path, 'r', encoding='utf-8') as f:
             words = json.load(f)
         
-        conn = sqlite3.connect('translations.db')
+        conn = sqlite3.connect('../database/translations.db')
         cursor = conn.cursor()
         
         imported_count = 0
