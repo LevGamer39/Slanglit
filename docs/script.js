@@ -1,37 +1,53 @@
 // Главный класс приложения
 class SlanglitApp {
     constructor() {
-        this.currentDirection = 'slang_to_russian';
+        this.currentDirection = 'to_formal';
         this.history = [];
         this.currentPage = 1;
         this.itemsPerPage = 8;
-        
-        // Словарь для перевода
-        this.dictionary = {
-            'краш': { translation: 'симпатия', explanation: 'Человек, который вам нравится' },
-            'кринж': { translation: 'стыдно', explanation: 'Чувство неловкости за чьи-то действия' },
-            'рофл': { translation: 'шутка', explanation: 'Что-то смешное, веселье' },
-            'го': { translation: 'пойдем', explanation: 'Призыв к действию, предложение начать' },
-            'афк': { translation: 'отошел', explanation: 'Временно отсутствует у компьютера' },
-            'имба': { translation: 'очень круто', explanation: 'Что-то выдающееся, превосходное' },
-            'чилить': { translation: 'расслабляться', explanation: 'Проводить время бездельничая' },
-            'хейтить': { translation: 'ненавидеть', explanation: 'Проявлять негативное отношение' },
-            'скипнуть': { translation: 'пропустить', explanation: 'Не обращать внимания, пролистать' },
-            'залипать': { translation: 'увлекаться', explanation: 'Сильно погружаться в процесс' },
-            'шазамить': { translation: 'узнавать песню', explanation: 'Использовать приложение для распознавания музыки' },
-            'красавчик': { translation: 'молодец', explanation: 'Выражение одобрения' },
-            'лайтовый': { translation: 'очень лёгкий, простой', explanation: 'Лайтовый (от англ.: light - "лёгкий")\nЧасто употребляется в отношении какой-либо очень простой задачи, быстровыполнимой' },
-            'хейтер': { translation: 'недоброжелатель', explanation: 'Человек, который постоянно критикует и осуждает' },
-            'флекс': { translation: 'хвастовство', explanation: 'Демонстрация своих достижений или богатства' },
-            'рил': { translation: 'реально', explanation: 'По-настоящему, действительно' },
-            'пруф': { translation: 'доказательство', explanation: 'Подтверждение, свидетельство' },
-            'сасный': { translation: 'привлекательный', explanation: 'Симпатичный, стильный' }
-        };
+        this.userId = this.getUserId();
+        this.apiBaseUrl = 'http://localhost:5000/api';
+        this.apiAvailable = false;
         
         this.init();
     }
 
-    init() {
+    getUserId() {
+        // 1. Пробуем Telegram Web App (автоматически)
+        if (window.Telegram && window.Telegram.WebApp) {
+            const tg = window.Telegram.WebApp;
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                const userId = tg.initDataUnsafe.user.id.toString();
+                console.log('✅ Используем Telegram user_id:', userId);
+                localStorage.setItem('slanglit_user_id', userId);
+                localStorage.setItem('slanglit_user_source', 'telegram');
+                return userId;
+            }
+        }
+        
+        // 2. Пробуем из localStorage (пользователь уже вводил)
+        const savedUserId = localStorage.getItem('slanglit_user_id');
+        const userSource = localStorage.getItem('slanglit_user_source');
+        
+        if (savedUserId && userSource === 'telegram') {
+            console.log('✅ Используем сохраненный Telegram user_id:', savedUserId);
+            return savedUserId;
+        }
+        
+        // 3. Если есть web ID - удаляем его и запрашиваем Telegram ID
+        if (savedUserId && savedUserId.startsWith('web_')) {
+            console.log('🔄 Удаляем старый web ID и запрашиваем Telegram ID');
+            localStorage.removeItem('slanglit_user_id');
+            localStorage.removeItem('slanglit_user_source');
+            return null;
+        }
+        
+        // 4. Нет ID - будет запрошен у пользователя
+        console.log('⚠️ User ID не найден, требуется ввод Telegram ID');
+        return null;
+    }
+
+    async init() {
         // Telegram Web App интеграция
         if (window.Telegram && window.Telegram.WebApp) {
             this.tg = window.Telegram.WebApp;
@@ -39,172 +55,347 @@ class SlanglitApp {
             this.tg.expand();
         }
         
-        this.loadHistory();
+        // Проверяем соединение с API
+        await this.checkApiConnection();
+        
+        // Если нет user_id - показываем экран ввода Telegram ID
+        if (!this.userId) {
+            this.showUserIdInput();
+            return;
+        }
+        
         this.bindEvents();
+        await this.loadHistory();
         this.renderHistory();
     }
 
-    bindEvents() {
-        // Большая кнопка перевода
-        document.getElementById('bigTranslateBtn').addEventListener('click', () => {
-            this.showTranslation();
-        });
-
-        // Кнопки навигации на главной
-        document.getElementById('translateNavBtn').addEventListener('click', () => {
-            this.showMain();
-        });
-
-        document.getElementById('historyNavBtn').addEventListener('click', () => {
-            this.showHistory();
-        });
-
-        // Кнопки навигации на истории
-        document.getElementById('translateNavBtnHistory').addEventListener('click', () => {
-            this.showMain();
-        });
-
-        document.getElementById('historyNavBtnHistory').addEventListener('click', () => {
-            // Уже в истории, ничего не делаем
-        });
-
-        // Кнопка смены языка
-        document.getElementById('langSwapBtn').addEventListener('click', () => {
-            this.switchLanguage();
-        });
-
-        // Обработчик ввода текста - автоперевод при вводе
-        document.getElementById('slangInput').addEventListener('input', (e) => {
-            this.handleInputChange(e.target.value);
-        });
-
-        // Обработчик Enter для текстового поля
-        document.getElementById('slangInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                this.showTranslation();
+    async checkApiConnection() {
+        try {
+            const response = await fetch(`${this.apiBaseUrl}/health`);
+            const data = await response.json();
+            
+            if (response.ok && data.database === 'connected') {
+                console.log('✅ API сервер доступен');
+                this.apiAvailable = true;
+                return true;
+            } else {
+                throw new Error(data.message || 'API не доступен');
             }
-        });
-    }
-
-    handleInputChange(text) {
-        // Автоматический перевод при вводе (можно отключить если мешает)
-        if (text.length > 2) {
-            // this.showTranslation(); // Раскомментировать для автоперевода
+        } catch (error) {
+            console.error('❌ API сервер не доступен:', error);
+            this.showError('Сервер переводов временно недоступен. Пожалуйста, попробуйте позже.');
+            this.apiAvailable = false;
+            return false;
         }
     }
 
-    showTranslation() {
+    showError(message) {
+        const russianText = document.getElementById('russianText');
+        const explanationContent = document.querySelector('.explanation-content');
+        
+        if (russianText) {
+            russianText.textContent = 'Ошибка';
+            russianText.style.color = '#ff6b6b';
+        }
+        if (explanationContent) {
+            explanationContent.textContent = message;
+        }
+        
+        setTimeout(() => {
+            if (russianText) russianText.style.color = '';
+        }, 3000);
+    }
+
+    showUserIdInput() {
+        // Создаем временный контейнер для ввода ID
+        const tempContainer = document.createElement('div');
+        tempContainer.id = 'temp-user-id-input';
+        tempContainer.innerHTML = `
+            <div class="user-id-input-container">
+                <div class="header">
+                    <div class="app-title">Сленглит</div>
+                    <div class="app-subtitle">мини-приложение</div>
+                </div>
+                
+                <div class="translation-card">
+                    <div class="card-label">ВВОД TELEGRAM ID</div>
+                    <div style="text-align: center; padding: 20px;">
+                        <h4>🔐 Требуется Telegram ID</h4>
+                        <p>Для сохранения истории переводов введите ваш Telegram ID</p>
+                        
+                        <div style="background: #2a2f35; padding: 15px; border-radius: 8px; margin: 15px 0; border: 1px solid #44A3B9;">
+                            <p><strong>📱 Как получить Telegram ID:</strong></p>
+                            <p>1. Откройте <a href="https://t.me/slenglit_bot?start=start" target="_blank" style="color: #44A3B9; font-weight: bold;">бота в Telegram</a></p>
+                            <p>2. Скопируйте ваш ID из сообщения бота</p>
+                            <p>3. Введите его ниже</p>
+                        </div>
+                        
+                        <input type="text" id="userIdInput" placeholder="Введите ваш Telegram ID (только цифры)" 
+                               style="width: 100%; padding: 12px; margin: 10px 0; 
+                                      border-radius: 8px; border: 2px solid #44A3B9;
+                                      background: #343434; color: white; font-size: 14px;
+                                      text-align: center; font-weight: bold;">
+                        
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button onclick="window.app.saveUserId()" 
+                                    style="flex: 1; background: #44A3B9; color: white; border: none;
+                                           padding: 12px 0; border-radius: 8px; cursor: pointer;
+                                           font-size: 14px; font-weight: bold;">
+                                ✅ Сохранить ID
+                            </button>
+                            
+                            <button onclick="window.app.continueWithoutId()" 
+                                    style="flex: 1; background: transparent; color: #989898; border: 1px solid #989898;
+                                           padding: 12px 0; border-radius: 8px; cursor: pointer;
+                                           font-size: 12px;">
+                                ⚠️ Без истории
+                            </button>
+                        </div>
+                        
+                        <div style="margin-top: 15px; padding: 10px; background: #2a2f35; border-radius: 6px; font-size: 11px; color: #989898;">
+                            <strong>Важно:</strong> Без Telegram ID переводы будут работать, но история не сохранится
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Скрываем основные страницы и показываем временный контейнер
+        document.getElementById('main-page').style.display = 'none';
+        document.getElementById('history-page').style.display = 'none';
+        document.body.appendChild(tempContainer);
+        
+        // Фокус на поле ввода
+        setTimeout(() => {
+            const input = document.getElementById('userIdInput');
+            if (input) input.focus();
+        }, 100);
+    }
+
+    saveUserId() {
+        const input = document.getElementById('userIdInput');
+        const userId = input.value.trim();
+        
+        if (!userId) {
+            alert('❌ Пожалуйста, введите ваш Telegram ID');
+            return;
+        }
+        
+        if (!/^\d+$/.test(userId)) {
+            alert('❌ Telegram ID должен содержать только цифры\n\nПример: 5159491775');
+            return;
+        }
+        
+        if (userId.length < 5) {
+            alert('❌ Telegram ID слишком короткий');
+            return;
+        }
+        
+        // Сохраняем как Telegram ID
+        localStorage.setItem('slanglit_user_id', userId);
+        localStorage.setItem('slanglit_user_source', 'telegram');
+        this.userId = userId;
+        
+        console.log('✅ Сохранен Telegram ID:', userId);
+        this.continueWithApp();
+    }
+
+    continueWithoutId() {
+        // Генерируем временный ID только для текущей сессии (не сохраняем в localStorage)
+        const tempId = 'temp_' + Date.now();
+        this.userId = tempId;
+        
+        console.log('⚠️ Используем временный ID без сохранения истории:', tempId);
+        this.continueWithApp();
+    }
+
+    continueWithApp() {
+        // Удаляем временный контейнер
+        const tempContainer = document.getElementById('temp-user-id-input');
+        if (tempContainer) {
+            tempContainer.remove();
+        }
+        
+        // Показываем основные страницы
+        document.getElementById('main-page').style.display = 'flex';
+        document.getElementById('history-page').style.display = 'none';
+        
+        // Обновляем интерфейс в зависимости от типа ID
+        this.updateInterfaceForUserId();
+        
+        this.bindEvents();
+        
+        // Загружаем историю только если есть Telegram ID
+        if (!this.userId.startsWith('temp_')) {
+            this.loadHistory().then(() => this.renderHistory());
+        } else {
+            this.history = [];
+        }
+    }
+
+    updateInterfaceForUserId() {
+        const explanationContent = document.querySelector('.explanation-content');
+        if (explanationContent) {
+            if (this.userId.startsWith('temp_')) {
+                explanationContent.innerHTML = 'Здесь появится объяснение термина<br><small style="color: #ff6b6b;">⚠️ История не сохраняется</small>';
+            } else {
+                explanationContent.innerHTML = 'Здесь появится объяснение термина<br><small style="color: #44A3B9;">✅ История сохраняется</small>';
+            }
+        }
+    }
+
+    bindEvents() {
+        // Привязываем события к элементам которые точно существуют
+        const bigTranslateBtn = document.getElementById('bigTranslateBtn');
+        const slangInput = document.getElementById('slangInput');
+        const langSwapBtn = document.getElementById('langSwapBtn');
+        const translateNavBtn = document.getElementById('translateNavBtn');
+        const historyNavBtn = document.getElementById('historyNavBtn');
+        const translateNavBtnHistory = document.getElementById('translateNavBtnHistory');
+        const historyNavBtnHistory = document.getElementById('historyNavBtnHistory');
+
+        if (bigTranslateBtn) {
+            bigTranslateBtn.onclick = () => this.showTranslation();
+        }
+
+        if (translateNavBtn) {
+            translateNavBtn.onclick = () => this.showMain();
+        }
+
+        if (historyNavBtn) {
+            historyNavBtn.onclick = () => this.showHistory();
+        }
+
+        if (translateNavBtnHistory) {
+            translateNavBtnHistory.onclick = () => this.showMain();
+        }
+
+        if (historyNavBtnHistory) {
+            historyNavBtnHistory.onclick = () => {}; // Уже в истории
+        }
+
+        if (langSwapBtn) {
+            langSwapBtn.onclick = () => this.switchLanguage();
+        }
+
+        if (slangInput) {
+            slangInput.onkeypress = (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.showTranslation();
+                }
+            };
+        }
+    }
+
+    async showTranslation() {
         const inputText = document.getElementById('slangInput').value.trim();
+        const russianText = document.getElementById('russianText');
+        const explanationContent = document.querySelector('.explanation-content');
+        
         if (!inputText) {
-            document.getElementById('russianText').textContent = 'Введите текст для перевода';
-            document.querySelector('.explanation-content').textContent = 'Начните вводить сленговое выражение или русское слово';
+            russianText.textContent = 'Введите текст для перевода';
+            explanationContent.textContent = 'Начните вводить текст для перевода';
             return;
         }
 
-        let translation = '';
-        let explanation = '';
+        russianText.textContent = 'Переводим...';
+        explanationContent.textContent = 'Обрабатываем запрос...';
 
-        if (this.currentDirection === 'slang_to_russian') {
-            // Перевод сленга на русский
-            const normalizedInput = inputText.toLowerCase();
-            if (this.dictionary[normalizedInput]) {
-                translation = this.dictionary[normalizedInput].translation;
-                explanation = this.dictionary[normalizedInput].explanation;
+        try {
+            if (!this.apiAvailable) {
+                throw new Error('API недоступен');
+            }
+
+            const response = await this.translateViaApi(inputText);
+            
+            russianText.textContent = response.translated_text;
+            
+            // Показываем информацию о сохранении истории
+            if (this.userId.startsWith('temp_')) {
+                explanationContent.textContent = response.explanation + '\n\n⚠️ Перевод не сохранен в историю';
             } else {
-                translation = 'Перевод не найден';
-                explanation = 'Попробуйте другое выражение или проверьте правильность написания';
-            }
-        } else {
-            // Перевод русского на сленг
-            const normalizedInput = inputText.toLowerCase();
-            let found = false;
-            
-            for (const [slang, data] of Object.entries(this.dictionary)) {
-                if (data.translation.toLowerCase().includes(normalizedInput) || 
-                    normalizedInput.includes(data.translation.toLowerCase())) {
-                    translation = slang;
-                    explanation = data.explanation;
-                    found = true;
-                    break;
-                }
+                explanationContent.textContent = response.explanation;
+                await this.loadHistory();
             }
             
-            if (!found) {
-                translation = 'Сленговый аналог не найден';
-                explanation = 'Попробуйте другое слово или переключите направление перевода';
-            }
+        } catch (error) {
+            console.error('❌ Ошибка перевода:', error);
+            this.showError('Не удалось выполнить перевод: ' + error.message);
+        }
+    }
+
+    async translateViaApi(text) {
+        // Для временных ID используем специальный маркер
+        const userIdToSend = this.userId.startsWith('temp_') ? 'unknown_user' : this.userId;
+        
+        const response = await fetch(`${this.apiBaseUrl}/translate`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                text: text,
+                direction: this.currentDirection,
+                user_id: userIdToSend
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Ошибка API');
         }
 
-        // Обновляем интерфейс
-        document.getElementById('russianText').textContent = translation;
-        document.querySelector('.explanation-content').textContent = explanation;
-
-        // Добавляем в историю если перевод найден
-        if (translation !== 'Перевод не найден' && translation !== 'Сленговый аналог не найден') {
-            this.addToHistory(
-                this.currentDirection === 'slang_to_russian' ? inputText : translation,
-                this.currentDirection === 'slang_to_russian' ? translation : inputText,
-                explanation
-            );
-        }
+        const data = await response.json();
+        return data;
     }
 
     switchLanguage() {
         const slangInput = document.getElementById('slangInput');
         const russianText = document.getElementById('russianText');
+        const explanationContent = document.querySelector('.explanation-content');
         
-        // Получаем элементы текста в переключателе языка
         const leftLangText = document.getElementById('leftLangText');
         const rightLangText = document.getElementById('rightLangText');
+        const leftCardLabel = document.getElementById('leftCardLabel');
+        const rightCardLabel = document.getElementById('rightCardLabel');
         
-        if (this.currentDirection === 'slang_to_russian') {
-            // Меняем на русский → сленг
-            this.currentDirection = 'russian_to_slang';
-            
-            // Меняем местами тексты в переключателе языка
+        if (this.currentDirection === 'to_formal') {
+            this.currentDirection = 'to_informal';
             leftLangText.textContent = 'русский';
             rightLangText.textContent = 'сленговый';
-            
-            // Меняем заголовки карточек
-            document.getElementById('leftCardLabel').textContent = 'РУССКИЙ';
-            document.getElementById('rightCardLabel').textContent = 'СЛЕНГ';
-            
-            // Меняем placeholder
+            leftCardLabel.textContent = 'РУССКИЙ';
+            rightCardLabel.textContent = 'СЛЕНГ';
             slangInput.placeholder = 'Введите русское выражение...';
         } else {
-            // Меняем на сленг → русский
-            this.currentDirection = 'slang_to_russian';
-            
-            // Меняем местами тексты в переключателе языка
+            this.currentDirection = 'to_formal';
             leftLangText.textContent = 'сленговый';
             rightLangText.textContent = 'русский';
-            
-            // Меняем заголовки карточек
-            document.getElementById('leftCardLabel').textContent = 'СЛЕНГ';
-            document.getElementById('rightCardLabel').textContent = 'РУССКИЙ';
-            
-            // Меняем placeholder
+            leftCardLabel.textContent = 'СЛЕНГ';
+            rightCardLabel.textContent = 'РУССКИЙ';
             slangInput.placeholder = 'Введите сленговое выражение...';
         }
         
-        // Очищаем результаты при смене направления
         slangInput.value = '';
         russianText.textContent = 'Результат перевода...';
-        document.querySelector('.explanation-content').textContent = 'Здесь появится объяснение термина';
+        
+        if (this.userId.startsWith('temp_')) {
+            explanationContent.innerHTML = 'Здесь появится объяснение термина<br><small style="color: #ff6b6b;">⚠️ История не сохраняется</small>';
+        } else {
+            explanationContent.innerHTML = 'Здесь появится объяснение термина<br><small style="color: #44A3B9;">✅ История сохраняется</small>';
+        }
     }
 
-    showHistory() {
+    async showHistory() {
         document.getElementById('main-page').classList.remove('active');
         document.getElementById('history-page').classList.add('active');
         
-        // Обновляем состояние кнопок навигации
         document.getElementById('translateNavBtn').classList.remove('active');
         document.getElementById('historyNavBtn').classList.add('active');
         document.getElementById('translateNavBtnHistory').classList.remove('active');
         document.getElementById('historyNavBtnHistory').classList.add('active');
         
-        // Перерисовываем историю
+        await this.loadHistory();
         this.renderHistory();
     }
 
@@ -212,70 +403,74 @@ class SlanglitApp {
         document.getElementById('history-page').classList.remove('active');
         document.getElementById('main-page').classList.add('active');
         
-        // Обновляем состояние кнопок навигации
         document.getElementById('translateNavBtn').classList.add('active');
         document.getElementById('historyNavBtn').classList.remove('active');
         document.getElementById('translateNavBtnHistory').classList.add('active');
         document.getElementById('historyNavBtnHistory').classList.remove('active');
     }
 
-    loadHistory() {
-        // Пробуем загрузить историю из localStorage
-        const savedHistory = localStorage.getItem('slanglitHistory');
-        if (savedHistory) {
-            this.history = JSON.parse(savedHistory);
-        } else {
-            // Заглушка с примерами
-            this.history = [
-                { original: "краш", translation: "симпатия", explanation: "Человек, который вам нравится" },
-                { original: "кринж", translation: "стыдно", explanation: "Чувство неловкости за чьи-то действия" },
-                { original: "рофл", translation: "шутка", explanation: "Что-то смешное, веселье" },
-                { original: "го", translation: "пойдем", explanation: "Призыв к действию, предложение начать" }
-            ];
+    async loadHistory() {
+        // Для временных ID не загружаем историю
+        if (this.userId.startsWith('temp_')) {
+            this.history = [];
+            return;
         }
-    }
 
-    addToHistory(original, translation, explanation) {
-        this.history.unshift({ 
-            original, 
-            translation, 
-            explanation: explanation.split('\n')[0] // Берем только первую строку для истории
-        });
-        
-        // Ограничиваем историю 50 элементами
-        if (this.history.length > 50) {
-            this.history = this.history.slice(0, 50);
+        if (!this.userId || !this.apiAvailable) {
+            this.history = [];
+            return;
         }
-        
-        // Сохраняем в localStorage
-        localStorage.setItem('slanglitHistory', JSON.stringify(this.history));
-        
-        this.renderHistory();
+
+        try {
+            const response = await fetch(`${this.apiBaseUrl}/history/${this.userId}?limit=100`);
+            if (!response.ok) {
+                throw new Error('Ошибка загрузки истории');
+            }
+            
+            const data = await response.json();
+            if (data.success) {
+                this.history = data.translations.map(trans => ({
+                    original: trans.direction === 'to_formal' ? trans.informal_text : trans.formal_text,
+                    translation: trans.direction === 'to_formal' ? trans.formal_text : trans.informal_text,
+                    explanation: trans.explanation,
+                    created_at: trans.created_at
+                }));
+            }
+        } catch (error) {
+            console.error('❌ Ошибка загрузки истории:', error);
+            this.history = [];
+        }
     }
 
     renderHistory() {
         const historyItems = document.getElementById('historyItems');
         const pagination = document.getElementById('pagination');
         
-        // Очищаем контейнеры
+        if (!historyItems) return;
+        
         historyItems.innerHTML = '';
         pagination.innerHTML = '';
         
         if (this.history.length === 0) {
+            let message = 'История переводов пуста';
+            if (this.userId.startsWith('temp_')) {
+                message = '📝 История недоступна<br><small>Введите Telegram ID для сохранения переводов</small>';
+            } else if (!this.apiAvailable) {
+                message = '❌ Не удалось загрузить историю';
+            }
+            
             historyItems.innerHTML = `
-                <div class="history-item" style="text-align: center; color: var(--text-secondary);">
-                    История переводов пуста
+                <div class="history-item" style="text-align: center; color: var(--text-secondary); padding: 30px;">
+                    ${message}
                 </div>
             `;
             return;
         }
         
-        // Рассчитываем элементы для текущей страницы
         const startIndex = (this.currentPage - 1) * this.itemsPerPage;
         const endIndex = startIndex + this.itemsPerPage;
         const currentItems = this.history.slice(startIndex, endIndex);
         
-        // Рендерим элементы истории
         currentItems.forEach((item) => {
             const historyItem = document.createElement('div');
             historyItem.className = 'history-item';
@@ -287,7 +482,6 @@ class SlanglitApp {
                 <div class="history-explanation">${this.escapeHtml(item.explanation)}</div>
             `;
             
-            // Добавляем обработчик клика
             historyItem.addEventListener('click', () => {
                 this.loadHistoryItem(item);
             });
@@ -295,7 +489,6 @@ class SlanglitApp {
             historyItems.appendChild(historyItem);
         });
         
-        // Рендерим пагинацию только если нужно
         const totalPages = Math.ceil(this.history.length / this.itemsPerPage);
         
         if (totalPages > 1) {
@@ -316,17 +509,13 @@ class SlanglitApp {
     }
 
     loadHistoryItem(item) {
-        // В зависимости от текущего направления загружаем соответствующим образом
-        if (this.currentDirection === 'slang_to_russian') {
+        if (this.currentDirection === 'to_formal') {
             document.getElementById('slangInput').value = item.original;
         } else {
             document.getElementById('slangInput').value = item.translation;
         }
         
-        // Выполняем перевод
         this.showTranslation();
-        
-        // Переходим на главную страницу
         this.showMain();
     }
 
@@ -337,23 +526,20 @@ class SlanglitApp {
     }
 }
 
-// Функция копирования текста
+// Глобальные функции
 function copyText(elementId) {
     const text = document.getElementById(elementId).textContent;
     navigator.clipboard.writeText(text).then(() => {
-        // Можно добавить уведомление о успешном копировании
         console.log('Текст скопирован: ' + text);
     }).catch(err => {
         console.error('Ошибка копирования: ', err);
     });
 }
 
-// Функция вставки текста
 function pasteText(elementId) {
     const input = document.getElementById(elementId);
     navigator.clipboard.readText().then(text => {
         input.value = text;
-        // Триггерим событие изменения
         const event = new Event('input', { bubbles: true });
         input.dispatchEvent(event);
     }).catch(err => {
@@ -363,5 +549,5 @@ function pasteText(elementId) {
 
 // Инициализация приложения
 document.addEventListener('DOMContentLoaded', () => {
-    new SlanglitApp();
+    window.app = new SlanglitApp();
 });
