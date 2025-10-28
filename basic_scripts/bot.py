@@ -67,8 +67,8 @@ def get_admin_keyboard(admin_role: str) -> ReplyKeyboardMarkup:
 
 translation_keyboard = ReplyKeyboardMarkup(
     keyboard=[
-        [KeyboardButton(text="🎩 Неформальный → Формальный")],
-        [KeyboardButton(text="😎 Формальный → Неформальный")],
+        [KeyboardButton(text="💼 Неформальный → Формальный")],
+        [KeyboardButton(text="🔥 Формальный → Неформальный")],
         [KeyboardButton(text="⬅️ Назад в меню")]
     ],
     resize_keyboard=True
@@ -202,7 +202,7 @@ async def show_translation_options(message: types.Message):
         reply_markup=translation_keyboard
     )
 
-@dp.message(lambda message: message.text == "🎩 Неформальный → Формальный")
+@dp.message(lambda message: message.text == "💼 Неформальный → Формальный")
 async def start_formal_translation(message: types.Message, state: FSMContext):
     await state.set_state(TranslationStates.waiting_for_informal)
     await message.answer(
@@ -212,7 +212,7 @@ async def start_formal_translation(message: types.Message, state: FSMContext):
         reply_markup=translation_mode_keyboard
     )
 
-@dp.message(lambda message: message.text == "😎 Формальный → Неформальный")
+@dp.message(lambda message: message.text == "🔥 Формальный → Неформальный")
 async def start_informal_translation(message: types.Message, state: FSMContext):
     await state.set_state(TranslationStates.waiting_for_formal)
     await message.answer(
@@ -244,7 +244,7 @@ async def handle_informal_text(message: types.Message, state: FSMContext):
     user_text = message.text
     formal_text, explanation = translate_to_formal(user_text, message.from_user.id)
     
-    response = f"🎩 Формальный вариант:\n`{formal_text}`"
+    response = f"💼 Формальный вариант:\n`{formal_text}`"
     if explanation:
         response += f"\n\n📚 Объяснение:\n{explanation}"
     
@@ -264,7 +264,7 @@ async def handle_formal_text(message: types.Message, state: FSMContext):
     user_text = message.text
     informal_text, explanation = translate_to_informal(user_text, message.from_user.id) 
     
-    response = f"😎 Неформальный вариант:\n`{informal_text}`"
+    response = f"🔥 Неформальный вариант:\n`{informal_text}`"
     if explanation:
         response += f"\n\n📚 Объяснение:\n{explanation}"
     
@@ -300,13 +300,13 @@ async def show_history(message: types.Message, offset: int = 0):
     for i, trans in enumerate(page_translations, offset + 1):
         direction = trans.get('direction', 'to_formal')
         if direction == 'to_formal':
-            text += f"{i}. 🎩 Неформальный → Формальный\n"
-            text += f"   😎 `{trans['informal_text']}`\n"
-            text += f"   → 🎩 `{trans['formal_text']}`\n"
+            text += f"{i}. 💼 Неформальный → Формальный\n"
+            text += f"   🔥 `{trans['informal_text']}`\n"
+            text += f"   → 💼 `{trans['formal_text']}`\n"
         else:
-            text += f"{i}. 😎 Формальный → Неформальный\n"
-            text += f"   🎩 `{trans['informal_text']}`\n"
-            text += f"   → 😎 `{trans['formal_text']}`\n"
+            text += f"{i}. 🔥 Формальный → Неформальный\n"
+            text += f"   💼 `{trans['informal_text']}`\n"
+            text += f"   → 🔥 `{trans['formal_text']}`\n"
         text += f"   📅 {trans['created_at']}\n\n"
     
     keyboard_buttons = []
@@ -338,7 +338,7 @@ async def show_dictionary_page(message: types.Message, offset: int = 0):
     
     text = f"📚 Словарь слов (стр. {offset//10 + 1}):\n\n"
     for i, word in enumerate(words, offset + 1):
-        text += f"{i}. 😎 `{word['informal_text']}` → 🎩 `{word['formal_text']}`"
+        text += f"{i}. 🔥 `{word['informal_text']}` → 💼 `{word['formal_text']}`"
         if word.get('explanation'):
             text += f"\n   📖 {word['explanation']}\n\n"
         else:
@@ -438,13 +438,13 @@ async def show_search_results(message: Message, state: FSMContext, offset: int =
         for i, trans in enumerate(page_results, offset + 1):
             direction = trans.get('direction', 'to_formal')
             if direction == 'to_formal':
-                text += f"{i}. 🎩 Неформальный → Формальный\n"
-                text += f"   😎 `{trans['informal_text']}`\n"
-                text += f"   → 🎩 `{trans['formal_text']}`\n"
+                text += f"{i}. 💼 Неформальный → Формальный\n"
+                text += f"   🔥 `{trans['informal_text']}`\n"
+                text += f"   → 💼 `{trans['formal_text']}`\n"
             else:
-                text += f"{i}. 😎 Формальный → Неформальный\n"
-                text += f"   🎩 `{trans['informal_text']}`\n"
-                text += f"   → 😎 `{trans['formal_text']}`\n"
+                text += f"{i}. 🔥 Формальный → Неформальный\n"
+                text += f"   💼 `{trans['informal_text']}`\n"
+                text += f"   → 🔥 `{trans['formal_text']}`\n"
             text += f"   📅 {trans['created_at']}\n\n"
     
     else:
@@ -452,7 +452,7 @@ async def show_search_results(message: Message, state: FSMContext, offset: int =
         text += f"Страница {offset//10 + 1} из {total_pages}:\n\n"
         
         for i, word in enumerate(page_results, offset + 1):
-            text += f"{i}. 😎 `{word['informal_text']}` → 🎩 `{word['formal_text']}`"
+            text += f"{i}. 🔥 `{word['informal_text']}` → 💼 `{word['formal_text']}`"
             if word.get('explanation'):
                 text += f"\n   📖 {word['explanation']}\n\n"
             else:
@@ -731,7 +731,7 @@ async def add_word_explanation(message: Message, state: FSMContext):
     explanation = message.text if message.text != '-' else ''
     
     if db.add_to_dictionary(informal, formal, explanation):
-        response = f"✅ Слово добавлено в словарь:\n😎 `{informal}` → 🎩 `{formal}`"
+        response = f"✅ Слово добавлено в словарь:\n🔥 `{informal}` → 💼 `{formal}`"
         if explanation:
             response += f"\n📚 {explanation}"
         await message.answer(response, parse_mode='Markdown', reply_markup=dictionary_management_keyboard)
@@ -772,7 +772,7 @@ async def delete_word_input(message: Message, state: FSMContext):
     await state.set_state(DeleteWordStates.waiting_for_confirmation)
     
     text = f"⚠️ Вы уверены, что хотите удалить слово?\n\n"
-    text += f"😎 `{word['informal_text']}` → 🎩 `{word['formal_text']}`"
+    text += f"🔥 `{word['informal_text']}` → 💼 `{word['formal_text']}`"
     if word.get('explanation'):
         text += f"\n📚 {word['explanation']}"
     
@@ -848,7 +848,7 @@ async def handle_any_message(message: Message, state: FSMContext):
     
     system_buttons = [
         "🔄 Перевод", "📖 История", "📚 Словарь", "⚙️ Админ-панель",
-        "🎩 Неформальный → Формальный", "😎 Формальный → Неформальный",
+        "💼 Неформальный → Формальный", "🔥 Формальный → Неформальный",
         "❌ Выйти из режима перевода", "⬅️ Назад в меню",
         "👥 Список админов", "➕ Добавить админа", "➖ Удалить админа",
         "📊 Статистика", "📝 Управление словарем", "⬅️ Назад в админ-панель",
@@ -871,7 +871,7 @@ async def handle_any_message(message: Message, state: FSMContext):
                 user_text = message.text
                 formal_text, explanation = translate_to_formal(user_text, message.from_user.id)
                 
-                response = f"🎩 Формальный вариант:\n`{formal_text}`"
+                response = f"💼 Формальный вариант:\n`{formal_text}`"
                 if explanation:
                     response += f"\n\n📚 Объяснение:\n{explanation}"
                 
@@ -881,7 +881,7 @@ async def handle_any_message(message: Message, state: FSMContext):
                 user_text = message.text
                 informal_text, explanation = translate_to_informal(user_text, message.from_user.id)
                 
-                response = f"😎 Неформальный вариант:\n`{informal_text}`"
+                response = f"🔥 Неформальный вариант:\n`{informal_text}`"
                 if explanation:
                     response += f"\n\n📚 Объяснение:\n{explanation}"
                 
