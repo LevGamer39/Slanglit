@@ -25,14 +25,35 @@ def get_admin_keyboard(admin_role: str) -> ReplyKeyboardMarkup:
         keyboard = [
             [KeyboardButton(text="👥 Список админов")],
             [KeyboardButton(text="➕ Добавить админа"), KeyboardButton(text="➖ Удалить админа")],
-            [KeyboardButton(text="📊 Статистика")],
+            [KeyboardButton(text="📊 Базовая статистика"), KeyboardButton(text="📈 Детальная статистика")],
+            [KeyboardButton(text="👤 Статистика пользователей"), KeyboardButton(text="🕐 Активность в реальном времени")],
             [KeyboardButton(text="⬅️ Назад в меню")]
         ]
     else:
         keyboard = [
-            [KeyboardButton(text="📊 Статистика")],
+            [KeyboardButton(text="📊 Базовая статистика"), KeyboardButton(text="📈 Детальная статистика")],
             [KeyboardButton(text="⬅️ Назад в меню")]
         ]
+    return ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)
+
+def get_stats_keyboard() -> ReplyKeyboardMarkup:
+    """Клавиатура для выбора типа статистики"""
+    keyboard = [
+        [KeyboardButton(text="📊 Базовая статистика")],
+        [KeyboardButton(text="📈 Детальная статистика")],
+        [KeyboardButton(text="👤 Статистика пользователей")],
+        [KeyboardButton(text="🕐 Активность в реальном времени")],
+        [KeyboardButton(text="⬅️ Назад в админ-панель")]
+    ]
+    return ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)
+
+def get_user_stats_keyboard() -> ReplyKeyboardMarkup:
+    """Клавиатура для статистики пользователей"""
+    keyboard = [
+        [KeyboardButton(text="👤 Топ пользователей")],
+        [KeyboardButton(text="🔍 Поиск пользователя")],
+        [KeyboardButton(text="⬅️ Назад к статистике")]
+    ]
     return ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)
 
 translation_keyboard = ReplyKeyboardMarkup(
