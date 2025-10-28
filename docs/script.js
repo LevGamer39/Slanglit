@@ -1,255 +1,511 @@
-// Главный класс приложения
-class SlanglitApp {
-    constructor() {
-        this.currentDirection = 'slang_to_russian';
-        this.history = [];
-        this.currentPage = 1;
-        this.itemsPerPage = 8;
-        this.init();
+/* ========== VARIABLES & RESET ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #222526;
+    --bg-secondary: #343434;
+    --bg-card: #343434;
+    --text-primary: #FFFFFF;
+    --text-secondary: #989898;
+    --text-accent: #44A3B9;
+    --accent-primary: #44A3B9;
+    --border-radius: 16px;
+    --max-width: 800px;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1e23 0%, #2a2f35 100%);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.app-container {
+    width: 100%;
+    max-width: var(--max-width);
+    background: var(--bg-primary);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    min-height: 800px;
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #3a3a3a;
+}
+
+/* ========== PAGES ========== */
+.page {
+    display: none;
+    padding: 40px;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.page.active {
+    display: flex;
+}
+
+/* ========== HEADER ========== */
+.header {
+    padding: 0 0 30px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.app-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #44A3B9 0%, #5bc2d8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.app-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* ========== LANGUAGE SWITCH ========== */
+.language-switch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 0 0 30px;
+    padding: 20px;
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    flex-shrink: 0;
+    border: 1px solid #444;
+}
+
+.lang-text {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    width: 120px;
+    text-align: center;
+}
+
+.lang-swap-btn {
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 28px;
+    font-weight: bold;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(68, 163, 185, 0.3);
+}
+
+.lang-swap-btn:hover {
+    background: #3a92a5;
+    transform: scale(1.08);
+    box-shadow: 0 6px 16px rgba(68, 163, 185, 0.4);
+}
+
+/* ========== TRANSLATION CARDS ========== */
+.translation-card {
+    background: var(--bg-card);
+    margin: 0 0 20px;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    flex-shrink: 0;
+    border: 1px solid #444;
+    transition: transform 0.2s ease;
+}
+
+.translation-card:hover {
+    transform: translateY(-2px);
+}
+
+.card-label {
+    font-size: 16px;
+    color: var(--text-accent);
+    margin-bottom: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.translation-text {
+    font-size: 22px;
+    color: var(--text-primary);
+    font-weight: 600;
+    line-height: 1.4;
+    min-height: 32px;
+    word-break: break-word;
+    padding: 8px 0;
+}
+
+/* ========== BIG TRANSLATE BUTTON ========== */
+.big-translate-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #44A3B9 0%, #5bc2d8 100%);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 24px;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 30px 0;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(68, 163, 185, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.big-translate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(68, 163, 185, 0.4);
+}
+
+/* ========== EXPLANATION CARD ========== */
+.explanation-card {
+    background: var(--bg-card);
+    margin: 0 0 30px;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 180px;
+    border: 1px solid #444;
+}
+
+.explanation-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.explanation-content {
+    font-size: 18px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    flex-grow: 1;
+    word-break: break-word;
+}
+
+/* ========== NAVIGATION BUTTONS ========== */
+.nav-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    right: 40px;
+    background: var(--bg-primary);
+    padding: 10px 0;
+    z-index: 100;
+}
+
+.nav-btn {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid #444;
+    border-radius: var(--border-radius);
+    padding: 20px 24px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background: #3d3d3d;
+    transform: translateY(-1px);
+}
+
+.nav-btn.active {
+    background: linear-gradient(135deg, #44A3B9 0%, #5bc2d8 100%);
+    color: white;
+    border-color: #44A3B9;
+    box-shadow: 0 4px 12px rgba(68, 163, 185, 0.3);
+}
+
+.nav-btn.active:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(68, 163, 185, 0.4);
+}
+
+/* ========== HISTORY SECTION ========== */
+.history-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 30px;
+    overflow: hidden;
+}
+
+.history-items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-grow: 1;
+    margin-bottom: 30px;
+    overflow-y: auto;
+    max-height: 520px;
+    padding-right: 12px;
+}
+
+/* Scrollbar styling */
+.history-items::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-items::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 4px;
+}
+
+.history-items::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 4px;
+}
+
+.history-items::-webkit-scrollbar-thumb:hover {
+    background: #3a92a5;
+}
+
+.history-item {
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    border: 1px solid #444;
+}
+
+.history-item:hover {
+    background: #3d3d3d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.history-pair {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.history-original {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.history-translation {
+    font-size: 20px;
+    color: var(--text-accent);
+    font-weight: 700;
+}
+
+.history-explanation {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: auto;
+    padding: 24px 0 10px;
+    flex-shrink: 0;
+}
+
+.page-btn {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid #444;
+    border-radius: 10px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.page-btn:hover {
+    background: #3d3d3d;
+    transform: scale(1.05);
+}
+
+.page-btn.active {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    box-shadow: 0 4px 12px rgba(68, 163, 185, 0.3);
+}
+
+/* Кнопки ввода/копирования */
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.action-btn {
+    background: transparent;
+    border: 1px solid var(--text-secondary);
+    color: var(--text-secondary);
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.action-btn:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+    transform: translateY(-1px);
+}
+
+.action-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* Поле ввода */
+.input-field {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--text-secondary);
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 20px;
+    color: var(--text-primary);
+    font-family: inherit;
+    resize: none;
+    min-height: 60px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px rgba(68, 163, 185, 0.2);
+}
+
+.input-field::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Скрываем пагинацию когда не нужна */
+.pagination.hidden {
+    display: none;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+        align-items: stretch;
     }
-
-    init() {
-        // Telegram Web App интеграция
-        if (window.Telegram && window.Telegram.WebApp) {
-            this.tg = window.Telegram.WebApp;
-            this.tg.ready();
-            this.tg.expand();
-        }
-        
-        this.loadHistory();
-        this.bindEvents();
-        this.renderHistory();
+    
+    .app-container {
+        max-width: 100%;
+        height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+        min-height: auto;
     }
-
-    bindEvents() {
-        // Большая кнопка перевода
-        document.getElementById('bigTranslateBtn').addEventListener('click', () => {
-            this.showTranslation();
-        });
-
-        // Кнопки навигации на главной
-        document.getElementById('translateNavBtn').addEventListener('click', () => {
-            // Уже на главной, ничего не делаем
-        });
-
-        document.getElementById('historyNavBtn').addEventListener('click', () => {
-            this.showHistory();
-        });
-
-        // Кнопки навигации на истории
-        document.getElementById('translateNavBtnHistory').addEventListener('click', () => {
-            this.showMain();
-        });
-
-        document.getElementById('historyNavBtnHistory').addEventListener('click', () => {
-            // Уже в истории, ничего не делаем
-        });
-
-        // Кнопка смены языка
-        document.getElementById('langSwapBtn').addEventListener('click', () => {
-            this.switchLanguage();
-        });
-
-        // Обработчик ввода текста
-        document.getElementById('slangInput').addEventListener('input', (e) => {
-            this.handleInputChange(e.target.value);
-        });
+    
+    .page {
+        padding: 20px 16px 80px;
     }
-
-    handleInputChange(text) {
-        // Здесь можно добавить логику автоперевода или другие действия
-        console.log('Введен текст:', text);
+    
+    .nav-buttons {
+        bottom: 20px;
+        left: 16px;
+        right: 16px;
     }
-
-    showTranslation() {
-        const inputText = document.getElementById('slangInput').value;
-        if (inputText.trim()) {
-            // Здесь будет логика перевода
-            console.log('Перевод текста:', inputText);
-            // В реальном приложении здесь будет вызов API перевода
-            
-            // Добавляем в историю
-            this.addToHistory(inputText, "переведенный текст", "описание перевода");
-        }
+    
+    .app-title {
+        font-size: 28px;
     }
-
-    switchLanguage() {
-        const slangInput = document.getElementById('slangInput');
-        const russianText = document.getElementById('russianText');
-        
-        // Получаем элементы текста в переключателе языка
-        const leftLangText = document.getElementById('leftLangText');
-        const rightLangText = document.getElementById('rightLangText');
-        
-        if (this.currentDirection === 'slang_to_russian') {
-            // Меняем на русский → сленг
-            this.currentDirection = 'russian_to_slang';
-            
-            // Меняем местами тексты в переключателе языка
-            leftLangText.textContent = 'русский';
-            rightLangText.textContent = 'сленговый';
-            
-            // Меняем заголовки карточек
-            document.getElementById('leftCardLabel').textContent = 'РУССКИЙ';
-            document.getElementById('rightCardLabel').textContent = 'СЛЕНГ';
-            
-            // Меняем placeholder
-            slangInput.placeholder = 'Введите русское выражение...';
-        } else {
-            // Меняем на сленг → русский
-            this.currentDirection = 'slang_to_russian';
-            
-            // Меняем местами тексты в переключателе языка
-            leftLangText.textContent = 'сленговый';
-            rightLangText.textContent = 'русский';
-            
-            // Меняем заголовки карточек
-            document.getElementById('leftCardLabel').textContent = 'СЛЕНГ';
-            document.getElementById('rightCardLabel').textContent = 'РУССКИЙ';
-            
-            // Меняем placeholder
-            slangInput.placeholder = 'Введите сленговое выражение...';
-        }
+    
+    .app-subtitle {
+        font-size: 16px;
     }
-
-    showHistory() {
-        document.getElementById('main-page').classList.remove('active');
-        document.getElementById('history-page').classList.add('active');
-        
-        // Обновляем состояние кнопок навигации
-        document.getElementById('translateNavBtn').classList.remove('active');
-        document.getElementById('historyNavBtn').classList.add('active');
-        document.getElementById('translateNavBtnHistory').classList.remove('active');
-        document.getElementById('historyNavBtnHistory').classList.add('active');
+    
+    .lang-text {
+        font-size: 16px;
+        width: 100px;
     }
-
-    showMain() {
-        document.getElementById('history-page').classList.remove('active');
-        document.getElementById('main-page').classList.add('active');
-        
-        // Обновляем состояние кнопок навигации
-        document.getElementById('translateNavBtn').classList.add('active');
-        document.getElementById('historyNavBtn').classList.remove('active');
-        document.getElementById('translateNavBtnHistory').classList.add('active');
-        document.getElementById('historyNavBtnHistory').classList.remove('active');
+    
+    .lang-swap-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
     }
-
-    loadHistory() {
-        // В реальном приложении здесь будет загрузка из localStorage или API
-        this.history = [
-            { original: "краш", translation: "симпатия", explanation: "Человек, который вам нравится" },
-            { original: "кринж", translation: "стыдно", explanation: "Чувство неловкости" },
-            { original: "рофл", translation: "шутка", explanation: "Что-то смешное" },
-            { original: "го", translation: "пойдем", explanation: "Призыв к действию" },
-            { original: "афк", translation: "отошел", explanation: "Временно отсутствует у компьютера" },
-            { original: "имба", translation: "очень круто", explanation: "Что-то выдающееся, превосходное" },
-            { original: "чилить", translation: "расслабляться", explanation: "Проводить время бездельничая" },
-            { original: "хейтить", translation: "ненавидеть", explanation: "Проявлять негативное отношение" },
-            { original: "скипнуть", translation: "пропустить", explanation: "Не обращать внимания, пролистать" },
-            { original: "залипать", translation: "увлекаться", explanation: "Сильно погружаться в процесс" },
-            { original: "шазамить", translation: "узнавать песню", explanation: "Использовать приложение для распознавания музыки" },
-            { original: "красавчик", translation: "молодец", explanation: "Выражение одобрения" }
-        ];
+    
+    .translation-text,
+    .input-field {
+        font-size: 18px;
     }
-
-    addToHistory(original, translation, explanation) {
-        this.history.unshift({ original, translation, explanation });
-        if (this.history.length > 50) { // Ограничиваем историю
-            this.history = this.history.slice(0, 50);
-        }
-        this.renderHistory();
+    
+    .explanation-content {
+        font-size: 16px;
     }
-
-    renderHistory() {
-        const historyItems = document.getElementById('historyItems');
-        const pagination = document.getElementById('pagination');
-        
-        // Очищаем контейнеры
-        historyItems.innerHTML = '';
-        pagination.innerHTML = '';
-        
-        // Рассчитываем элементы для текущей страницы
-        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-        const endIndex = startIndex + this.itemsPerPage;
-        const currentItems = this.history.slice(startIndex, endIndex);
-        
-        // Рендерим элементы истории
-        currentItems.forEach((item) => {
-            const historyItem = document.createElement('div');
-            historyItem.className = 'history-item';
-            historyItem.innerHTML = `
-                <div class="history-pair">
-                    <div class="history-original">${item.original}</div>
-                    <div class="history-translation">${item.translation}</div>
-                </div>
-                <div class="history-explanation">${item.explanation}</div>
-            `;
-            
-            // Добавляем обработчик клика
-            historyItem.addEventListener('click', () => {
-                this.loadHistoryItem(item);
-            });
-            
-            historyItems.appendChild(historyItem);
-        });
-        
-        // Рендерим пагинацию только если нужно
-        const totalPages = Math.ceil(this.history.length / this.itemsPerPage);
-        
-        if (totalPages > 1) {
-            pagination.classList.remove('hidden');
-            for (let i = 1; i <= totalPages; i++) {
-                const pageBtn = document.createElement('button');
-                pageBtn.className = `page-btn ${i === this.currentPage ? 'active' : ''}`;
-                pageBtn.textContent = i;
-                pageBtn.addEventListener('click', () => {
-                    this.currentPage = i;
-                    this.renderHistory();
-                });
-                pagination.appendChild(pageBtn);
-            }
-        } else {
-            pagination.classList.add('hidden');
-        }
-    }
-
-    loadHistoryItem(item) {
-        // Загружаем элемент истории в переводчик
-        document.getElementById('slangInput').value = item.original;
-        document.getElementById('russianText').textContent = item.translation;
-        
-        // Обновляем справку
-        document.querySelector('.explanation-content').textContent = item.explanation;
-        
-        // Переходим на главную страницу
-        this.showMain();
+    
+    .big-translate-btn {
+        font-size: 18px;
+        padding: 20px;
     }
 }
 
-// Функция копирования текста
-function copyText(elementId) {
-    const text = document.getElementById(elementId).textContent;
-    navigator.clipboard.writeText(text).then(() => {
-        console.log('Текст скопирован: ' + text);
-    }).catch(err => {
-        console.error('Ошибка копирования: ', err);
-    });
+/* Safe areas for iOS */
+@supports (padding: max(0px)) {
+    body {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
 }
-
-// Функция вставки текста
-function pasteText(elementId) {
-    const input = document.getElementById(elementId);
-    navigator.clipboard.readText().then(text => {
-        input.value = text;
-        // Триггерим событие изменения
-        const event = new Event('input', { bubbles: true });
-        input.dispatchEvent(event);
-    }).catch(err => {
-        console.error('Ошибка вставки: ', err);
-    });
-}
-
-// Инициализация приложения
-document.addEventListener('DOMContentLoaded', () => {
-    new SlanglitApp();
-});
