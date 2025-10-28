@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS translations (
   formal_text TEXT NOT NULL,
   usage_count INTEGER DEFAULT 1,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  user_id INTEGER
+  user_id INTEGER,
+  direction TEXT DEFAULT 'to_formal'
 );
 CREATE TABLE IF NOT EXISTS words (
   informal_text TEXT NOT NULL,

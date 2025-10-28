@@ -50,7 +50,7 @@ def check_existing_words():
 if __name__ == "__main__":
     print("🔄 Импорт слов в базу данных...")
     
-    json_file = "slangify_words.json"  
+    json_file = "a.json"  
     try:
         import_from_json(json_file)
     except FileNotFoundError:
