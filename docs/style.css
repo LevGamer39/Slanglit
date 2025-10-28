@@ -13,12 +13,12 @@
     --text-secondary: #989898;
     --text-accent: #44A3B9;
     --accent-primary: #44A3B9;
-    --border-radius: 12px;
-    --max-width: 500px;
+    --border-radius: 16px;
+    --max-width: 800px;
 }
 
 body {
-    background-color: var(--bg-primary);
+    background: linear-gradient(135deg, #1a1e23 0%, #2a2f35 100%);
     color: var(--text-primary);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.5;
@@ -26,26 +26,27 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 40px;
 }
 
 .app-container {
     width: 100%;
     max-width: var(--max-width);
     background: var(--bg-primary);
-    border-radius: 16px;
+    border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-    min-height: 700px;
-    height: 700px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    min-height: 800px;
+    height: 800px;
     display: flex;
     flex-direction: column;
+    border: 1px solid #3a3a3a;
 }
 
 /* ========== PAGES ========== */
 .page {
     display: none;
-    padding: 30px 24px 100px;
+    padding: 40px;
     flex: 1;
     flex-direction: column;
     overflow: hidden;
@@ -57,20 +58,25 @@ body {
 
 /* ========== HEADER ========== */
 .header {
-    padding: 0 0 20px;
+    padding: 0 0 30px;
     text-align: center;
     flex-shrink: 0;
 }
 
 .app-title {
-    font-size: 28px;
+    font-size: 36px;
     font-weight: 700;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #44A3B9 0%, #5bc2d8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .app-subtitle {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--text-secondary);
+    font-weight: 500;
 }
 
 /* ========== LANGUAGE SWITCH ========== */
@@ -78,19 +84,20 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
-    margin: 0 0 24px;
-    padding: 16px 20px;
+    gap: 20px;
+    margin: 0 0 30px;
+    padding: 20px;
     background: var(--bg-card);
     border-radius: var(--border-radius);
     flex-shrink: 0;
+    border: 1px solid #444;
 }
 
 .lang-text {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
     color: var(--text-primary);
-    width: 100px;
+    width: 120px;
     text-align: center;
 }
 
@@ -98,94 +105,110 @@ body {
     background: var(--accent-primary);
     color: white;
     border: none;
-    border-radius: 10px;
-    width: 46px;
-    height: 46px;
+    border-radius: 12px;
+    width: 60px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 22px;
+    font-size: 28px;
     font-weight: bold;
     flex-shrink: 0;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(68, 163, 185, 0.3);
 }
 
 .lang-swap-btn:hover {
     background: #3a92a5;
-    transform: scale(1.05);
+    transform: scale(1.08);
+    box-shadow: 0 6px 16px rgba(68, 163, 185, 0.4);
 }
 
 /* ========== TRANSLATION CARDS ========== */
 .translation-card {
     background: var(--bg-card);
-    margin: 0 0 16px;
-    padding: 24px;
+    margin: 0 0 20px;
+    padding: 30px;
     border-radius: var(--border-radius);
     flex-shrink: 0;
+    border: 1px solid #444;
+    transition: transform 0.2s ease;
+}
+
+.translation-card:hover {
+    transform: translateY(-2px);
 }
 
 .card-label {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--text-accent);
-    margin-bottom: 14px;
-    font-weight: 600;
+    margin-bottom: 16px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
 }
 
 .translation-text {
-    font-size: 18px;
+    font-size: 22px;
     color: var(--text-primary);
     font-weight: 600;
     line-height: 1.4;
-    min-height: 28px;
+    min-height: 32px;
     word-break: break-word;
+    padding: 8px 0;
 }
 
 /* ========== BIG TRANSLATE BUTTON ========== */
 .big-translate-btn {
     width: 100%;
-    background: var(--accent-primary);
+    background: linear-gradient(135deg, #44A3B9 0%, #5bc2d8 100%);
     color: white;
     border: none;
     border-radius: var(--border-radius);
-    padding: 20px 24px;
-    font-size: 18px;
-    font-weight: 600;
+    padding: 24px;
+    font-size: 20px;
+    font-weight: 700;
     cursor: pointer;
-    margin: 24px 0;
+    margin: 30px 0;
     flex-shrink: 0;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(68, 163, 185, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .big-translate-btn:hover {
-    background: #3a92a5;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(68, 163, 185, 0.4);
 }
 
 /* ========== EXPLANATION CARD ========== */
 .explanation-card {
     background: var(--bg-card);
-    margin: 0 0 24px;
-    padding: 24px;
+    margin: 0 0 30px;
+    padding: 30px;
     border-radius: var(--border-radius);
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    min-height: 150px;
+    min-height: 180px;
+    border: 1px solid #444;
 }
 
 .explanation-title {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 14px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .explanation-content {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--text-secondary);
-    line-height: 1.5;
+    line-height: 1.6;
     flex-grow: 1;
     word-break: break-word;
 }
@@ -194,11 +217,11 @@ body {
 .nav-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 20px;
     position: absolute;
-    bottom: 30px;
-    left: 24px;
-    right: 24px;
+    bottom: 40px;
+    left: 40px;
+    right: 40px;
     background: var(--bg-primary);
     padding: 10px 0;
     z-index: 100;
@@ -207,26 +230,30 @@ body {
 .nav-btn {
     background: var(--bg-card);
     color: var(--text-primary);
-    border: none;
+    border: 1px solid #444;
     border-radius: var(--border-radius);
-    padding: 18px 24px;
+    padding: 20px 24px;
     font-size: 18px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
 }
 
 .nav-btn:hover {
     background: #3d3d3d;
+    transform: translateY(-1px);
 }
 
 .nav-btn.active {
-    background: var(--accent-primary);
+    background: linear-gradient(135deg, #44A3B9 0%, #5bc2d8 100%);
     color: white;
+    border-color: #44A3B9;
+    box-shadow: 0 4px 12px rgba(68, 163, 185, 0.3);
 }
 
 .nav-btn.active:hover {
-    background: #3a92a5;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(68, 163, 185, 0.4);
 }
 
 /* ========== HISTORY SECTION ========== */
@@ -234,72 +261,79 @@ body {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    padding-bottom: 20px;
+    padding-bottom: 30px;
     overflow: hidden;
 }
 
 .history-items {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
     flex-grow: 1;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     overflow-y: auto;
-    max-height: 450px;
-    padding-right: 8px;
+    max-height: 520px;
+    padding-right: 12px;
 }
 
 /* Scrollbar styling */
 .history-items::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
 }
 
 .history-items::-webkit-scrollbar-track {
     background: var(--bg-secondary);
-    border-radius: 3px;
+    border-radius: 4px;
 }
 
 .history-items::-webkit-scrollbar-thumb {
     background: var(--accent-primary);
-    border-radius: 3px;
+    border-radius: 4px;
+}
+
+.history-items::-webkit-scrollbar-thumb:hover {
+    background: #3a92a5;
 }
 
 .history-item {
     background: var(--bg-card);
     border-radius: var(--border-radius);
-    padding: 20px;
+    padding: 24px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
     flex-shrink: 0;
+    border: 1px solid #444;
 }
 
 .history-item:hover {
     background: #3d3d3d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .history-pair {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .history-original {
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 700;
     color: var(--text-primary);
 }
 
 .history-translation {
-    font-size: 18px;
+    font-size: 20px;
     color: var(--text-accent);
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .history-explanation {
     font-size: 16px;
     color: var(--text-secondary);
-    line-height: 1.4;
+    line-height: 1.5;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -310,64 +344,70 @@ body {
 .pagination {
     display: flex;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     margin-top: auto;
-    padding: 20px 0 10px;
+    padding: 24px 0 10px;
     flex-shrink: 0;
 }
 
 .page-btn {
     background: var(--bg-card);
     color: var(--text-primary);
-    border: none;
-    border-radius: 8px;
-    width: 38px;
-    height: 38px;
+    border: 1px solid #444;
+    border-radius: 10px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.2s;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 .page-btn:hover {
     background: #3d3d3d;
+    transform: scale(1.05);
 }
 
 .page-btn.active {
     background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    box-shadow: 0 4px 12px rgba(68, 163, 185, 0.3);
 }
 
 /* Кнопки ввода/копирования */
 .action-buttons {
     display: flex;
-    gap: 10px;
-    margin-top: 14px;
+    gap: 12px;
+    margin-top: 16px;
 }
 
 .action-btn {
     background: transparent;
     border: 1px solid var(--text-secondary);
     color: var(--text-secondary);
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-size: 14px;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 16px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 6px;
-    transition: all 0.2s;
+    gap: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
 }
 
 .action-btn:hover {
     border-color: var(--accent-primary);
     color: var(--accent-primary);
+    transform: translateY(-1px);
 }
 
 .action-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     fill: currentColor;
 }
 
@@ -376,19 +416,21 @@ body {
     width: 100%;
     background: transparent;
     border: 1px solid var(--text-secondary);
-    border-radius: 8px;
-    padding: 14px;
-    font-size: 18px;
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 20px;
     color: var(--text-primary);
     font-family: inherit;
     resize: none;
-    min-height: 50px;
-    transition: border-color 0.2s;
+    min-height: 60px;
+    transition: all 0.3s ease;
+    font-weight: 500;
 }
 
 .input-field:focus {
     outline: none;
     border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px rgba(68, 163, 185, 0.2);
 }
 
 .input-field::placeholder {
@@ -403,7 +445,7 @@ body {
 /* Адаптация для мобильных */
 @media (max-width: 768px) {
     body {
-        padding: 0;
+        padding: 20px;
         align-items: stretch;
     }
     
@@ -412,6 +454,7 @@ body {
         height: 100vh;
         border-radius: 0;
         box-shadow: none;
+        min-height: auto;
     }
     
     .page {
@@ -425,25 +468,36 @@ body {
     }
     
     .app-title {
-        font-size: 24px;
+        font-size: 28px;
     }
     
     .app-subtitle {
-        font-size: 14px;
+        font-size: 16px;
     }
     
     .lang-text {
         font-size: 16px;
-        width: 80px;
+        width: 100px;
+    }
+    
+    .lang-swap-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
     }
     
     .translation-text,
     .input-field {
-        font-size: 16px;
+        font-size: 18px;
     }
     
     .explanation-content {
-        font-size: 14px;
+        font-size: 16px;
+    }
+    
+    .big-translate-btn {
+        font-size: 18px;
+        padding: 20px;
     }
 }
 
