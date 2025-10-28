@@ -143,7 +143,7 @@ async def remove_admin_start(message: Message, state: FSMContext, admin_service:
         
     await state.set_state(AdminStates.waiting_for_admin_remove)
     await message.answer(
-        "Введите ID админа для удаления:\n"
+        "Введите ID админа (из списка админов) для удаления:\n"
         "(для отмены нажмите ❌ Отменить)",
         reply_markup=cancel_keyboard
     )
