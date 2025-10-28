@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сленглит</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ========== MAIN PAGE ========== -->
+    <div id="main-page" class="page active">
+        <!-- Header -->
+        <div class="header">
+            <div class="app-title">Сленглит</div>
+            <div class="app-subtitle">мини-приложение</div>
+        </div>
+
+        <!-- Language Switch -->
+        <div class="language-switch">
+            <div class="lang-text">сленговый</div>
+            <button class="lang-swap-btn" id="langSwapBtn">⇄</button>
+            <div class="lang-text">русский</div>
+        </div>
+
+        <!-- Translation Cards -->
+        <div class="translation-card">
+            <div class="card-label">СЛЕНГ</div>
+            <div class="translation-text" id="slangText">лайтовый</div>
+        </div>
+
+        <div class="translation-card">
+            <div class="card-label">РУССКИЙ</div>
+            <div class="translation-text" id="russianText">очень лёгкий, простой</div>
+        </div>
+
+        <!-- Translate Button -->
+        <button class="big-translate-btn" id="bigTranslateBtn">Перевод</button>
+
+        <!-- Explanation Card -->
+        <div class="explanation-card">
+            <div class="explanation-title">СПРАВКА</div>
+            <div class="explanation-content">
+                Лайтовый (от англ.: light - "лёгкий")<br>
+                Часто употребляется в отношении какой-либо очень простой задачи, быстровыполнимой
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+            <button class="nav-btn active" id="translateNavBtn">Перевод</button>
+            <button class="nav-btn" id="historyNavBtn">История</button>
+        </div>
+    </div>
+
+    <!-- ========== HISTORY PAGE ========== -->
+    <div id="history-page" class="page">
+        <!-- Header -->
+        <div class="header">
+            <div class="app-title">История</div>
+            <div class="app-subtitle">последние переводы</div>
+        </div>
+
+        <!-- History Items -->
+        <div class="history-items">
+            <div class="history-item">
+                <div class="history-pair">
+                    <div class="history-original">краш</div>
+                    <div class="history-translation">симпатия</div>
+                </div>
+                <div class="history-explanation">Человек, который вам нравится</div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-pair">
+                    <div class="history-original">кринж</div>
+                    <div class="history-translation">стыдно</div>
+                </div>
+                <div class="history-explanation">Чувство неловкости</div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-pair">
+                    <div class="history-original">рофл</div>
+                    <div class="history-translation">шутка</div>
+                </div>
+                <div class="history-explanation">Что-то смешное</div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-pair">
+                    <div class="history-original">го</div>
+                    <div class="history-translation">пойдем</div>
+                </div>
+                <div class="history-explanation">Призыв к действию</div>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+            <button class="nav-btn" id="translateNavBtnHistory">Перевод</button>
+            <button class="nav-btn active" id="historyNavBtnHistory">История</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
