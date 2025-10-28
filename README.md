@@ -110,20 +110,47 @@ Slanglit/
 │ ├── import_word.py # Импорт слов и их переводов
 │ ├── sq_db.sql # SQL-скрипты для БД
 │ └── sravn.py # Скрипт сравнения данных
-├── basic_scripts/ # Основные скрипты бота
-│ ├── bot.py # Основной файл Telegram бота
-│ ├── database.py # Модуль для работы с базой данных
-│ ├── secret.py # Конфигурационный файл (токен бота)
-| └── translations.db # SQLite база-данных
+├── bot/ # Основное приложение бота
+│ ├── translations.db # База данных
+│ ├── database.py # Работа с БД (FDataBase класс)
+│ ├── main.py # Главный файл для запуска
+│ ├── config.py # Конфигурация
+│ ├── services/ # Микро-сервисы
+│ │ ├── init.py
+│ │ ├── translation_service.py # Сервис перевода
+│ │ ├── admin_service.py # Сервис админ-панели
+│ │ ├── dictionary_service.py # Сервис словаря
+│ │ ├── history_service.py # Сервис истории
+│ │ └── search_service.py # Сервис поиска
+│ ├── handlers/ # Обработчики (разделены по функциональности)
+│ │ ├── init.py
+│ │ ├── main_handlers.py # Основные обработчики (старт, главное меню)
+│ │ ├── translation_handlers.py # Только перевод
+│ │ ├── admin_handlers.py # Только админка
+│ │ ├── dictionary_handlers.py # Только словарь
+│ │ ├── history_handlers.py # Только история
+│ │ └── search_handlers.py # Только поиск
+│ ├── utils/ # Вспомогательные утилиты
+│ │ ├── init.py
+│ │ ├── keyboards.py # Все клавиатуры
+│ │ └── states.py # Все состояния FSM
+│ └── back_monolit/ # Монолитная версия бота (бэкап)
+│ | ├── bot.py # Монолитный файл бота
+│ | ├── translations.db # База данных для монолитной версии
+│ | └── database.py # Монолитный модуль работы с БД
 ├── words/ # Словари и данные слов
 │ ├── a.json # JSON-словарь A
 │ ├── slangify_words.json # Основной словарь сленга
 │ └── slangify_words2.json # Дополнительный словарь сленга
-├── docs/ # Документация
-│ ├── fonts/ # Шрифты для документации
+├── docs/ # Сайт
+│ ├── fonts/ # Шрифты для сайта
 │ │ ├── benzin-regular.ttf
 │ │ └── benzin-semibold.ttf
-│ └── index.html # HTML документация
+| ├── script.js # Скрипты
+| ├── site.html # HTML основная страница
+| ├── style.css # Стили
+│ └── index.html # HTML страница загрузки
+├── .gitignore # Пропуск Git
 ├── .gitattributes # Настройки Git
 ├── LICENSE # Лицензия MIT
 ├── README.md # Документация
