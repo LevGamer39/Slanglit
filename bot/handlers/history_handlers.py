@@ -35,6 +35,10 @@ async def show_history(message: types.Message, history_service: HistoryService, 
             text += f"{i}. 🔥 Формальный → Неформальный\n"
             text += f"   💼 `{trans['informal_text']}`\n"
             text += f"   → 🔥 `{trans['formal_text']}`\n"
+        
+        if trans.get('explanation'):
+            text += f"   📖 {trans['explanation']}\n"
+        
         text += f"   📅 {trans['created_at']}\n\n"
     
     keyboard_buttons = []

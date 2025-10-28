@@ -5,6 +5,29 @@ class SlanglitApp {
         this.history = [];
         this.currentPage = 1;
         this.itemsPerPage = 8;
+        
+        // Словарь для перевода
+        this.dictionary = {
+            'краш': { translation: 'симпатия', explanation: 'Человек, который вам нравится' },
+            'кринж': { translation: 'стыдно', explanation: 'Чувство неловкости за чьи-то действия' },
+            'рофл': { translation: 'шутка', explanation: 'Что-то смешное, веселье' },
+            'го': { translation: 'пойдем', explanation: 'Призыв к действию, предложение начать' },
+            'афк': { translation: 'отошел', explanation: 'Временно отсутствует у компьютера' },
+            'имба': { translation: 'очень круто', explanation: 'Что-то выдающееся, превосходное' },
+            'чилить': { translation: 'расслабляться', explanation: 'Проводить время бездельничая' },
+            'хейтить': { translation: 'ненавидеть', explanation: 'Проявлять негативное отношение' },
+            'скипнуть': { translation: 'пропустить', explanation: 'Не обращать внимания, пролистать' },
+            'залипать': { translation: 'увлекаться', explanation: 'Сильно погружаться в процесс' },
+            'шазамить': { translation: 'узнавать песню', explanation: 'Использовать приложение для распознавания музыки' },
+            'красавчик': { translation: 'молодец', explanation: 'Выражение одобрения' },
+            'лайтовый': { translation: 'очень лёгкий, простой', explanation: 'Лайтовый (от англ.: light - "лёгкий")\nЧасто употребляется в отношении какой-либо очень простой задачи, быстровыполнимой' },
+            'хейтер': { translation: 'недоброжелатель', explanation: 'Человек, который постоянно критикует и осуждает' },
+            'флекс': { translation: 'хвастовство', explanation: 'Демонстрация своих достижений или богатства' },
+            'рил': { translation: 'реально', explanation: 'По-настоящему, действительно' },
+            'пруф': { translation: 'доказательство', explanation: 'Подтверждение, свидетельство' },
+            'сасный': { translation: 'привлекательный', explanation: 'Симпатичный, стильный' }
+        };
+        
         this.init();
     }
 
@@ -29,7 +52,7 @@ class SlanglitApp {
 
         // Кнопки навигации на главной
         document.getElementById('translateNavBtn').addEventListener('click', () => {
-            // Уже на главной, ничего не делаем
+            this.showMain();
         });
 
         document.getElementById('historyNavBtn').addEventListener('click', () => {
@@ -50,26 +73,80 @@ class SlanglitApp {
             this.switchLanguage();
         });
 
-        // Обработчик ввода текста
+        // Обработчик ввода текста - автоперевод при вводе
         document.getElementById('slangInput').addEventListener('input', (e) => {
             this.handleInputChange(e.target.value);
+        });
+
+        // Обработчик Enter для текстового поля
+        document.getElementById('slangInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.showTranslation();
+            }
         });
     }
 
     handleInputChange(text) {
-        // Здесь можно добавить логику автоперевода или другие действия
-        console.log('Введен текст:', text);
+        // Автоматический перевод при вводе (можно отключить если мешает)
+        if (text.length > 2) {
+            // this.showTranslation(); // Раскомментировать для автоперевода
+        }
     }
 
     showTranslation() {
-        const inputText = document.getElementById('slangInput').value;
-        if (inputText.trim()) {
-            // Здесь будет логика перевода
-            console.log('Перевод текста:', inputText);
-            // В реальном приложении здесь будет вызов API перевода
+        const inputText = document.getElementById('slangInput').value.trim();
+        if (!inputText) {
+            document.getElementById('russianText').textContent = 'Введите текст для перевода';
+            document.querySelector('.explanation-content').textContent = 'Начните вводить сленговое выражение или русское слово';
+            return;
+        }
+
+        let translation = '';
+        let explanation = '';
+
+        if (this.currentDirection === 'slang_to_russian') {
+            // Перевод сленга на русский
+            const normalizedInput = inputText.toLowerCase();
+            if (this.dictionary[normalizedInput]) {
+                translation = this.dictionary[normalizedInput].translation;
+                explanation = this.dictionary[normalizedInput].explanation;
+            } else {
+                translation = 'Перевод не найден';
+                explanation = 'Попробуйте другое выражение или проверьте правильность написания';
+            }
+        } else {
+            // Перевод русского на сленг
+            const normalizedInput = inputText.toLowerCase();
+            let found = false;
             
-            // Добавляем в историю
-            this.addToHistory(inputText, "переведенный текст", "описание перевода");
+            for (const [slang, data] of Object.entries(this.dictionary)) {
+                if (data.translation.toLowerCase().includes(normalizedInput) || 
+                    normalizedInput.includes(data.translation.toLowerCase())) {
+                    translation = slang;
+                    explanation = data.explanation;
+                    found = true;
+                    break;
+                }
+            }
+            
+            if (!found) {
+                translation = 'Сленговый аналог не найден';
+                explanation = 'Попробуйте другое слово или переключите направление перевода';
+            }
+        }
+
+        // Обновляем интерфейс
+        document.getElementById('russianText').textContent = translation;
+        document.querySelector('.explanation-content').textContent = explanation;
+
+        // Добавляем в историю если перевод найден
+        if (translation !== 'Перевод не найден' && translation !== 'Сленговый аналог не найден') {
+            this.addToHistory(
+                this.currentDirection === 'slang_to_russian' ? inputText : translation,
+                this.currentDirection === 'slang_to_russian' ? translation : inputText,
+                explanation
+            );
         }
     }
 
@@ -110,6 +187,11 @@ class SlanglitApp {
             // Меняем placeholder
             slangInput.placeholder = 'Введите сленговое выражение...';
         }
+        
+        // Очищаем результаты при смене направления
+        slangInput.value = '';
+        russianText.textContent = 'Результат перевода...';
+        document.querySelector('.explanation-content').textContent = 'Здесь появится объяснение термина';
     }
 
     showHistory() {
@@ -121,6 +203,9 @@ class SlanglitApp {
         document.getElementById('historyNavBtn').classList.add('active');
         document.getElementById('translateNavBtnHistory').classList.remove('active');
         document.getElementById('historyNavBtnHistory').classList.add('active');
+        
+        // Перерисовываем историю
+        this.renderHistory();
     }
 
     showMain() {
@@ -135,28 +220,36 @@ class SlanglitApp {
     }
 
     loadHistory() {
-        // В реальном приложении здесь будет загрузка из localStorage или API
-        this.history = [
-            { original: "краш", translation: "симпатия", explanation: "Человек, который вам нравится" },
-            { original: "кринж", translation: "стыдно", explanation: "Чувство неловкости" },
-            { original: "рофл", translation: "шутка", explanation: "Что-то смешное" },
-            { original: "го", translation: "пойдем", explanation: "Призыв к действию" },
-            { original: "афк", translation: "отошел", explanation: "Временно отсутствует у компьютера" },
-            { original: "имба", translation: "очень круто", explanation: "Что-то выдающееся, превосходное" },
-            { original: "чилить", translation: "расслабляться", explanation: "Проводить время бездельничая" },
-            { original: "хейтить", translation: "ненавидеть", explanation: "Проявлять негативное отношение" },
-            { original: "скипнуть", translation: "пропустить", explanation: "Не обращать внимания, пролистать" },
-            { original: "залипать", translation: "увлекаться", explanation: "Сильно погружаться в процесс" },
-            { original: "шазамить", translation: "узнавать песню", explanation: "Использовать приложение для распознавания музыки" },
-            { original: "красавчик", translation: "молодец", explanation: "Выражение одобрения" }
-        ];
+        // Пробуем загрузить историю из localStorage
+        const savedHistory = localStorage.getItem('slanglitHistory');
+        if (savedHistory) {
+            this.history = JSON.parse(savedHistory);
+        } else {
+            // Заглушка с примерами
+            this.history = [
+                { original: "краш", translation: "симпатия", explanation: "Человек, который вам нравится" },
+                { original: "кринж", translation: "стыдно", explanation: "Чувство неловкости за чьи-то действия" },
+                { original: "рофл", translation: "шутка", explanation: "Что-то смешное, веселье" },
+                { original: "го", translation: "пойдем", explanation: "Призыв к действию, предложение начать" }
+            ];
+        }
     }
 
     addToHistory(original, translation, explanation) {
-        this.history.unshift({ original, translation, explanation });
-        if (this.history.length > 50) { // Ограничиваем историю
+        this.history.unshift({ 
+            original, 
+            translation, 
+            explanation: explanation.split('\n')[0] // Берем только первую строку для истории
+        });
+        
+        // Ограничиваем историю 50 элементами
+        if (this.history.length > 50) {
             this.history = this.history.slice(0, 50);
         }
+        
+        // Сохраняем в localStorage
+        localStorage.setItem('slanglitHistory', JSON.stringify(this.history));
+        
         this.renderHistory();
     }
 
@@ -167,6 +260,15 @@ class SlanglitApp {
         // Очищаем контейнеры
         historyItems.innerHTML = '';
         pagination.innerHTML = '';
+        
+        if (this.history.length === 0) {
+            historyItems.innerHTML = `
+                <div class="history-item" style="text-align: center; color: var(--text-secondary);">
+                    История переводов пуста
+                </div>
+            `;
+            return;
+        }
         
         // Рассчитываем элементы для текущей страницы
         const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -179,10 +281,10 @@ class SlanglitApp {
             historyItem.className = 'history-item';
             historyItem.innerHTML = `
                 <div class="history-pair">
-                    <div class="history-original">${item.original}</div>
-                    <div class="history-translation">${item.translation}</div>
+                    <div class="history-original">${this.escapeHtml(item.original)}</div>
+                    <div class="history-translation">${this.escapeHtml(item.translation)}</div>
                 </div>
-                <div class="history-explanation">${item.explanation}</div>
+                <div class="history-explanation">${this.escapeHtml(item.explanation)}</div>
             `;
             
             // Добавляем обработчик клика
@@ -214,15 +316,24 @@ class SlanglitApp {
     }
 
     loadHistoryItem(item) {
-        // Загружаем элемент истории в переводчик
-        document.getElementById('slangInput').value = item.original;
-        document.getElementById('russianText').textContent = item.translation;
+        // В зависимости от текущего направления загружаем соответствующим образом
+        if (this.currentDirection === 'slang_to_russian') {
+            document.getElementById('slangInput').value = item.original;
+        } else {
+            document.getElementById('slangInput').value = item.translation;
+        }
         
-        // Обновляем справку
-        document.querySelector('.explanation-content').textContent = item.explanation;
+        // Выполняем перевод
+        this.showTranslation();
         
         // Переходим на главную страницу
         this.showMain();
+    }
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 }
 
@@ -230,6 +341,7 @@ class SlanglitApp {
 function copyText(elementId) {
     const text = document.getElementById(elementId).textContent;
     navigator.clipboard.writeText(text).then(() => {
+        // Можно добавить уведомление о успешном копировании
         console.log('Текст скопирован: ' + text);
     }).catch(err => {
         console.error('Ошибка копирования: ', err);

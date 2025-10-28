@@ -2,7 +2,7 @@ from aiogram import Router, types
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 from utils.keyboards import get_main_keyboard, translation_mode_keyboard
-from utils.states import TranslationStates, AddWordStates, SearchStates, AdminStates, DeleteWordStates
+from utils.states import TranslationStates, SearchStates, AdminStates
 from services.translation_service import TranslationService
 from services.admin_service import AdminService
 
@@ -22,15 +22,10 @@ async def handle_any_message(message: Message, state: FSMContext, translation_se
         
         # Если находимся в других состояниях, где ожидается текст
         text_input_states = [
-            AddWordStates.waiting_for_informal.state,
-            AddWordStates.waiting_for_formal.state,
-            AddWordStates.waiting_for_explanation.state,
             SearchStates.waiting_for_search.state,
             AdminStates.waiting_for_admin_login.state,
             AdminStates.waiting_for_admin_role.state,
             AdminStates.waiting_for_admin_remove.state,
-            DeleteWordStates.waiting_for_word_input.state,
-            DeleteWordStates.waiting_for_confirmation.state
         ]
         
         if current_state in text_input_states:
@@ -43,7 +38,6 @@ async def handle_any_message(message: Message, state: FSMContext, translation_se
             "📝 Пожалуйста, используйте кнопки меню для выбора действия:\n"
             "• 🔄 Перевод - для перевода текста\n"
             "• 📖 История - для просмотра истории переводов\n"
-            "• 📚 Словарь - для просмотра словаря\n"
         )
         
         # Добавляем админ-панель только если пользователь админ
@@ -60,14 +54,13 @@ async def handle_any_message(message: Message, state: FSMContext, translation_se
     
     # Системные кнопки и команды - пропускаем (их обработают другие хендлеры)
     system_buttons = [
-        "🔄 Перевод", "📖 История", "📚 Словарь", "⚙️ Админ-панель",
+        "🔄 Перевод", "📖 История", "⚙️ Админ-панель",
         "💼 Неформальный → Формальный", "🔥 Формальный → Неформальный",
         "❌ Выйти из режима перевода", "⬅️ Назад в меню",
         "👥 Список админов", "➕ Добавить админа", "➖ Удалить админа",
-        "📊 Статистика", "📝 Управление словарем", "⬅️ Назад в админ-панель",
-        "➕ Добавить слово", "➖ Удалить слово", "❌ Отменить",
-        "✅ Да, удалить", "❌ Нет, отменить", "👑 GreatAdmin", "👤 Admin",
-        "🔤 По алфавиту", "🔍 Поиск в словаре", "📄 Все слова", "⬅️ Назад в словарь"
+        "📊 Статистика", "⬅️ Назад в админ-панель",
+        "❌ Отменить", "✅ Да, удалить", "❌ Нет, отменить", 
+        "👑 GreatAdmin", "👤 Admin"
     ]
     
     if message.text in system_buttons or message.text.startswith('/'):
@@ -117,7 +110,6 @@ async def handle_any_message(message: Message, state: FSMContext, translation_se
             "📝 Пожалуйста, используйте кнопки меню для выбора действия:\n"
             "• 🔄 Перевод - для перевода текста\n"
             "• 📖 История - для просмотра истории переводов\n"
-            "• 📚 Словарь - для просмотра словаря\n"
         )
         
         # Добавляем админ-панель только если пользователь админ

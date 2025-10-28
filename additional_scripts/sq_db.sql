@@ -3,20 +3,14 @@ CREATE TABLE IF NOT EXISTS admins (
   login TEXT NOT NULL,
   role TEXT NOT NULL
 );
+
 CREATE TABLE IF NOT EXISTS translations (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   informal_text TEXT NOT NULL,
   formal_text TEXT NOT NULL,
+  explanation TEXT,
   usage_count INTEGER DEFAULT 1,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   user_id INTEGER,
   direction TEXT DEFAULT 'to_formal'
-);
-CREATE TABLE IF NOT EXISTS words (
-  informal_text TEXT NOT NULL,
-  formal_text TEXT NOT NULL,
-  explanation TEXT NOT NULL
-);
-CREATE TABLE IF NOT EXISTS profanity_words (
-  word TEXT PRIMARY KEY NOT NULL
 );
