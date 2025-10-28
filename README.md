@@ -113,9 +113,8 @@ Slanglit/
 ├── basic_scripts/ # Основные скрипты бота
 │ ├── bot.py # Основной файл Telegram бота
 │ ├── database.py # Модуль для работы с базой данных
-│ └── secret.py # Конфигурационный файл (токен бота)
-├── database/ # База данных
-│ └── translations.db # SQLite база данных переводов
+│ ├── secret.py # Конфигурационный файл (токен бота)
+| └── translations.db # SQLite база-данных
 ├── words/ # Словари и данные слов
 │ ├── a.json # JSON-словарь A
 │ ├── slangify_words.json # Основной словарь сленга
