@@ -1,0 +1,2407 @@
+[
+  {
+    "informal_text": "краш",
+    "formal_text": "симпатия",
+    "explanation": "человек, который нравится"
+  },
+  {
+    "informal_text": "кринж",
+    "formal_text": "неловко/стыд",
+    "explanation": "ситуация, вызывающая стыд или смущение"
+  },
+  {
+    "informal_text": "бро",
+    "formal_text": "друг",
+    "explanation": "дружеское обращение"
+  },
+  {
+    "informal_text": "чел",
+    "formal_text": "человек",
+    "explanation": "неформальное слово для человека"
+  },
+  {
+    "informal_text": "изи",
+    "formal_text": "легко",
+    "explanation": "что-то простое, не требующее усилий"
+  },
+  {
+    "informal_text": "рофл",
+    "formal_text": "шутка/смех/смех",
+    "explanation": "реакция смеха, шутка"
+  },
+  {
+    "informal_text": "кек",
+    "formal_text": "иронический смех/смех",
+    "explanation": "ироничный или злорадный смех"
+  },
+  {
+    "informal_text": "вписка",
+    "formal_text": "вечеринка/неформальная вечеринка",
+    "explanation": "неформальная вечеринка у друзей"
+  },
+  {
+    "informal_text": "вписаться",
+    "formal_text": "присоединиться",
+    "explanation": "вступить в мероприятие или вписку"
+  },
+  {
+    "informal_text": "флекс",
+    "formal_text": "хвастовство",
+    "explanation": "демонстрация достижений или вещей"
+  },
+  {
+    "informal_text": "флексить",
+    "formal_text": "хвастаться",
+    "explanation": "показывать своё имущество/успехи"
+  },
+  {
+    "informal_text": "чил",
+    "formal_text": "отдых",
+    "explanation": "расслабление, ничегонеделание"
+  },
+  {
+    "informal_text": "чилл",
+    "formal_text": "отдыхать",
+    "explanation": "расслабляться"
+  },
+  {
+    "informal_text": "хайп",
+    "formal_text": "ажиотаж",
+    "explanation": "повышенное внимание и интерес"
+  },
+  {
+    "informal_text": "мем",
+    "formal_text": "шутка в сети",
+    "explanation": "краткий визуальный или текстовый контент, распространяющийся онлайн"
+  },
+  {
+    "informal_text": "зумер",
+    "formal_text": "представитель поколения Z",
+    "explanation": "молодой человек, родившийся примерно 1997–2012"
+  },
+  {
+    "informal_text": "зашквар",
+    "formal_text": "позор",
+    "explanation": "что-то очень неприемлемое или стыдное"
+  },
+  {
+    "informal_text": "топ",
+    "formal_text": "лучший",
+    "explanation": "высокое качество"
+  },
+  {
+    "informal_text": "баян",
+    "formal_text": "заезженная шутка",
+    "explanation": "шутка, потерявшая актуальность"
+  },
+  {
+    "informal_text": "пранк",
+    "formal_text": "розыгрыш",
+    "explanation": "шутливый розыгрыш над человеком"
+  },
+  {
+    "informal_text": "буст",
+    "formal_text": "улучшение показателей",
+    "explanation": "повышение результата или статуса"
+  },
+  {
+    "informal_text": "хейт",
+    "formal_text": "негативные комментарии",
+    "explanation": "критика в адрес кого-то"
+  },
+  {
+    "informal_text": "пруф",
+    "formal_text": "доказательство",
+    "explanation": "подтверждение факта или утверждения"
+  },
+  {
+    "informal_text": "скилл",
+    "formal_text": "навык",
+    "explanation": "умение или мастерство"
+  },
+  {
+    "informal_text": "го",
+    "formal_text": "давай",
+    "explanation": "призыв начать действие"
+  },
+  {
+    "informal_text": "видос",
+    "formal_text": "видео",
+    "explanation": "неформальное слово для видео"
+  },
+  {
+    "informal_text": "стрим",
+    "formal_text": "трансляция",
+    "explanation": "онлайн-вещание"
+  },
+  {
+    "informal_text": "красавчик",
+    "formal_text": "молодец",
+    "explanation": "комплимент"
+  },
+  {
+    "informal_text": "падонак",
+    "formal_text": "невежда",
+    "explanation": "грубое обращение"
+  },
+  {
+    "informal_text": "афк",
+    "formal_text": "отошёл",
+    "explanation": "временно отсутствует у компьютера"
+  },
+  {
+    "informal_text": "омг",
+    "formal_text": "удивление",
+    "explanation": "междометие удивления"
+  },
+  {
+    "informal_text": "нюдс",
+    "formal_text": "фотографии",
+    "explanation": "обычно личные/откровенные фото"
+  },
+  {
+    "informal_text": "норм",
+    "formal_text": "нормально",
+    "explanation": "приемлемо, средне"
+  },
+  {
+    "informal_text": "жиза",
+    "formal_text": "реалистично",
+    "explanation": "ситуация, с которой можно себя ассоциировать"
+  },
+  {
+    "informal_text": "пон",
+    "formal_text": "понятно",
+    "explanation": "сокращение от 'понял'"
+  },
+  {
+    "informal_text": "респект",
+    "formal_text": "уважение",
+    "explanation": "признание заслуг"
+  },
+  {
+    "informal_text": "залипать",
+    "formal_text": "долго смотреть/увлекаться",
+    "explanation": "затянуться просмотром контента"
+  },
+  {
+    "informal_text": "буллить",
+    "formal_text": "травить",
+    "explanation": "систематически обижать или преследовать"
+  },
+  {
+    "informal_text": "фейл",
+    "formal_text": "провал",
+    "explanation": "неудачное действие"
+  },
+  {
+    "informal_text": "отстой",
+    "formal_text": "плохо",
+    "explanation": "низкое качество"
+  },
+  {
+    "informal_text": "лайкать",
+    "formal_text": "ставить лайк",
+    "explanation": "выражать одобрение в соцсетях"
+  },
+  {
+    "informal_text": "постить",
+    "formal_text": "публиковать",
+    "explanation": "выкладывать пост"
+  },
+  {
+    "informal_text": "скрин",
+    "formal_text": "скриншот",
+    "explanation": "снимок экрана"
+  },
+  {
+    "informal_text": "репост",
+    "formal_text": "перепостить",
+    "explanation": "поделиться чужим контентом"
+  },
+  {
+    "informal_text": "баг",
+    "formal_text": "ошибка",
+    "explanation": "техническая неисправность"
+  },
+  {
+    "informal_text": "апдейт",
+    "formal_text": "обновление",
+    "explanation": "изменение/релиз новой версии"
+  },
+  {
+    "informal_text": "троллить",
+    "formal_text": "провоцировать в сети",
+    "explanation": "нарочитое подшучивание или провокация"
+  },
+  {
+    "informal_text": "флуд",
+    "formal_text": "много однотипных сообщений",
+    "explanation": "засорение чата"
+  },
+  {
+    "informal_text": "спойлер",
+    "formal_text": "раскрывающая информация",
+    "explanation": "информация, портящая сюжет"
+  },
+  {
+    "informal_text": "сабскрайбить",
+    "formal_text": "подписаться",
+    "explanation": "оформить подписку на канал"
+  },
+  {
+    "informal_text": "ноунейм",
+    "formal_text": "малопопулярный",
+    "explanation": "незначимый, неизвестный"
+  },
+  {
+    "informal_text": "зашло",
+    "formal_text": "понравилось",
+    "explanation": "вызвало положительную реакцию"
+  },
+  {
+    "informal_text": "кекнуть",
+    "formal_text": "посмеяться",
+    "explanation": "коротко посмеяться"
+  },
+  {
+    "informal_text": "влог",
+    "formal_text": "видеоблог",
+    "explanation": "видео формата 'день из жизни'"
+  },
+  {
+    "informal_text": "гриндить",
+    "formal_text": "усердно работать",
+    "explanation": "подолгу и монотонно выполнять задачи"
+  },
+  {
+    "informal_text": "фарм",
+    "formal_text": "накопление ресурсов",
+    "explanation": "сбор ресурсов для прогресса"
+  },
+  {
+    "informal_text": "мут",
+    "formal_text": "временная блокировка",
+    "explanation": "ограничение прав в чате/игре"
+  },
+  {
+    "informal_text": "пофиксить",
+    "formal_text": "исправить",
+    "explanation": "устранить проблему"
+  },
+  {
+    "informal_text": "забанить",
+    "formal_text": "заблокировать",
+    "explanation": "отключить доступ пользователя"
+  },
+  {
+    "informal_text": "сейв",
+    "formal_text": "сохранение",
+    "explanation": "запись прогресса или файла"
+  },
+  {
+    "informal_text": "реквест",
+    "formal_text": "запрос",
+    "explanation": "попросить что-то сделать"
+  },
+  {
+    "informal_text": "трек",
+    "formal_text": "песня",
+    "explanation": "музыкальная композиция"
+  },
+  {
+    "informal_text": "рек",
+    "formal_text": "рекомендация",
+    "explanation": "совет или рекомендация"
+  },
+  {
+    "informal_text": "офигеть",
+    "formal_text": "сильно удивиться/удивиться",
+    "explanation": "выражение сильного удивления"
+  },
+  {
+    "informal_text": "лайт",
+    "formal_text": "лёгкий",
+    "explanation": "облегчённый вариант"
+  },
+  {
+    "informal_text": "стреснуть",
+    "formal_text": "сделать быстро",
+    "explanation": "выполнить в спешке или на скорую руку"
+  },
+  {
+    "informal_text": "заценить",
+    "formal_text": "посмотреть/оценить",
+    "explanation": "попросить оценить что-то"
+  },
+  {
+    "informal_text": "шиппер",
+    "formal_text": "поклонник пары",
+    "explanation": "человек, поддерживающий романтическую пару"
+  },
+  {
+    "informal_text": "чот",
+    "formal_text": "как-то",
+    "explanation": "неуверенное выражение"
+  },
+  {
+    "informal_text": "сторис",
+    "formal_text": "короткий пост",
+    "explanation": "Stories — временный пост в соцсетях"
+  },
+  {
+    "informal_text": "слив",
+    "formal_text": "утечка",
+    "explanation": "неофициальная публикация информации"
+  },
+  {
+    "informal_text": "капец",
+    "formal_text": "очень/никак",
+    "explanation": "восклицание сильного эмоционального окраса"
+  },
+  {
+    "informal_text": "бэнгер",
+    "formal_text": "хит",
+    "explanation": "очень качественная песня или трек"
+  },
+  {
+    "informal_text": "ржака",
+    "formal_text": "очень смешно",
+    "explanation": "сильная смешная ситуация"
+  },
+  {
+    "informal_text": "фишка",
+    "formal_text": "особенность",
+    "explanation": "уникальная деталь или трюк"
+  },
+  {
+    "informal_text": "кинуть",
+    "formal_text": "подвести/обмануть",
+    "explanation": "не сдержать обещание"
+  },
+  {
+    "informal_text": "топчик",
+    "formal_text": "очень хороший/отлично",
+    "explanation": "усиленная форма 'топ'"
+  },
+  {
+    "informal_text": "пушка",
+    "formal_text": "очень круто/отличный",
+    "explanation": "высокая положительная оценка"
+  },
+  {
+    "informal_text": "лаг",
+    "formal_text": "задержка",
+    "explanation": "техническое подвисание"
+  },
+  {
+    "informal_text": "шарить",
+    "formal_text": "понимать/разбираться/понимать",
+    "explanation": "иметь знание о теме"
+  },
+  {
+    "informal_text": "прокачать",
+    "formal_text": "улучшить",
+    "explanation": "повысить характеристики или навыки"
+  },
+  {
+    "informal_text": "чсв",
+    "formal_text": "завышенное самомнение/самомнение",
+    "explanation": "чувство собственной важности"
+  },
+  {
+    "informal_text": "имхо",
+    "formal_text": "по моему",
+    "explanation": "вставка личного мнения (IMHO)"
+  },
+  {
+    "informal_text": "оффтоп",
+    "formal_text": "вне темы",
+    "explanation": "сообщение, не по теме обсуждения"
+  },
+  {
+    "informal_text": "донат",
+    "formal_text": "пожертвование",
+    "explanation": "денежная поддержка автору/стримеру"
+  },
+  {
+    "informal_text": "токс",
+    "formal_text": "токсичный",
+    "explanation": "негативная атмосфера или человек"
+  },
+  {
+    "informal_text": "лайфхак",
+    "formal_text": "полезный совет",
+    "explanation": "приём для упрощения задачи"
+  },
+  {
+    "informal_text": "отжиг",
+    "formal_text": "энергичное поведение",
+    "explanation": "буйное или эпическое поведение"
+  },
+  {
+    "informal_text": "шарлатан",
+    "formal_text": "мошенник",
+    "explanation": "человек, выдающий себя за специалиста"
+  },
+  {
+    "informal_text": "слип",
+    "formal_text": "залипание",
+    "explanation": "процесс долгого просмотра контента"
+  },
+  {
+    "informal_text": "имба",
+    "formal_text": "очень сильный/несбалансированный",
+    "explanation": "термин из игр — слишком сильная вещь"
+  },
+  {
+    "informal_text": "флоп",
+    "formal_text": "провал/неуспех",
+    "explanation": "событие, которое не оправдало ожиданий"
+  },
+  {
+    "informal_text": "мид",
+    "formal_text": "средний",
+    "explanation": "посредственный результат"
+  },
+  {
+    "informal_text": "мидовый",
+    "formal_text": "посредственный",
+    "explanation": "относящийся к среднему качеству"
+  },
+  {
+    "informal_text": "камон",
+    "formal_text": "давай/пошли",
+    "explanation": "заём из 'come on' — призыв к действию"
+  },
+  {
+    "informal_text": "лолкек",
+    "formal_text": "смешно",
+    "explanation": "усиленная форма смеха"
+  },
+  {
+    "informal_text": "гейм",
+    "formal_text": "игра",
+    "explanation": "развлечение с правилами"
+  },
+  {
+    "informal_text": "геймер",
+    "formal_text": "игрок",
+    "explanation": "человек, увлечённый играми"
+  },
+  {
+    "informal_text": "нуб",
+    "formal_text": "новичок",
+    "explanation": "малопрофессиональный игрок"
+  },
+  {
+    "informal_text": "про",
+    "formal_text": "профессионал",
+    "explanation": "опытный участник"
+  },
+  {
+    "informal_text": "хардкор",
+    "formal_text": "очень сложно",
+    "explanation": "высокий уровень сложности"
+  },
+  {
+    "informal_text": "гуд",
+    "formal_text": "хорошо",
+    "explanation": "заём из 'good'"
+  },
+  {
+    "informal_text": "печаль",
+    "formal_text": "грустно",
+    "explanation": "эмоциональная реакция грусти"
+  },
+  {
+    "informal_text": "сейф",
+    "formal_text": "в безопасности",
+    "explanation": "безопасно, надежно"
+  },
+  {
+    "informal_text": "шорт",
+    "formal_text": "короткая позиция",
+    "explanation": "финансовый термин 'short'"
+  },
+  {
+    "informal_text": "лонг",
+    "formal_text": "длинная позиция",
+    "explanation": "финансовый термин 'long'"
+  },
+  {
+    "informal_text": "лонгрид",
+    "formal_text": "длинная статья",
+    "explanation": "развёрнутый текстовый контент"
+  },
+  {
+    "informal_text": "контент",
+    "formal_text": "содержимое",
+    "explanation": "материал, публикуемый в сети"
+  },
+  {
+    "informal_text": "челлендж",
+    "formal_text": "вызов/задача",
+    "explanation": "популярное испытание/задание"
+  },
+  {
+    "informal_text": "стример",
+    "formal_text": "ведущий трансляции",
+    "explanation": "человек, который ведёт стрим"
+  },
+  {
+    "informal_text": "чатик",
+    "formal_text": "маленький чат",
+    "explanation": "уменьшительная форма 'чат'"
+  },
+  {
+    "informal_text": "паблик",
+    "formal_text": "публичная страница",
+    "explanation": "канал или группа в соцсетях"
+  },
+  {
+    "informal_text": "капнуть",
+    "formal_text": "поделиться",
+    "explanation": "дать немного информации или ресурса"
+  },
+  {
+    "informal_text": "подписка",
+    "formal_text": "подписка",
+    "explanation": "оформление регулярной поддержки"
+  },
+  {
+    "informal_text": "мемасики",
+    "formal_text": "мемы",
+    "explanation": "шутливый вариант слова 'мем'"
+  },
+  {
+    "informal_text": "рекрут",
+    "formal_text": "набор игроков",
+    "explanation": "привлечение участников в команду"
+  },
+  {
+    "informal_text": "саб",
+    "formal_text": "подписка",
+    "explanation": "сокращение от 'сабскрайб'"
+  },
+  {
+    "informal_text": "сабскрайб",
+    "formal_text": "подписаться",
+    "explanation": "оформить подписку"
+  },
+  {
+    "informal_text": "офлайн",
+    "formal_text": "вне сети",
+    "explanation": "состояние, когда пользователь не в сети"
+  },
+  {
+    "informal_text": "онлайн",
+    "formal_text": "в сети",
+    "explanation": "активное присутствие в сети"
+  },
+  {
+    "informal_text": "пати",
+    "formal_text": "вечеринка/команда/группа",
+    "explanation": "сбор друзей или тим в игре"
+  },
+  {
+    "informal_text": "бомж",
+    "formal_text": "бедный/без ресурсов",
+    "explanation": "жаргонно о людях без денег"
+  },
+  {
+    "informal_text": "халява",
+    "formal_text": "бесплатно",
+    "explanation": "получить что-то бесплатно"
+  },
+  {
+    "informal_text": "реп",
+    "formal_text": "репутация/рэп",
+    "explanation": "в разных контекстах - музыка или репутация"
+  },
+  {
+    "informal_text": "тим",
+    "formal_text": "команда",
+    "explanation": "группа людей, играющих вместе"
+  },
+  {
+    "informal_text": "слот",
+    "formal_text": "место/позиция",
+    "explanation": "свободная позиция или ячейка"
+  },
+  {
+    "informal_text": "таг",
+    "formal_text": "метка",
+    "explanation": "отметка человека в посте/комментарии"
+  },
+  {
+    "informal_text": "флоу",
+    "formal_text": "стиль/поток",
+    "explanation": "плавность речи или процесса"
+  },
+  {
+    "informal_text": "дроп",
+    "formal_text": "релиз/выброс",
+    "explanation": "выход контента или товара"
+  },
+  {
+    "informal_text": "дропнуть",
+    "formal_text": "выкинуть/выпустить",
+    "explanation": "опубликовать или выпустить продукт"
+  },
+  {
+    "informal_text": "бит",
+    "formal_text": "бит",
+    "explanation": "музыкальный инструмент/такт"
+  },
+  {
+    "informal_text": "баттл",
+    "formal_text": "состязание",
+    "explanation": "соревнование между участниками"
+  },
+  {
+    "informal_text": "хайповать",
+    "formal_text": "создавать ажиотаж",
+    "explanation": "популяризировать что-то"
+  },
+  {
+    "informal_text": "дедлайн",
+    "formal_text": "срок/крайний срок",
+    "explanation": "последний срок выполнения"
+  },
+  {
+    "informal_text": "панч",
+    "formal_text": "острый коммент",
+    "explanation": "сильная шутка/комментарий"
+  },
+  {
+    "informal_text": "чекнуть",
+    "formal_text": "проверить",
+    "explanation": "быстро посмотреть на что-то"
+  },
+  {
+    "informal_text": "йоу",
+    "formal_text": "привет",
+    "explanation": "неформальное приветствие"
+  },
+  {
+    "informal_text": "чувак",
+    "formal_text": "парень",
+    "explanation": "обращение к мужчине"
+  },
+  {
+    "informal_text": "чувиха",
+    "formal_text": "девушка",
+    "explanation": "обращение к женщине"
+  },
+  {
+    "informal_text": "клево",
+    "formal_text": "круто",
+    "explanation": "выражение одобрения"
+  },
+  {
+    "informal_text": "прикольно",
+    "formal_text": "интересно",
+    "explanation": "что-то занимательное"
+  },
+  {
+    "informal_text": "отпад",
+    "formal_text": "превосходно",
+    "explanation": "высшая степень одобрения"
+  },
+  {
+    "informal_text": "облом",
+    "formal_text": "разочарование",
+    "explanation": "неприятная ситуация"
+  },
+  {
+    "informal_text": "тащить",
+    "formal_text": "выигрывать/побеждать",
+    "explanation": "успешно справляться"
+  },
+  {
+    "informal_text": "ржать",
+    "formal_text": "смеяться",
+    "explanation": "громко смеяться"
+  },
+  {
+    "informal_text": "угарать",
+    "formal_text": "сильно смеяться/смеяться",
+    "explanation": "неудержимо смеяться"
+  },
+  {
+    "informal_text": "тормоз",
+    "formal_text": "медленный",
+    "explanation": "человек, который медленно соображает"
+  },
+  {
+    "informal_text": "ботаник",
+    "formal_text": "отличник",
+    "explanation": "человек, много учащийся"
+  },
+  {
+    "informal_text": "лажа",
+    "formal_text": "ерунда",
+    "explanation": "что-то несерьёзное или плохое"
+  },
+  {
+    "informal_text": "фигня",
+    "formal_text": "чепуха",
+    "explanation": "что-то неважное"
+  },
+  {
+    "informal_text": "хрень",
+    "formal_text": "вздор",
+    "explanation": "бессмыслица"
+  },
+  {
+    "informal_text": "дичь",
+    "formal_text": "нечто странное",
+    "explanation": "что-то очень странное или нелепое"
+  },
+  {
+    "informal_text": "жесть",
+    "formal_text": "ужас",
+    "explanation": "шокирующая ситуация"
+  },
+  {
+    "informal_text": "ништяк",
+    "formal_text": "хорошо",
+    "explanation": "выражение одобрения"
+  },
+  {
+    "informal_text": "агонь",
+    "formal_text": "отлично",
+    "explanation": "что-то впечатляющее"
+  },
+  {
+    "informal_text": "посути",
+    "formal_text": "по сути",
+    "explanation": "сокращение 'по сути'"
+  },
+  {
+    "informal_text": "типо",
+    "formal_text": "типа",
+    "explanation": "вроде как"
+  },
+  {
+    "informal_text": "канеш",
+    "formal_text": "конечно",
+    "explanation": "сокращение 'конечно'"
+  },
+  {
+    "informal_text": "щас",
+    "formal_text": "сейчас",
+    "explanation": "сокращение 'сейчас'"
+  },
+  {
+    "informal_text": "спс",
+    "formal_text": "спасибо",
+    "explanation": "сокращение 'спасибо'"
+  },
+  {
+    "informal_text": "пжлст",
+    "formal_text": "пожалуйста",
+    "explanation": "сокращение 'пожалуйста'"
+  },
+  {
+    "informal_text": "плз",
+    "formal_text": "пожалуйста",
+    "explanation": "заимствование 'please'"
+  },
+  {
+    "informal_text": "ок",
+    "formal_text": "хорошо",
+    "explanation": "согласие"
+  },
+  {
+    "informal_text": "окей",
+    "formal_text": "хорошо",
+    "explanation": "согласие (англ.)"
+  },
+  {
+    "informal_text": "ахаха",
+    "formal_text": "смех",
+    "explanation": "письменное выражение смеха"
+  },
+  {
+    "informal_text": "лмао",
+    "formal_text": "сильный смех",
+    "explanation": "LMAO - laughing my ass off"
+  },
+  {
+    "informal_text": "брух",
+    "formal_text": "разочарование",
+    "explanation": "выражение разочарования"
+  },
+  {
+    "informal_text": "шиза",
+    "formal_text": "безумие",
+    "explanation": "что-то сумасшедшее"
+  },
+  {
+    "informal_text": "краш-курс",
+    "formal_text": "интенсивный курс",
+    "explanation": "быстрое обучение"
+  },
+  {
+    "informal_text": "залил",
+    "formal_text": "опубликовал",
+    "explanation": "выложил в сеть"
+  },
+  {
+    "informal_text": "словил",
+    "formal_text": "получил",
+    "explanation": "приобрёл что-то"
+  },
+  {
+    "informal_text": "врубил",
+    "formal_text": "включил",
+    "explanation": "активировал"
+  },
+  {
+    "informal_text": "вырубил",
+    "formal_text": "выключил",
+    "explanation": "деактивировал"
+  },
+  {
+    "informal_text": "забил",
+    "formal_text": "перестал обращать внимание",
+    "explanation": "игнорировать"
+  },
+  {
+    "informal_text": "слиял",
+    "formal_text": "проиграл",
+    "explanation": "потерпел поражение"
+  },
+  {
+    "informal_text": "рванул",
+    "formal_text": "ушел быстро",
+    "explanation": "стремительно покинуть"
+  },
+  {
+    "informal_text": "вмазал",
+    "formal_text": "ударил",
+    "explanation": "физическое воздействие"
+  },
+  {
+    "informal_text": "врезал",
+    "formal_text": "ударил",
+    "explanation": "физическое воздействие"
+  },
+  {
+    "informal_text": "отжал",
+    "formal_text": "забрал силой",
+    "explanation": "присвоить что-то"
+  },
+  {
+    "informal_text": "поднял",
+    "formal_text": "улучшил",
+    "explanation": "повысить уровень"
+  },
+  {
+    "informal_text": "опустил",
+    "formal_text": "унизил",
+    "explanation": "сделать хуже"
+  },
+  {
+    "informal_text": "замутил",
+    "formal_text": "организовал",
+    "explanation": "создать что-то"
+  },
+  {
+    "informal_text": "разрулил",
+    "formal_text": "решил проблему",
+    "explanation": "справиться с ситуацией"
+  },
+  {
+    "informal_text": "запарил",
+    "formal_text": "надоел",
+    "explanation": "вызвать раздражение"
+  },
+  {
+    "informal_text": "достал",
+    "formal_text": "надоел",
+    "explanation": "вызвать раздражение"
+  },
+  {
+    "informal_text": "достало",
+    "formal_text": "надоело",
+    "explanation": "вызвало раздражение"
+  },
+  {
+    "informal_text": "бесит",
+    "formal_text": "раздражает",
+    "explanation": "вызывает злость"
+  },
+  {
+    "informal_text": "бешеный",
+    "formal_text": "очень сильный",
+    "explanation": "интенсивный"
+  },
+  {
+    "informal_text": "улетный",
+    "formal_text": "отличный",
+    "explanation": "высшая оценка"
+  },
+  {
+    "informal_text": "убойный",
+    "formal_text": "мощный",
+    "explanation": "сильное воздействие"
+  },
+  {
+    "informal_text": "конкретный",
+    "formal_text": "серьёзный",
+    "explanation": "значительный"
+  },
+  {
+    "informal_text": "жесткий",
+    "formal_text": "сложный",
+    "explanation": "трудный"
+  },
+  {
+    "informal_text": "мрак",
+    "formal_text": "плохо",
+    "explanation": "очень плохая ситуация"
+  },
+  {
+    "informal_text": "тьма",
+    "formal_text": "много",
+    "explanation": "большое количество"
+  },
+  {
+    "informal_text": "ваще",
+    "formal_text": "вообще",
+    "explanation": "сокращение 'вообще'"
+  },
+  {
+    "informal_text": "воще",
+    "formal_text": "вообще",
+    "explanation": "сокращение 'вообще'"
+  },
+  {
+    "informal_text": "нафиг",
+    "formal_text": "зачем",
+    "explanation": "выражение недоумения"
+  },
+  {
+    "informal_text": "нахрен",
+    "formal_text": "зачем",
+    "explanation": "выражение недоумения"
+  },
+  {
+    "informal_text": "похрен",
+    "formal_text": "безразлично",
+    "explanation": "не имеет значения"
+  },
+  {
+    "informal_text": "пофиг",
+    "formal_text": "безразлично",
+    "explanation": "не имеет значения"
+  },
+  {
+    "informal_text": "пофигу",
+    "formal_text": "безразлично",
+    "explanation": "не имеет значения"
+  },
+  {
+    "informal_text": "западло",
+    "formal_text": "неприемлемо",
+    "explanation": "нельзя делать"
+  },
+  {
+    "informal_text": "козел",
+    "formal_text": "негодяй",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "олень",
+    "formal_text": "глупец",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "чмо",
+    "formal_text": "неудачник",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "лошара",
+    "formal_text": "неудачник",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "лесбиянка",
+    "formal_text": "гомосексуальная женщина",
+    "explanation": "сексуальная ориентация"
+  },
+  {
+    "informal_text": "лезби",
+    "formal_text": "гомосексуальная женщина",
+    "explanation": "сокращение"
+  },
+  {
+    "informal_text": "транс",
+    "formal_text": "трансгендер",
+    "explanation": "трансгендерный человек"
+  },
+  {
+    "informal_text": "дегенерат",
+    "formal_text": "вырожденец",
+    "explanation": "сильное оскорбление"
+  },
+  {
+    "informal_text": "идиот",
+    "formal_text": "глупец",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "кретин",
+    "formal_text": "глупец",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "отброс",
+    "formal_text": "негодяй",
+    "explanation": "сильное оскорбление"
+  },
+  {
+    "informal_text": "отродье",
+    "formal_text": "негодяй",
+    "explanation": "сильное оскорбление"
+  },
+  {
+    "informal_text": "выродок",
+    "formal_text": "негодяй",
+    "explanation": "сильное оскорбление"
+  },
+  {
+    "informal_text": "страшила",
+    "formal_text": "некрасивый человек",
+    "explanation": "оскорбление внешности"
+  },
+  {
+    "informal_text": "страшный",
+    "formal_text": "некрасивый",
+    "explanation": "непривлекательный"
+  },
+  {
+    "informal_text": "кривой",
+    "formal_text": "некрасивый",
+    "explanation": "оскорбление внешности"
+  },
+  {
+    "informal_text": "косой",
+    "formal_text": "с дефектом зрения",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "хромой",
+    "formal_text": "с дефектом ноги",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "горбатый",
+    "formal_text": "с дефектом спины",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "карлик",
+    "formal_text": "низкорослый",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "жирный",
+    "formal_text": "полный/большой",
+    "explanation": "оскорбление веса"
+  },
+  {
+    "informal_text": "жиртрест",
+    "formal_text": "очень полный",
+    "explanation": "оскорбление веса"
+  },
+  {
+    "informal_text": "толстый",
+    "formal_text": "полный",
+    "explanation": "оскорбление веса"
+  },
+  {
+    "informal_text": "толстуха",
+    "formal_text": "полная женщина",
+    "explanation": "оскорбление веса"
+  },
+  {
+    "informal_text": "жиробас",
+    "formal_text": "очень полный",
+    "explanation": "оскорбление веса"
+  },
+  {
+    "informal_text": "дрыщ",
+    "formal_text": "худой",
+    "explanation": "оскорбление телосложения"
+  },
+  {
+    "informal_text": "скелет",
+    "formal_text": "очень худой",
+    "explanation": "оскорбление телосложения"
+  },
+  {
+    "informal_text": "доходяга",
+    "formal_text": "худой и слабый",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "задохлик",
+    "formal_text": "слабый",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "сопляк",
+    "formal_text": "молодой и неопытный",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "молокосос",
+    "formal_text": "неопытный",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "выскочка",
+    "formal_text": "наглый человек",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "подлиза",
+    "formal_text": "подхалим",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "подхалим",
+    "formal_text": "льстец",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "нахлебник",
+    "formal_text": "иждивенец",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "дармоед",
+    "formal_text": "бездельник",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "тунеядец",
+    "formal_text": "бездельник",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "лентяй",
+    "formal_text": "ленивый",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "бездарь",
+    "formal_text": "неспособный",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "ничтожество",
+    "formal_text": "незначительный человек",
+    "explanation": "сильное оскорбление"
+  },
+  {
+    "informal_text": "ничтожный",
+    "formal_text": "незначительный",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "мелкий",
+    "formal_text": "незначительный",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "мелкота",
+    "formal_text": "незначительные люди",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "шестерка",
+    "formal_text": "приспешник",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "прихвостень",
+    "formal_text": "приспешник",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "приспешник",
+    "formal_text": "помощник",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "пособник",
+    "formal_text": "соучастник",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "подельник",
+    "formal_text": "соучастник",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "сообщник",
+    "formal_text": "соучастник",
+    "explanation": "оскорбление"
+  },
+  {
+    "informal_text": "прокурор",
+    "formal_text": "обвинитель",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "судья",
+    "formal_text": "судебный работник",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "эксперт",
+    "formal_text": "специалист",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "гуру",
+    "formal_text": "учитель",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "пророк",
+    "formal_text": "предсказатель",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "мессия",
+    "formal_text": "спаситель",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "спаситель",
+    "formal_text": "избавитель",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "герой",
+    "formal_text": "смелый человек",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "супермен",
+    "formal_text": "сверхчеловек",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "терминатор",
+    "formal_text": "робот",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "робот",
+    "formal_text": "автомат",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "киборг",
+    "formal_text": "кибернетический организм",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "инопланетянин",
+    "formal_text": "пришелец",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "пришелец",
+    "formal_text": "инопланетянин",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "чужой",
+    "formal_text": "инопланетянин",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "хищник",
+    "formal_text": "хищное животное",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "хищница",
+    "formal_text": "хищное животное",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "зверь",
+    "formal_text": "животное",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "зверюга",
+    "formal_text": "животное",
+    "explanation": "ироническое обращение"
+  },
+  {
+    "informal_text": "животное",
+    "formal_text": "зверь",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "скотина",
+    "formal_text": "животное",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "тварюка",
+    "formal_text": "существо",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "змея",
+    "formal_text": "рептилия",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "кобра",
+    "formal_text": "змея",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "анаконда",
+    "formal_text": "змея",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "питон",
+    "formal_text": "змея",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "удав",
+    "formal_text": "змея",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "гюрза",
+    "formal_text": "змея",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "г ад",
+    "formal_text": "пресмыкающееся",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "у ебок",
+    "formal_text": "сумасшедший",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "е балo",
+    "formal_text": "дурак",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "е била",
+    "formal_text": "дурак",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "е бич",
+    "formal_text": "неудачник",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "е блан",
+    "formal_text": "дурак",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "е бло",
+    "formal_text": "дурак",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "е блы",
+    "formal_text": "дурак",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "п идор",
+    "formal_text": "гомосексуалист",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "п идрила",
+    "formal_text": "гомосексуалист",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "п идрило",
+    "formal_text": "гомосексуалист",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "п идруш",
+    "formal_text": "гомосексуалист",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "х уй",
+    "formal_text": "пенис",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "х уйло",
+    "formal_text": "дурак",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "х уйня",
+    "formal_text": "ерунда",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "х уев",
+    "formal_text": "плохой",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "х ует",
+    "formal_text": "ерунда",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "х уйц",
+    "formal_text": "ерунда",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "п изда",
+    "formal_text": "влагалище",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "п изд",
+    "formal_text": "влагалище",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "п издец",
+    "formal_text": "катастрофа",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "п издос",
+    "formal_text": "неприятность",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "п издюк",
+    "formal_text": "дурак",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "п издюл",
+    "formal_text": "дурак",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "п издя",
+    "formal_text": "дурак",
+    "explanation": "оскорбительное обращение"
+  },
+  {
+    "informal_text": "б лядь",
+    "formal_text": "проститутка",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "б ля",
+    "formal_text": "проститутка",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "б лять",
+    "formal_text": "проститутка",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "б ляд",
+    "formal_text": "проститутка",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "б ляха",
+    "formal_text": "проститутка",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "б ляш",
+    "formal_text": "проститутка",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "б ляшк",
+    "formal_text": "проститутка",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "епта",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпс",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпст",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпсэ",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпста",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпсте",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпсти",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпсто",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпсту",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпстэ",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпсты",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпсю",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпсё",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпся",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпси",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпсо",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпсу",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "ёпсы",
+    "formal_text": "восклицание",
+    "explanation": "неприличное слово"
+  },
+  {
+    "informal_text": "вайб",
+    "formal_text": "атмосфера",
+    "explanation": "эмоциональная обстановка, настроение места или ситуации"
+  },
+  {
+    "informal_text": "вибовать",
+    "formal_text": "чувствовать атмосферу",
+    "explanation": "ощущать настроение или энергетику"
+  },
+  {
+    "informal_text": "ауф",
+    "formal_text": "круто",
+    "explanation": "выражение восхищения"
+  },
+  {
+    "informal_text": "агриться",
+    "formal_text": "злиться",
+    "explanation": "сердиться, проявлять агрессию (от англ. agressive)"
+  },
+  {
+    "informal_text": "апнуть",
+    "formal_text": "увеличить",
+    "explanation": "повысить уровень"
+  },
+  {
+    "informal_text": "байтить",
+    "formal_text": "провоцировать",
+    "explanation": "вызывать реакцию"
+  },
+  {
+    "informal_text": "бизи",
+    "formal_text": "занятой",
+    "explanation": "очень занятый человек (от англ. busy)"
+  },
+  {
+    "informal_text": "бомбить",
+    "formal_text": "сильно злиться",
+    "explanation": "испытывать сильный гнев"
+  },
+  {
+    "informal_text": "вайбовать",
+    "formal_text": "наслаждаться атмосферой",
+    "explanation": "получать удовольствие от обстановки"
+  },
+  {
+    "informal_text": "вайбер",
+    "formal_text": "носитель атмосферы",
+    "explanation": "человек, создающий определенную энергетику"
+  },
+  {
+    "informal_text": "гамать",
+    "formal_text": "играть",
+    "explanation": "играть в игры"
+  },
+  {
+    "informal_text": "грифер",
+    "formal_text": "вредитель",
+    "explanation": "игрок, который мешает другим"
+  },
+  {
+    "informal_text": "дэфчить",
+    "formal_text": "слушать",
+    "explanation": "внимательно слушать музыку"
+  },
+  {
+    "informal_text": "залетный",
+    "formal_text": "случайный",
+    "explanation": "неожиданный, непредвиденный"
+  },
+  {
+    "informal_text": "инста",
+    "formal_text": "Instagram",
+    "explanation": "социальная сеть Instagram"
+  },
+  {
+    "informal_text": "краш-тест",
+    "formal_text": "проверка на прочность",
+    "explanation": "тестирование в экстремальных условиях"
+  },
+  {
+    "informal_text": "криповый",
+    "formal_text": "пугающий",
+    "explanation": "вызывающий неприятные ощущения"
+  },
+  {
+    "informal_text": "ламповый",
+    "formal_text": "уютный",
+    "explanation": "создающий теплую атмосферу"
+  },
+  {
+    "informal_text": "ливать",
+    "formal_text": "уходить",
+    "explanation": "покидать игру"
+  },
+  {
+    "informal_text": "ломка",
+    "formal_text": "абстиненция",
+    "explanation": "состояние при отмене чего-то привычного"
+  },
+  {
+    "informal_text": "лутка",
+    "formal_text": "удача",
+    "explanation": "неожиданная удача, везение"
+  },
+  {
+    "informal_text": "мимо",
+    "formal_text": "неактуально",
+    "explanation": "не относится к делу, прошло мимо"
+  },
+  {
+    "informal_text": "мэйнить",
+    "formal_text": "основной",
+    "explanation": "использовать что-то как основное"
+  },
+  {
+    "informal_text": "нешутейно",
+    "formal_text": "серьезно",
+    "explanation": "очень серьезно, не шутя"
+  },
+  {
+    "informal_text": "офник",
+    "formal_text": "офлайн-мероприятие",
+    "explanation": "встреча в реальной жизни"
+  },
+  {
+    "informal_text": "падра",
+    "formal_text": "подруга",
+    "explanation": "обращение к подруге"
+  },
+  {
+    "informal_text": "падик",
+    "formal_text": "подъезд",
+    "explanation": "место встречи во дворе"
+  },
+  {
+    "informal_text": "париться",
+    "formal_text": "волноваться",
+    "explanation": "переживать из-за мелочей"
+  },
+  {
+    "informal_text": "пилить",
+    "formal_text": "критиковать",
+    "explanation": "постоянно ругать, критиковать"
+  },
+  {
+    "informal_text": "пруфлить",
+    "formal_text": "доказывать",
+    "explanation": "предоставлять доказательства"
+  },
+  {
+    "informal_text": "разбирать",
+    "formal_text": "анализировать",
+    "explanation": "подробно анализировать ситуацию"
+  },
+  {
+    "informal_text": "рил",
+    "formal_text": "реально",
+    "explanation": "действительно, на самом деле"
+  },
+  {
+    "informal_text": "сасный",
+    "formal_text": "привлекательный",
+    "explanation": "очень симпатичный"
+  },
+  {
+    "informal_text": "скипнуть",
+    "formal_text": "пропустить",
+    "explanation": "перейти к следующему"
+  },
+  {
+    "informal_text": "слепить",
+    "formal_text": "создавать",
+    "explanation": "делать что-то быстро и качественно"
+  },
+  {
+    "informal_text": "соре",
+    "formal_text": "извините",
+    "explanation": "сокращение от 'sorry' - извините"
+  },
+  {
+    "informal_text": "сториться",
+    "formal_text": "делиться новостями",
+    "explanation": "публиковать истории в соцсетях"
+  },
+  {
+    "informal_text": "стримиться",
+    "formal_text": "стремиться",
+    "explanation": "сильно хотеть чего-то достичь"
+  },
+  {
+    "informal_text": "тильт",
+    "formal_text": "расстройство",
+    "explanation": "эмоциональное расстройство в играх"
+  },
+  {
+    "informal_text": "триповать",
+    "formal_text": "удивляться",
+    "explanation": "испытывать сильное удивление"
+  },
+  {
+    "informal_text": "тусить",
+    "formal_text": "проводить время",
+    "explanation": "встречаться, общаться компанией"
+  },
+  {
+    "informal_text": "факапить",
+    "formal_text": "ошибаться",
+    "explanation": "совершать ошибку"
+  },
+  {
+    "informal_text": "фолловить",
+    "formal_text": "подписываться",
+    "explanation": "подписываться в социальных сетях"
+  },
+  {
+    "informal_text": "хейтер",
+    "formal_text": "недоброжелатель",
+    "explanation": "человек, который распространяет негатив"
+  },
+  {
+    "informal_text": "хз",
+    "formal_text": "не знаю",
+    "explanation": "сокращение от 'хрен знает' - не знаю"
+  },
+  {
+    "informal_text": "чилить",
+    "formal_text": "отдыхать",
+    "explanation": "расслабляться"
+  },
+  {
+    "informal_text": "шазамить",
+    "formal_text": "определять музыку",
+    "explanation": "узнавать песню через приложение"
+  },
+  {
+    "informal_text": "шеймить",
+    "formal_text": "стыдить",
+    "explanation": "публично осуждать"
+  },
+  {
+    "informal_text": "шипперить",
+    "formal_text": "поддерживать пару",
+    "explanation": "болеть за отношения"
+  },
+  {
+    "informal_text": "эжи",
+    "formal_text": "неловкий",
+    "explanation": "вызывающий неловкость, кринжовый"
+  },
+  {
+    "informal_text": "юзать",
+    "formal_text": "использовать",
+    "explanation": "применять что-либо"
+  },
+  {
+    "informal_text": "ядерный",
+    "formal_text": "мощный",
+    "explanation": "очень сильный"
+  },
+  {
+    "informal_text": "автор",
+    "formal_text": "создатель контента",
+    "explanation": "человек, создающий контент в интернете"
+  },
+  {
+    "informal_text": "абузить",
+    "formal_text": "злоупотреблять",
+    "explanation": "использовать что-то нечестным способом"
+  },
+  {
+    "informal_text": "ачивка",
+    "formal_text": "достижение",
+    "explanation": "виртуальная награда за выполнение задачи"
+  },
+  {
+    "informal_text": "баннер",
+    "formal_text": "реклама",
+    "explanation": "рекламное изображение"
+  },
+  {
+    "informal_text": "бустнуть",
+    "formal_text": "усилить",
+    "explanation": "увеличить активность или популярность"
+  },
+  {
+    "informal_text": "видюха",
+    "formal_text": "видеокарта",
+    "explanation": "компьютерное устройство для обработки видео"
+  },
+  {
+    "informal_text": "гайдануть",
+    "formal_text": "сделать гайд",
+    "explanation": "создать инструкцию или руководство"
+  },
+  {
+    "informal_text": "ддосить",
+    "formal_text": "атаковать сервер",
+    "explanation": "осуществлять кибератаку на сайт"
+  },
+  {
+    "informal_text": "закодить",
+    "formal_text": "запрограммировать",
+    "explanation": "написать программный код"
+  },
+  {
+    "informal_text": "инфа",
+    "formal_text": "информация",
+    "explanation": "сведения, данные"
+  },
+  {
+    "informal_text": "красноглазие",
+    "formal_text": "усталость от компьютера",
+    "explanation": "состояние усталости от долгой работы за ПК"
+  },
+  {
+    "informal_text": "лаборатория",
+    "formal_text": "место для экспериментов",
+    "explanation": "виртуальное пространство для тестирования"
+  },
+  {
+    "informal_text": "манагер",
+    "formal_text": "менеджер",
+    "explanation": "управляющий, администратор"
+  },
+  {
+    "informal_text": "ориджинал",
+    "formal_text": "оригинал",
+    "explanation": "первоисточник"
+  },
+  {
+    "informal_text": "паста",
+    "formal_text": "скопированный текст",
+    "explanation": "текст, скопированный из другого места"
+  },
+  {
+    "informal_text": "релизить",
+    "formal_text": "выпускать",
+    "explanation": "публиковать новый продукт"
+  },
+  {
+    "informal_text": "свайпать",
+    "formal_text": "проводить пальцем",
+    "explanation": "движение пальцем по экрану смартфона"
+  },
+  {
+    "informal_text": "тильтить",
+    "formal_text": "злиться",
+    "explanation": "терять самообладание"
+  },
+  {
+    "informal_text": "фейспалм",
+    "formal_text": "рукалицо",
+    "explanation": "жест разочарования или стыда"
+  },
+  {
+    "informal_text": "хостить",
+    "formal_text": "размещать на хостинге",
+    "explanation": "размещать сайт на сервере"
+  },
+  {
+    "informal_text": "читерить",
+    "formal_text": "жульничать",
+    "explanation": "использовать читы"
+  },
+  {
+    "informal_text": "эникей",
+    "formal_text": "любая клавиша",
+    "explanation": "произвольная клавиша клавиатуры"
+  },
+  {
+    "informal_text": "банг",
+    "formal_text": "успех",
+    "explanation": "что-то очень популярное"
+  },
+  {
+    "informal_text": "гасить",
+    "formal_text": "подавлять",
+    "explanation": "энергично противостоять"
+  },
+  {
+    "informal_text": "дрифтовать",
+    "formal_text": "скользить",
+    "explanation": "двигаться плавно и стильно"
+  },
+  {
+    "informal_text": "жмотиться",
+    "formal_text": "жадничать",
+    "explanation": "проявлять жадность"
+  },
+  {
+    "informal_text": "залетать",
+    "formal_text": "приходить",
+    "explanation": "прибывать куда-либо"
+  },
+  {
+    "informal_text": "кайфовать",
+    "formal_text": "наслаждаться",
+    "explanation": "получать удовольствие"
+  },
+  {
+    "informal_text": "ломать",
+    "formal_text": "поражать",
+    "explanation": "сильно удивлять"
+  },
+  {
+    "informal_text": "мотать",
+    "formal_text": "запоминать",
+    "explanation": "запоминать информацию"
+  },
+  {
+    "informal_text": "наезжать",
+    "formal_text": "предъявлять претензии",
+    "explanation": "агрессивно выражать недовольство"
+  },
+  {
+    "informal_text": "отжигать",
+    "formal_text": "веселиться",
+    "explanation": "активно развлекаться"
+  },
+  {
+    "informal_text": "ронять",
+    "formal_text": "терять",
+    "explanation": "упускать возможность"
+  },
+  {
+    "informal_text": "сносить",
+    "formal_text": "разрушать",
+    "explanation": "критиковать или побеждать"
+  },
+  {
+    "informal_text": "фиксить",
+    "formal_text": "исправлять",
+    "explanation": "устранять проблемы"
+  },
+  {
+    "informal_text": "хавать",
+    "formal_text": "есть",
+    "explanation": "принимать пищу"
+  },
+  {
+    "informal_text": "движ",
+    "formal_text": "активность",
+    "explanation": "что-то интересное происходящее"
+  },
+  {
+    "informal_text": "бустить",
+    "formal_text": "усиливать",
+    "explanation": "увеличивать эффективность"
+  },
+  {
+    "informal_text": "гриферить",
+    "formal_text": "вредить",
+    "explanation": "мешать другим игрокам"
+  },
+  {
+    "informal_text": "дропать",
+    "formal_text": "бросать",
+    "explanation": "прекращать заниматься чем-то"
+  },
+  {
+    "informal_text": "качать",
+    "formal_text": "улучшать",
+    "explanation": "повышать уровень или навыки"
+  },
+  {
+    "informal_text": "крафтить",
+    "formal_text": "создавать",
+    "explanation": "изготавливать предметы в играх"
+  },
+  {
+    "informal_text": "миксовать",
+    "formal_text": "смешивать",
+    "explanation": "комбинировать разные элементы"
+  },
+  {
+    "informal_text": "нестить",
+    "formal_text": "уничтожать",
+    "explanation": "полностью побеждать"
+  },
+  {
+    "informal_text": "патиться",
+    "formal_text": "собираться в группу",
+    "explanation": "формировать команду"
+  },
+  {
+    "informal_text": "пиксить",
+    "formal_text": "исправлять пиксели",
+    "explanation": "редактировать изображение"
+  },
+  {
+    "informal_text": "ресать",
+    "formal_text": "возрождаться",
+    "explanation": "возвращаться в игру после смерти"
+  },
+  {
+    "informal_text": "спамить",
+    "formal_text": "надоедать",
+    "explanation": "многократно повторять"
+  },
+  {
+    "informal_text": "хейтить",
+    "formal_text": "ненавидеть",
+    "explanation": "выражать неприязнь"
+  },
+  {
+    "informal_text": "адовый",
+    "formal_text": "очень сильный",
+    "explanation": "экстремальный, интенсивный"
+  },
+  {
+    "informal_text": "бомбовый",
+    "formal_text": "отличный",
+    "explanation": "очень хороший, впечатляющий"
+  },
+  {
+    "informal_text": "вайбовый",
+    "formal_text": "атмосферный",
+    "explanation": "создающий настроение"
+  },
+  {
+    "informal_text": "залипательный",
+    "formal_text": "увлекательный",
+    "explanation": "вызывающий интерес"
+  },
+  {
+    "informal_text": "имбовый",
+    "formal_text": "несбалансированный",
+    "explanation": "слишком сильный в играх"
+  },
+  {
+    "informal_text": "неадекват",
+    "formal_text": "непредсказуемый",
+    "explanation": "ведущий себя странно"
+  },
+  {
+    "informal_text": "офигенный",
+    "formal_text": "потрясающий",
+    "explanation": "вызывающий восхищение"
+  },
+  {
+    "informal_text": "реальный",
+    "formal_text": "действительный",
+    "explanation": "настоящий, подлинный"
+  },
+  {
+    "informal_text": "слезный",
+    "formal_text": "трогательный",
+    "explanation": "вызывающий эмоции"
+  },
+  {
+    "informal_text": "токсичный",
+    "formal_text": "вредный",
+    "explanation": "создающий негативную атмосферу"
+  },
+  {
+    "informal_text": "фейковый",
+    "formal_text": "поддельный",
+    "explanation": "ненастоящий, фальшивый"
+  },
+  {
+    "informal_text": "хайповый",
+    "formal_text": "популярный",
+    "explanation": "находящийся на пике популярности"
+  },
+  {
+    "informal_text": "чиловый",
+    "formal_text": "расслабленный",
+    "explanation": "спокойный, неспешный"
+  },
+  {
+    "informal_text": "шапочный",
+    "formal_text": "поверхностный",
+    "explanation": "неглубокий, формальный"
+  },
+  {
+    "informal_text": "эпичный",
+    "formal_text": "грандиозный",
+    "explanation": "впечатляющий, масштабный"
+  },
+  {
+    "informal_text": "юзерский",
+    "formal_text": "пользовательский",
+    "explanation": "созданный пользователем"
+  },
+  {
+    "informal_text": "абилка",
+    "formal_text": "заявление о приеме",
+    "explanation": "документ для поступления в вуз"
+  },
+  {
+    "informal_text": "автосейв",
+    "formal_text": "автосохранение",
+    "explanation": "автоматическое сохранение в играх"
+  },
+  {
+    "informal_text": "админка",
+    "formal_text": "панель управления",
+    "explanation": "интерфейс администратора"
+  },
+  {
+    "informal_text": "апгрейд",
+    "formal_text": "обновление",
+    "explanation": "улучшение версии"
+  },
+  {
+    "informal_text": "ачивмент",
+    "formal_text": "достижение",
+    "explanation": "виртуальная награда"
+  },
+  {
+    "informal_text": "багрепорт",
+    "formal_text": "отчет об ошибке",
+    "explanation": "сообщение о проблеме"
+  },
+  {
+    "informal_text": "билд",
+    "formal_text": "сборка",
+    "explanation": "комплектация в играх"
+  },
+  {
+    "informal_text": "гайд",
+    "formal_text": "руководство",
+    "explanation": "инструкция, пособие"
+  },
+  {
+    "informal_text": "запилить",
+    "formal_text": "создать",
+    "explanation": "сделать что-либо"
+  },
+  {
+    "informal_text": "крафт",
+    "formal_text": "создание",
+    "explanation": "изготовление предметов"
+  },
+  {
+    "informal_text": "лаунчер",
+    "formal_text": "запускатор",
+    "explanation": "программа для запуска игр"
+  },
+  {
+    "informal_text": "лут",
+    "formal_text": "добыча",
+    "explanation": "награда в играх"
+  },
+  {
+    "informal_text": "маунт",
+    "formal_text": "ездовое животное",
+    "explanation": "транспорт в играх"
+  },
+  {
+    "informal_text": "никак",
+    "formal_text": "никак",
+    "explanation": "невозможно, не получается"
+  },
+  {
+    "informal_text": "рандом",
+    "formal_text": "случайный",
+    "explanation": "произвольный, неопределенный"
+  },
+  {
+    "informal_text": "респаун",
+    "formal_text": "возрождение",
+    "explanation": "точка появления в играх"
+  },
+  {
+    "informal_text": "спавн",
+    "formal_text": "появление",
+    "explanation": "место рождения в играх"
+  },
+  {
+    "informal_text": "фича",
+    "formal_text": "функция",
+    "explanation": "особенность, свойство"
+  },
+  {
+    "informal_text": "хп",
+    "formal_text": "здоровье",
+    "explanation": "очки здоровья в играх"
+  },
+  {
+    "informal_text": "чекпоинт",
+    "formal_text": "контрольная точка",
+    "explanation": "точка сохранения"
+  },
+  {
+    "informal_text": "экспа",
+    "formal_text": "опыт",
+    "explanation": "очки опыта в играх"
+  },
+  {
+    "informal_text": "внатуре",
+    "formal_text": "действительно",
+    "explanation": "на самом деле, правда"
+  },
+  {
+    "informal_text": "погнали",
+    "formal_text": "пошли",
+    "explanation": "призыв к действию"
+  },
+  {
+    "informal_text": "блин",
+    "formal_text": "сожалею/разочарован",
+    "explanation": "выражение досады или разочарования"
+  },
+  {
+    "informal_text": "кринжовый",
+    "formal_text": "неловкий/стыдный",
+    "explanation": "вызывающий чувство стыда или неловкости"
+  },
+  {
+    "informal_text": "крашевый",
+    "formal_text": "относящийся к симпатии",
+    "explanation": "связанный с человеком, который нравится"
+  },
+  {
+    "informal_text": "рофлить",
+    "formal_text": "шутить/смеяться",
+    "explanation": "шутить или веселиться"
+  },
+  {
+    "informal_text": "кд",
+    "formal_text": "как дела?",
+    "explanation": "сокращение от 'как дела', приветствие и вопрос о состоянии"
+  },
+  {
+    "informal_text": "чд",
+    "formal_text": "что делаешь?",
+    "explanation": "сокращение от 'что делаешь', вопрос о текущем занятии"
+  },
+  {
+    "informal_text": "пж",
+    "formal_text": "пожалуйста",
+    "explanation": "сокращение от 'пожалуйста', вежливая просьба"
+  },
+  {
+    "informal_text": "всё ништяк",
+    "formal_text": "всё хорошо",
+    "explanation": "ответ на вопрос 'как дела', обозначает, что всё в порядке"
+  },
+  {
+    "informal_text": "скуф",
+    "formal_text": "новичок/неопытный",
+    "explanation": "человек с низким уровнем навыков, опыта или статуса"
+  },
+  {
+    "informal_text": "арт",
+    "formal_text": "творческая работа",
+    "explanation": "художественное произведение, рисунок, дизайн"
+  },
+  {
+    "informal_text": "артить",
+    "formal_text": "рисовать/создавать арт",
+    "explanation": "заниматься творчеством, создавать художественные работы"
+  },
+  {
+    "informal_text": "арчерить",
+    "formal_text": "играть за лучника",
+    "explanation": "в играх - использовать персонажа, специализирующегося на луке"
+  }
+]

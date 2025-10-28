@@ -6,10 +6,15 @@ def connect_db():
     return sqlite3.connect('translations.db')
 
 class TranslationService:
-    def __init__(self, db: FDataBase):
+    def __init__(self, db: FDataBase, profanity_service=None):
         self.db = db
+        self.profanity_service = profanity_service
 
     def translate_to_formal(self, text: str, user_id: int = None) -> Tuple[str, Optional[str]]:
+        # Проверка на маты
+        if self.profanity_service and self.profanity_service.contains_profanity(text):
+            return None, "profanity_detected"
+        
         original_text = text
         result = self.db.get_formal_translation(text.lower())
         if result:
@@ -49,6 +54,10 @@ class TranslationService:
         return formal_text, explanation_text
 
     def translate_to_informal(self, text: str, user_id: int = None) -> Tuple[str, Optional[str]]:
+        # Проверка на маты
+        if self.profanity_service and self.profanity_service.contains_profanity(text):
+            return None, "profanity_detected"
+            
         words = text.split()
         informal_parts = []
         explanations = []

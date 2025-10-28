@@ -17,3 +17,6 @@ CREATE TABLE IF NOT EXISTS words (
   formal_text TEXT NOT NULL,
   explanation TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS profanity_words (
+  word TEXT PRIMARY KEY NOT NULL
+);

@@ -3,6 +3,7 @@ from aiogram.fsm.context import FSMContext
 from utils.keyboards import translation_keyboard, translation_mode_keyboard, get_main_keyboard
 from utils.states import TranslationStates
 from services.translation_service import TranslationService
+from services.profanity_service import ProfanityService
 
 router = Router()
 
@@ -42,7 +43,7 @@ async def exit_translation_mode(message: types.Message, state: FSMContext):
     )
 
 @router.message(TranslationStates.waiting_for_informal)
-async def handle_informal_text(message: types.Message, state: FSMContext, translation_service: TranslationService):
+async def handle_informal_text(message: types.Message, state: FSMContext, translation_service: TranslationService, profanity_service: ProfanityService):
     if message.text == "❌ Выйти из режима перевода":
         await state.clear()
         await message.answer("✅ Вышел из режима перевода", reply_markup=get_main_keyboard(message.from_user.id))
@@ -55,6 +56,14 @@ async def handle_informal_text(message: types.Message, state: FSMContext, transl
     user_text = message.text
     formal_text, explanation = translation_service.translate_to_formal(user_text, message.from_user.id)
     
+    # Проверка на маты
+    if explanation == "profanity_detected":
+        await message.answer(
+            profanity_service.get_profanity_message(),
+            reply_markup=translation_mode_keyboard
+        )
+        return
+    
     response = f"💼 Формальный вариант:\n`{formal_text}`"
     if explanation:
         response += f"\n\n📚 Объяснение:\n{explanation}"
@@ -62,7 +71,7 @@ async def handle_informal_text(message: types.Message, state: FSMContext, transl
     await message.answer(response, parse_mode='Markdown', reply_markup=translation_mode_keyboard)
 
 @router.message(TranslationStates.waiting_for_formal)
-async def handle_formal_text(message: types.Message, state: FSMContext, translation_service: TranslationService):
+async def handle_formal_text(message: types.Message, state: FSMContext, translation_service: TranslationService, profanity_service: ProfanityService):
     if message.text == "❌ Выйти из режима перевода":
         await state.clear()
         await message.answer("✅ Вышел из режима перевода", reply_markup=get_main_keyboard(message.from_user.id))
@@ -74,6 +83,14 @@ async def handle_formal_text(message: types.Message, state: FSMContext, translat
     
     user_text = message.text
     informal_text, explanation = translation_service.translate_to_informal(user_text, message.from_user.id)
+    
+    # Проверка на маты
+    if explanation == "profanity_detected":
+        await message.answer(
+            profanity_service.get_profanity_message(),
+            reply_markup=translation_mode_keyboard
+        )
+        return
     
     response = f"🔥 Неформальный вариант:\n`{informal_text}`"
     if explanation:

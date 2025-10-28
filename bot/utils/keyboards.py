@@ -76,3 +76,65 @@ role_selection_keyboard = ReplyKeyboardMarkup(
     ],
     resize_keyboard=True
 )
+
+# Новые клавиатуры для алфавитной навигации
+def get_dictionary_main_keyboard():
+    """Главная клавиатура словаря"""
+    keyboard = [
+        [KeyboardButton(text="🔤 По алфавиту"), KeyboardButton(text="🔍 Поиск в словаре")],
+        [KeyboardButton(text="📄 Все слова"), KeyboardButton(text="⬅️ Назад в меню")]
+    ]
+    return ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)
+
+def get_alphabet_keyboard(active_letter: str = None):
+    """Клавиатура с буквами алфавита"""
+    # Русский алфавит
+    alphabet = [
+        ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З'],
+        ['И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р'],
+        ['С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ'],
+        ['Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я', 'ALL']
+    ]
+    
+    keyboard = []
+    for row in alphabet:
+        keyboard_row = []
+        for letter in row:
+            if letter == active_letter:
+                # Подсвечиваем активную букву
+                button_text = f"🔘 {letter}"
+            else:
+                button_text = letter
+            keyboard_row.append(KeyboardButton(text=button_text))
+        keyboard.append(keyboard_row)
+    
+    # Добавляем кнопку назад
+    keyboard.append([KeyboardButton(text="⬅️ Назад в словарь")])
+    
+    return ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)
+
+def get_letter_navigation_keyboard(letter: str, offset: int, total_words: int, words_per_page: int = 10):
+    """Навигация для слов на конкретную букву"""
+    keyboard_buttons = []
+    
+    # Кнопки навигации
+    nav_buttons = []
+    if offset > 0:
+        nav_buttons.append(InlineKeyboardButton(text="⬅️ Назад", callback_data=f"letter_{letter}_prev_{offset-words_per_page}"))
+    
+    # Показать текущую позицию
+    current_page = (offset // words_per_page) + 1
+    total_pages = (total_words + words_per_page - 1) // words_per_page
+    if total_pages > 1:
+        nav_buttons.append(InlineKeyboardButton(text=f"{current_page}/{total_pages}", callback_data="current_page"))
+    
+    if offset + words_per_page < total_words:
+        nav_buttons.append(InlineKeyboardButton(text="Вперед ➡️", callback_data=f"letter_{letter}_next_{offset+words_per_page}"))
+    
+    if nav_buttons:
+        keyboard_buttons.append(nav_buttons)
+    
+    # Кнопка возврата к алфавиту
+    keyboard_buttons.append([InlineKeyboardButton(text="🔙 К алфавиту", callback_data="back_to_alphabet")])
+    
+    return InlineKeyboardMarkup(inline_keyboard=keyboard_buttons)

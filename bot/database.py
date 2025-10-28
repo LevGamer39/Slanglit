@@ -1,5 +1,6 @@
 import sqlite3
 from typing import List, Dict, Tuple, Optional
+import json
 
 class FDataBase:
     def __init__(self, db: sqlite3.Connection):
@@ -9,6 +10,7 @@ class FDataBase:
 
     def _init_tables(self):
         try:
+            # Проверяем и добавляем недостающие колонки в translations
             self.__cur.execute("PRAGMA table_info(translations)")
             columns = [col[1] for col in self.__cur.fetchall()]
             
@@ -21,6 +23,15 @@ class FDataBase:
                 self.__cur.execute('ALTER TABLE translations ADD COLUMN direction TEXT DEFAULT "to_formal"')
                 self.__db.commit()
                 print("✅ Добавлена колонка direction в таблицу translations")
+                
+            # Создаем таблицу для матных слов если её нет
+            self.__cur.execute('''
+                CREATE TABLE IF NOT EXISTS profanity_words (
+                    word TEXT PRIMARY KEY NOT NULL
+                )
+            ''')
+            self.__db.commit()
+            print("✅ Таблица profanity_words создана/проверена")
                 
         except sqlite3.Error as e:
             print(f"❌ Ошибка инициализации таблиц: {e}")
@@ -71,10 +82,13 @@ class FDataBase:
     
     def search_user_translations(self, search_text: str, user_id: int) -> List[Dict]:
         try:
-            search_pattern = f'%{search_text}%'
+            # Приводим все к нижнему регистру для поиска
+            search_lower = search_text.lower()
+            search_pattern = f'%{search_lower}%'
+            
             self.__cur.execute('''
                 SELECT * FROM translations 
-                WHERE (informal_text LIKE ? OR formal_text LIKE ?) AND user_id = ?
+                WHERE (LOWER(informal_text) LIKE ? OR LOWER(formal_text) LIKE ?) AND user_id = ?
                 ORDER BY created_at DESC
                 LIMIT 20
             ''', (search_pattern, search_pattern, user_id))
@@ -179,10 +193,15 @@ class FDataBase:
     
     def search_dictionary(self, search_text: str) -> List[Dict]:
         try:
-            search_pattern = f'%{search_text}%'
+            # Приводим все к нижнему регистру для поиска
+            search_lower = search_text.lower()
+            search_pattern = f'%{search_lower}%'
+            
             self.__cur.execute('''
                 SELECT * FROM words 
-                WHERE informal_text LIKE ? OR formal_text LIKE ? OR explanation LIKE ?
+                WHERE LOWER(informal_text) LIKE ? OR 
+                      LOWER(formal_text) LIKE ? OR 
+                      LOWER(explanation) LIKE ?
                 ORDER BY informal_text
                 LIMIT 20
             ''', (search_pattern, search_pattern, search_pattern))
@@ -192,6 +211,184 @@ class FDataBase:
         except sqlite3.Error as e:
             print(f"❌ Ошибка при поиске в словаре: {e}")
             return []
+
+#pragma region Alphabet Navigation Methods
+    def get_words_by_letter(self, letter: str, limit: int = 50, offset: int = 0) -> List[Dict]:
+        """Получить слова на определенную букву"""
+        try:
+            if letter == '0-9':
+                # Для цифр и символов
+                self.__cur.execute('''
+                    SELECT * FROM words 
+                    WHERE (
+                        informal_text LIKE '0%' OR informal_text LIKE '1%' OR 
+                        informal_text LIKE '2%' OR informal_text LIKE '3%' OR 
+                        informal_text LIKE '4%' OR informal_text LIKE '5%' OR 
+                        informal_text LIKE '6%' OR informal_text LIKE '7%' OR 
+                        informal_text LIKE '8%' OR informal_text LIKE '9%'
+                    )
+                    ORDER BY informal_text 
+                    LIMIT ? OFFSET ?
+                ''', (limit, offset))
+            elif letter == 'ALL':
+                # Все слова
+                self.__cur.execute('''
+                    SELECT * FROM words 
+                    ORDER BY informal_text 
+                    LIMIT ? OFFSET ?
+                ''', (limit, offset))
+            else:
+                # Для букв - ищем и в верхнем и в нижнем регистре
+                self.__cur.execute('''
+                    SELECT * FROM words 
+                    WHERE UPPER(SUBSTR(informal_text, 1, 1)) = ? OR LOWER(SUBSTR(informal_text, 1, 1)) = ?
+                    ORDER BY informal_text 
+                    LIMIT ? OFFSET ?
+                ''', (letter, letter.lower(), limit, offset))
+            
+            columns = [col[0] for col in self.__cur.description]
+            return [dict(zip(columns, row)) for row in self.__cur.fetchall()]
+        except sqlite3.Error as e:
+            print(f"❌ Ошибка получения слов по букве {letter}: {e}")
+            return []
+
+    def get_words_count_by_letter(self, letter: str) -> int:
+        """Получить количество слов на букву"""
+        try:
+            if letter == '0-9':
+                self.__cur.execute('''
+                    SELECT COUNT(*) FROM words 
+                    WHERE (
+                        informal_text LIKE '0%' OR informal_text LIKE '1%' OR 
+                        informal_text LIKE '2%' OR informal_text LIKE '3%' OR 
+                        informal_text LIKE '4%' OR informal_text LIKE '5%' OR 
+                        informal_text LIKE '6%' OR informal_text LIKE '7%' OR 
+                        informal_text LIKE '8%' OR informal_text LIKE '9%'
+                    )
+                ''')
+            elif letter == 'ALL':
+                self.__cur.execute('SELECT COUNT(*) FROM words')
+            else:
+                self.__cur.execute('''
+                    SELECT COUNT(*) FROM words 
+                    WHERE UPPER(SUBSTR(informal_text, 1, 1)) = ? OR LOWER(SUBSTR(informal_text, 1, 1)) = ?
+                ''', (letter, letter.lower()))
+            
+            result = self.__cur.fetchone()
+            return result[0] if result else 0
+        except sqlite3.Error as e:
+            print(f"❌ Ошибка подсчета слов по букве {letter}: {e}")
+            return 0
+
+    def get_alphabet_stats(self) -> Dict[str, int]:
+        """Получить статистику по буквам алфавита"""
+        try:
+            # Получаем статистику по русским буквам (и верхний и нижний регистр)
+            russian_letters = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+            stats = {}
+            
+            for letter in russian_letters:
+                self.__cur.execute('''
+                    SELECT COUNT(*) FROM words 
+                    WHERE UPPER(SUBSTR(informal_text, 1, 1)) = ? OR LOWER(SUBSTR(informal_text, 1, 1)) = ?
+                ''', (letter, letter.lower()))
+                result = self.__cur.fetchone()
+                if result and result[0] > 0:
+                    stats[letter] = result[0]
+            
+            # Добавляем счетчик для цифр
+            self.__cur.execute('''
+                SELECT COUNT(*) FROM words 
+                WHERE (
+                    informal_text LIKE '0%' OR informal_text LIKE '1%' OR 
+                    informal_text LIKE '2%' OR informal_text LIKE '3%' OR 
+                    informal_text LIKE '4%' OR informal_text LIKE '5%' OR 
+                    informal_text LIKE '6%' OR informal_text LIKE '7%' OR 
+                    informal_text LIKE '8%' OR informal_text LIKE '9%'
+                )
+            ''')
+            result = self.__cur.fetchone()
+            if result and result[0] > 0:
+                stats['0-9'] = result[0]
+            
+            return stats
+        except sqlite3.Error as e:
+            print(f"❌ Ошибка получения статистики алфавита: {e}")
+            return {}
+#pragma endregion
+
+#pragma region Profanity Methods
+    def add_profanity_word(self, word: str) -> bool:
+        try:
+            self.__cur.execute(
+                'INSERT OR IGNORE INTO profanity_words (word) VALUES (?)',
+                (word.lower(),)
+            )
+            self.__db.commit()
+            return True
+        except sqlite3.Error as e:
+            print(f"❌ Ошибка добавления матного слова: {e}")
+            return False
+
+    def get_profanity_words(self) -> List[str]:
+        try:
+            self.__cur.execute('SELECT word FROM profanity_words')
+            return [row[0] for row in self.__cur.fetchall()]
+        except sqlite3.Error as e:
+            print(f"❌ Ошибка получения матных слов: {e}")
+            return []
+
+    def is_profanity(self, text: str) -> bool:
+        try:
+            words = self.get_profanity_words()
+            text_lower = text.lower()
+            
+            # Проверяем каждое слово из текста
+            for word in text_lower.split():
+                if word in words:
+                    return True
+            
+            # Проверяем словосочетания (до 3 слов)
+            text_words = text_lower.split()
+            for i in range(len(text_words)):
+                for length in range(1, min(4, len(text_words) - i + 1)):
+                    phrase = ' '.join(text_words[i:i + length])
+                    if phrase in words:
+                        return True
+                        
+            return False
+        except sqlite3.Error as e:
+            print(f"❌ Ошибка проверки на маты: {e}")
+            return False
+
+    def load_profanity_from_json(self, json_file_path: str) -> bool:
+        """Загружает матные слова из JSON файла в базу данных"""
+        try:
+            with open(json_file_path, 'r', encoding='utf-8') as f:
+                words_data = json.load(f)
+            
+            profanity_words = set()
+            for item in words_data:
+                # Добавляем неформальный текст как матное слово
+                profanity_words.add(item['informal_text'].lower())
+            
+            # Очищаем таблицу перед загрузкой
+            self.__cur.execute('DELETE FROM profanity_words')
+            
+            # Добавляем слова в базу
+            for word in profanity_words:
+                self.__cur.execute(
+                    'INSERT INTO profanity_words (word) VALUES (?)',
+                    (word,)
+                )
+            
+            self.__db.commit()
+            print(f"✅ Загружено {len(profanity_words)} матных слов из JSON")
+            return True
+            
+        except Exception as e:
+            print(f"❌ Ошибка загрузки матных слов из JSON: {e}")
+            return False
 #pragma endregion
 
 #pragma region Admin Methods
@@ -249,4 +446,3 @@ class FDataBase:
         except sqlite3.Error as e:
             print(f"❌ Ошибка получения статистики: {e}")
             return {}
-#pragma endregion
