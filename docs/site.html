@@ -10,65 +10,97 @@
 <body>
     <div class="app-container">
         <!-- ========== MAIN PAGE ========== -->
-        <div id="main-page" class="page active">
-            <!-- Header -->
-            <div class="header">
-                <div class="app-title">Сленглит</div>
-                <div class="app-subtitle">мини-приложение</div>
-            </div>
+<div id="main-page" class="page active">
+    <div class="scrollable-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="app-title">Сленглит</div>
+            <div class="app-subtitle">мини-приложение</div>
+        </div>
 
-            <!-- Language Switch -->
-            <div class="language-switch">
-                <div class="lang-text" id="leftLangText">сленговый</div>
-                <button class="lang-swap-btn" id="langSwapBtn">⇄</button>
-                <div class="lang-text" id="rightLangText">русский</div>
-            </div>
+        <!-- Language Switch -->
+        <div class="language-switch">
+            <div class="lang-text" id="leftLangText">сленговый</div>
+            <button class="lang-swap-btn" id="langSwapBtn">⇄</button>
+            <div class="lang-text" id="rightLangText">русский</div>
+        </div>
 
-            <!-- Translation Cards -->
-            <div class="translation-card">
-                <div class="card-label" id="leftCardLabel">СЛЕНГ</div>
-                <textarea class="input-field" id="slangInput" placeholder="Введите сленговое выражение...">лайтовый</textarea>
-                <div class="action-buttons">
-                    <button class="action-btn" onclick="pasteText('slangInput')">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M19 2h-4.18C14.4.84 13.3 0 12 0c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm7 18H5V4h2v3h10V4h2v16z"/>
-                        </svg>
-                        Вставить
-                    </button>
-                </div>
-            </div>
-
-            <div class="translation-card">
-                <div class="card-label" id="rightCardLabel">РУССКИЙ</div>
-                <div class="translation-text" id="russianText">очень лёгкий, простой</div>
-                <div class="action-buttons">
-                    <button class="action-btn" onclick="copyText('russianText')">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-                        </svg>
-                        Копировать
-                    </button>
-                </div>
-            </div>
-
-            <!-- Translate Button -->
-            <button class="big-translate-btn" id="bigTranslateBtn">Перевод</button>
-
-            <!-- Explanation Card -->
-            <div class="explanation-card">
-                <div class="explanation-title">СПРАВКА</div>
-                <div class="explanation-content">
-                    Лайтовый (от англ.: light - "лёгкий")<br>
-                    Часто употребляется в отношении какой-либо очень простой задачи, быстровыполнимой
-                </div>
-            </div>
-
-            <!-- Navigation Buttons -->
-            <div class="nav-buttons">
-                <button class="nav-btn active" id="translateNavBtn">Перевод</button>
-                <button class="nav-btn" id="historyNavBtn">История</button>
+        <!-- Translation Cards -->
+        <div class="translation-card">
+            <div class="card-label" id="leftCardLabel">СЛЕНГ</div>
+            <textarea class="input-field" id="slangInput" placeholder="Введите сленговое выражение...">лайтовый</textarea>
+            <div class="action-buttons">
+                <button class="action-btn" onclick="pasteText('slangInput')">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M19 2h-4.18C14.4.84 13.3 0 12 0c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm7 18H5V4h2v3h10V4h2v16z"/>
+                    </svg>
+                    Вставить
+                </button>
             </div>
         </div>
+
+        <div class="translation-card">
+            <div class="card-label" id="rightCardLabel">РУССКИЙ</div>
+            <div class="translation-text" id="russianText">очень лёгкий, простой</div>
+            <div class="action-buttons">
+                <button class="action-btn" onclick="copyText('russianText')">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                    </svg>
+                    Копировать
+                </button>
+            </div>
+        </div>
+
+        <!-- Translate Button -->
+        <button class="big-translate-btn" id="bigTranslateBtn">Перевод</button>
+
+        <!-- Explanation Card -->
+        <div class="explanation-card">
+            <div class="explanation-title">СПРАВКА</div>
+            <div class="explanation-content">
+                Лайтовый (от англ.: light - "лёгкий")<br>
+                Часто употребляется в отношении какой-либо очень простой задачи, быстровыполнимой
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+        <button class="nav-btn active" id="translateNavBtn">Перевод</button>
+        <button class="nav-btn" id="historyNavBtn">История</button>
+    </div>
+</div>
+
+<!-- ========== HISTORY PAGE ========== -->
+<div id="history-page" class="page">
+    <div class="scrollable-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="app-title">История</div>
+            <div class="app-subtitle">последние переводы</div>
+        </div>
+
+        <!-- History Container -->
+        <div class="history-container">
+            <!-- History Items -->
+            <div class="history-items" id="historyItems">
+                <!-- History items will be loaded here -->
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination hidden" id="pagination">
+                <!-- Pagination buttons will be generated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+        <button class="nav-btn" id="translateNavBtnHistory">Перевод</button>
+        <button class="nav-btn active" id="historyNavBtnHistory">История</button>
+    </div>
+</div>
 
         <!-- ========== HISTORY PAGE ========== -->
         <div id="history-page" class="page">

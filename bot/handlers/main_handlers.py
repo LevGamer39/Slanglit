@@ -9,6 +9,7 @@ router = Router()
 async def start_command(message: types.Message):
     await message.answer(
         "👋 Привет! Я бот для перевода между формальным и неформальным стилем.\n\n"
+        "🤖 Переводчик: GigaChat Neural Network\n"
         "📝 Используй кнопки для навигации!",
         reply_markup=get_main_keyboard(message.from_user.id)
     )

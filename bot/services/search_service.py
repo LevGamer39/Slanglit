@@ -23,31 +23,23 @@ class SearchService:
         page_results = results[offset:offset + 10]
         total_pages = (len(results) + 9) // 10
         
-        if search_type == "history":
-            text = f"🔍 Найдено {len(results)} переводов по запросу '{search_text}'\n"
-            text += f"Страница {offset//10 + 1} из {total_pages}:\n\n"
-            
-            for i, trans in enumerate(page_results, offset + 1):
-                direction = trans.get('direction', 'to_formal')
-                if direction == 'to_formal':
-                    text += f"{i}. 💼 Неформальный → Формальный\n"
-                    text += f"   🔥 `{trans['informal_text']}`\n"
-                    text += f"   → 💼 `{trans['formal_text']}`\n"
-                else:
-                    text += f"{i}. 🔥 Формальный → Неформальный\n"
-                    text += f"   💼 `{trans['informal_text']}`\n"
-                    text += f"   → 🔥 `{trans['formal_text']}`\n"
-                text += f"   📅 {trans['created_at']}\n\n"
+        text = f"🔍 Найдено {len(results)} переводов по запросу '{search_text}'\n"
+        text += f"Страница {offset//10 + 1} из {total_pages}:\n\n"
         
-        else:
-            text = f"🔍 Найдено {len(results)} слов по запросу '{search_text}'\n"
-            text += f"Страница {offset//10 + 1} из {total_pages}:\n\n"
+        for i, trans in enumerate(page_results, offset + 1):
+            direction = trans.get('direction', 'to_formal')
+            if direction == 'to_formal':
+                text += f"{i}. 💼 Неформальный → Формальный\n"
+                text += f"   🔥 `{trans['informal_text']}`\n"
+                text += f"   → 💼 `{trans['formal_text']}`\n"
+            else:
+                text += f"{i}. 🔥 Формальный → Неформальный\n"
+                text += f"   💼 `{trans['informal_text']}`\n"
+                text += f"   → 🔥 `{trans['formal_text']}`\n"
             
-            for i, word in enumerate(page_results, offset + 1):
-                text += f"{i}. 🔥 `{word['informal_text']}` → 💼 `{word['formal_text']}`"
-                if word.get('explanation'):
-                    text += f"\n   📖 {word['explanation']}\n\n"
-                else:
-                    text += "\n\n"
+            if trans.get('explanation'):
+                text += f"   📖 {trans['explanation']}\n"
+            
+            text += f"   📅 {trans['created_at']}\n\n"
         
         return text

@@ -1,7 +1,7 @@
 from aiogram import Router, types
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
-from utils.keyboards import get_admin_keyboard, cancel_keyboard, dictionary_management_keyboard, role_selection_keyboard, get_main_keyboard
+from utils.keyboards import get_admin_keyboard, cancel_keyboard, role_selection_keyboard, get_main_keyboard
 from utils.states import AdminStates
 from services.admin_service import AdminService
 
@@ -18,17 +18,6 @@ async def admin_panel_button(message: types.Message, admin_service: AdminService
         f"⚙️ Админ-панель (Ваша роль: {admin_role})\n\n"
         "Выберите действие:",
         reply_markup=get_admin_keyboard(admin_role)
-    )
-
-@router.message(lambda message: message.text == "📝 Управление словарем")
-async def dictionary_management_button(message: types.Message, admin_service: AdminService):
-    if not admin_service.is_user_admin(message.from_user.id):
-        await message.answer("❌ У вас нет прав доступа")
-        return
-        
-    await message.answer(
-        "📝 Управление словарем:",
-        reply_markup=dictionary_management_keyboard
     )
 
 @router.message(lambda message: message.text == "⬅️ Назад в админ-панель")
@@ -183,8 +172,9 @@ async def show_admin_stats(message: Message, admin_service: AdminService):
     text = (
         "📊 Статистика системы:\n\n"
         f"• 📖 Всего переводов: {stats.get('total_translations', 0)}\n"
-        f"• 📚 Слов в словаре: {stats.get('total_words', 0)}\n"
-        f"• 🔢 Всего использований: {stats.get('total_usage', 0)}"
+        f"• 👥 Уникальных пользователей: {stats.get('unique_users', 0)}\n"
+        f"• 👮 Администраторов: {stats.get('total_admins', 0)}\n\n"
+        "🤖 Переводчик: GigaChat Neural Network"
     )
     
     await message.answer(text)
