@@ -10,7 +10,7 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.storage.memory import MemoryStorage
 
 def connect_db():
-    return sqlite3.connect('translations.db')
+    return sqlite3.connect('../database/translations.db')
 
 db = FDataBase(connect_db())
 bot = Bot(token=BOT_TOKEN)
