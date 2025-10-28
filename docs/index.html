@@ -2,13 +2,39 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Сленглит</title>
     <style>
+        @font-face {
+            font-family: 'Benzin';
+            src: url('Benzin-Semibold.ttf') format('truetype');
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Benzin Regular';
+            src: url('Benzin-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+            position: fixed;
         }
 
         body {
@@ -22,43 +48,59 @@
                     #00E3F4 100%
                 );
             color: #FFFFFF;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Benzin Regular', sans-serif;
             height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 40px 20px;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            width: 100%;
+            position: relative;
         }
 
         .app-title {
+            font-family: 'Benzin', sans-serif;
             font-size: 42px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #fff, #e0f7ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #FFFFFF;
+            line-height: 1;
         }
 
         .app-subtitle {
+            font-family: 'Benzin Regular', sans-serif;
             font-size: 16px;
             color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 60px;
-            line-height: 1.4;
+            line-height: 1.2;
+            white-space: nowrap;
         }
 
         .loading-container {
             display: flex;
             align-items: center;
             gap: 4px;
+            font-family: 'Benzin Regular', sans-serif;
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .loading-text {
-            font-size: 18px;
+            font-size: 16px;
             color: #FFFFFF;
-            font-weight: 500;
+            font-weight: normal;
         }
 
         .dots {
@@ -88,11 +130,53 @@
                 transform: scale(1.2);
             }
         }
+
+        /* Для десктопа */
+        @media (min-width: 768px) {
+            .app-title {
+                font-size: 106.21px;
+                margin-bottom: 20px;
+            }
+            
+            .app-subtitle {
+                font-size: 25px;
+            }
+            
+            .loading-text {
+                font-size: 25px;
+            }
+            
+            .loading-container {
+                bottom: 40px;
+            }
+            
+            .dot {
+                width: 6px;
+                height: 6px;
+            }
+        }
+
+        /* Для очень маленьких телефонов */
+        @media (max-width: 320px) {
+            .app-title {
+                font-size: 36px;
+            }
+            
+            .app-subtitle {
+                font-size: 14px;
+            }
+            
+            .loading-text {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="app-title">Сленглит</div>
-    <div class="app-subtitle">переводчик со сленгового<br>на русский</div>
+    <div class="content-wrapper">
+        <div class="app-title">Сленглит</div>
+        <div class="app-subtitle">переводчик со сленгового на русский</div>
+    </div>
     
     <div class="loading-container">
         <div class="loading-text">загрузка</div>
@@ -104,6 +188,26 @@
     </div>
 
     <script>
+        // Предотвращение масштабирования и прокрутки
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        // Предотвращение двойного тапа для масштабирования
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(e) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Предотвращение выделения текста
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+        });
+
         setTimeout(() => {
             window.location.href = 'site.html';
         }, 2500);
