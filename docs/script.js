@@ -6,7 +6,7 @@ class SlanglitApp {
         this.currentPage = 1;
         this.itemsPerPage = 8;
         this.userId = this.getUserId();
-        this.apiBaseUrl = 'http://localhost:5000/api';
+        this.apiBaseUrl = 'https://v236fw-178-66-157-239.ru.tuna.am/api';
         this.apiAvailable = false;
         
         this.init();

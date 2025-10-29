@@ -8,7 +8,14 @@ from database import FDataBase
 import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={
+    r"/api/*": {
+        "origins": ["*", "null"],  # Разрешаем все источники, включая локальные файлы
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization", "Accept"],
+        "supports_credentials": False
+    }
+})
 
 # Конфигурация БД
 DATABASE = 'translations.db'
