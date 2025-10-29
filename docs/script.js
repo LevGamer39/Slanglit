@@ -71,19 +71,40 @@ class SlanglitApp {
 
     async checkApiConnection() {
         try {
-            const response = await fetch(`${this.apiBaseUrl}/health`);
-            const data = await response.json();
+            console.log('🔧 Проверяем подключение к API...');
             
-            if (response.ok && data.database === 'connected') {
-                console.log('✅ API сервер доступен');
+            const response = await fetch(`${this.apiBaseUrl}/health`, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                credentials: 'omit'
+            });
+            
+            console.log('📊 Статус ответа:', response.status);
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log('✅ API сервер доступен:', data);
                 this.apiAvailable = true;
                 return true;
             } else {
-                throw new Error(data.message || 'API не доступен');
+                const errorText = await response.text();
+                console.error('❌ Ошибка API:', response.status, errorText);
+                throw new Error(`HTTP ${response.status}: ${errorText}`);
             }
         } catch (error) {
             console.error('❌ API сервер не доступен:', error);
-            this.showError('Сервер переводов временно недоступен. Пожалуйста, попробуйте позже.');
+            
+            // Показываем пользователю понятное сообщение
+            if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                this.showError('Не удалось подключиться к серверу переводов. Проверьте интернет-соединение.');
+            } else {
+                this.showError('Сервер переводов временно недоступен. Пожалуйста, попробуйте позже.');
+            }
+            
             this.apiAvailable = false;
             return false;
         }
@@ -103,7 +124,7 @@ class SlanglitApp {
         
         setTimeout(() => {
             if (russianText) russianText.style.color = '';
-        }, 3000);
+        }, 5000);
     }
 
     showUserIdInput() {
@@ -329,10 +350,14 @@ class SlanglitApp {
         // Для временных ID используем специальный маркер
         const userIdToSend = this.userId.startsWith('temp_') ? 'unknown_user' : this.userId;
         
+        console.log('🔧 Отправляем запрос на перевод:', { text, direction: this.currentDirection, userId: userIdToSend });
+        
         const response = await fetch(`${this.apiBaseUrl}/translate`, {
             method: 'POST',
+            mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify({
                 text: text,
@@ -342,11 +367,13 @@ class SlanglitApp {
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Ошибка API');
+            const errorText = await response.text();
+            console.error('❌ Ошибка API перевода:', response.status, errorText);
+            throw new Error(`Ошибка перевода: ${response.status}`);
         }
 
         const data = await response.json();
+        console.log('✅ Перевод получен:', data);
         return data;
     }
 
@@ -422,12 +449,23 @@ class SlanglitApp {
         }
 
         try {
-            const response = await fetch(`${this.apiBaseUrl}/history/${this.userId}?limit=100`);
+            console.log('🔧 Загружаем историю для пользователя:', this.userId);
+            
+            const response = await fetch(`${this.apiBaseUrl}/history/${this.userId}?limit=100`, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
             if (!response.ok) {
-                throw new Error('Ошибка загрузки истории');
+                throw new Error(`HTTP ${response.status}: Ошибка загрузки истории`);
             }
             
             const data = await response.json();
+            console.log('✅ История загружена:', data);
+            
             if (data.success) {
                 this.history = data.translations.map(trans => ({
                     original: trans.direction === 'to_formal' ? trans.informal_text : trans.formal_text,
@@ -549,5 +587,6 @@ function pasteText(elementId) {
 
 // Инициализация приложения
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('🚀 Инициализация SlanglitApp...');
     window.app = new SlanglitApp();
 });

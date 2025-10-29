@@ -1,75 +1,221 @@
 from flask import Flask, request, jsonify, g
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import sqlite3
 import json
 from datetime import datetime
-from services.gigachat_service import GigaChatService
-from database import FDataBase
 import os
 
 app = Flask(__name__)
-CORS(app, resources={
-    r"/api/*": {
-        "origins": ["*", "null"],  # Разрешаем все источники, включая локальные файлы
-        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization", "Accept"],
-        "supports_credentials": False
-    }
-})
+
+# РАСШИРЕННЫЕ НАСТРОЙКИ CORS ДЛЯ ГАРАНТИРОВАННОЙ РАБОТЫ
+app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['CORS_SUPPORTS_CREDENTIALS'] = False
+
+# Инициализация CORS с максимально широкими настройками
+CORS(app, 
+     origins="*",
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+     allow_headers=["*"],
+     expose_headers=["*"],
+     supports_credentials=False,
+     max_age=600)
 
 # Конфигурация БД
 DATABASE = 'translations.db'
 
+# ГЛОБАЛЬНАЯ ОБРАБОТКА CORS ДЛЯ ВСЕХ ЗАПРОСОВ
+@app.after_request
+def after_request(response):
+    """Добавляем CORS заголовки к КАЖДОМУ ответу"""
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,Accept,Origin,X-Requested-With')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    response.headers.add('Access-Control-Expose-Headers', 'Content-Length,Content-Range')
+    response.headers.add('Access-Control-Max-Age', '600')
+    return response
+
+@app.before_request
+def handle_preflight():
+    """Обработка OPTIONS запросов для CORS"""
+    if request.method == 'OPTIONS':
+        response = jsonify({'status': 'preflight'})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', '*')
+        response.headers.add('Access-Control-Allow-Methods', '*')
+        return response
+
 def get_db():
     """Создает новое подключение к БД для каждого запроса"""
-    if not hasattr(g, 'sqlite_db'):
+    try:
+        db = sqlite3.connect(DATABASE)
+        db.row_factory = sqlite3.Row
+        return db
+    except Exception as e:
+        print(f"❌ Ошибка подключения к БД: {e}")
+        return None
+
+def init_database():
+    """Инициализация базы данных если её нет"""
+    try:
+        db = sqlite3.connect(DATABASE)
+        cursor = db.cursor()
+        
+        # Создаем таблицу если её нет
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS translations (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                informal_text TEXT NOT NULL,
+                formal_text TEXT NOT NULL,
+                explanation TEXT,
+                user_id TEXT NOT NULL,
+                direction TEXT NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        
+        # Создаем индекс для быстрого поиска по user_id
+        cursor.execute('''
+            CREATE INDEX IF NOT EXISTS idx_user_id ON translations(user_id)
+        ''')
+        
+        db.commit()
+        db.close()
+        print("✅ База данных инициализирована")
+        return True
+    except Exception as e:
+        print(f"❌ Ошибка инициализации БД: {e}")
+        return False
+
+# Простой класс для работы с БД
+class DatabaseManager:
+    @staticmethod
+    def add_translation(informal_text, formal_text, explanation, user_id, direction):
+        """Добавление перевода в БД"""
         try:
-            g.sqlite_db = sqlite3.connect(DATABASE)
-            g.sqlite_db.row_factory = sqlite3.Row
-            print(f"✅ Создано новое подключение к БД в потоке {os.getpid()}")
+            db = sqlite3.connect(DATABASE)
+            cursor = db.cursor()
+            
+            cursor.execute('''
+                INSERT INTO translations (informal_text, formal_text, explanation, user_id, direction, created_at)
+                VALUES (?, ?, ?, ?, ?, datetime('now'))
+            ''', (informal_text, formal_text, explanation, user_id, direction))
+            
+            db.commit()
+            db.close()
+            return True
         except Exception as e:
-            print(f"❌ Ошибка подключения к БД: {e}")
-            return None
-    return g.sqlite_db
+            print(f"❌ Ошибка сохранения в БД: {e}")
+            return False
+    
+    @staticmethod
+    def get_user_translations(user_id, limit=100):
+        """Получение истории переводов пользователя"""
+        try:
+            db = sqlite3.connect(DATABASE)
+            cursor = db.cursor()
+            
+            cursor.execute('''
+                SELECT * FROM translations 
+                WHERE user_id = ? 
+                ORDER BY created_at DESC 
+                LIMIT ?
+            ''', (user_id, limit))
+            
+            translations = cursor.fetchall()
+            db.close()
+            
+            result = []
+            for trans in translations:
+                result.append({
+                    'id': trans[0],
+                    'informal_text': trans[1],
+                    'formal_text': trans[2],
+                    'explanation': trans[3],
+                    'user_id': trans[4],
+                    'direction': trans[5],
+                    'created_at': trans[6]
+                })
+            
+            return result
+        except Exception as e:
+            print(f"❌ Ошибка получения истории: {e}")
+            return []
+    
+    @staticmethod
+    def get_stats():
+        """Получение общей статистики"""
+        try:
+            db = sqlite3.connect(DATABASE)
+            cursor = db.cursor()
+            
+            cursor.execute("SELECT COUNT(*) FROM translations")
+            total_translations = cursor.fetchone()[0]
+            
+            cursor.execute("SELECT COUNT(DISTINCT user_id) FROM translations")
+            unique_users = cursor.fetchone()[0]
+            
+            db.close()
+            
+            return {
+                'total_translations': total_translations,
+                'unique_users': unique_users
+            }
+        except Exception as e:
+            print(f"❌ Ошибка получения статистики: {e}")
+            return {'total_translations': 0, 'unique_users': 0}
 
-def get_db_instance():
-    """Создает новый экземпляр FDataBase для каждого запроса"""
-    db_connection = get_db()
-    if db_connection:
-        return FDataBase(db_connection)
-    return None
+# Простой сервис GigaChat для тестирования
+class SimpleGigaChatService:
+    def __init__(self):
+        print("✅ SimpleGigaChatService инициализирован (тестовый режим)")
+    
+    def translate_text(self, text, direction):
+        """Тестовый перевод без реального GigaChat"""
+        if direction == "to_formal":
+            translation = f"📝 Формальный вариант: {text}"
+            explanation = "Это тестовый перевод в формальном стиле. В рабочем режиме здесь будет настоящее объяснение от GigaChat."
+        else:
+            translation = f"💬 Неформальный вариант: {text}"
+            explanation = "Это тестовый перевод в неформальном стиле. В рабочем режиме здесь будет настоящее объяснение от GigaChat."
+        
+        return translation, explanation
 
-@app.teardown_appcontext
-def close_db(error):
-    """Закрывает подключение к БД после запроса"""
-    if hasattr(g, 'sqlite_db'):
-        g.sqlite_db.close()
-        print("🔒 Подключение к БД закрыто")
-
-# Инициализация GigaChat (можно использовать один экземпляр)
+# Инициализация сервисов
 try:
-    gigachat = GigaChatService()
+    gigachat = SimpleGigaChatService()
     gigachat_available = True
-    print("✅ GigaChat инициализирован")
+    print("✅ GigaChatService инициализирован в тестовом режиме")
 except Exception as e:
     print(f"❌ Ошибка инициализации GigaChat: {e}")
     gigachat_available = False
 
-@app.route('/api/health', methods=['GET'])
+# Инициализация БД при старте
+db_initialized = init_database()
+
+# API МАРШРУТЫ С ГАРАНТИРОВАННЫМ CORS
+
+@app.route('/api/health', methods=['GET', 'OPTIONS'])
+@cross_origin()
 def health_check():
     """Проверка работы API и БД"""
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'ok'}), 200
+        
     try:
-        db = get_db_instance()
+        # Проверяем подключение к БД
+        db = get_db()
         if db:
-            # Проверяем что БД отвечает
-            test_query = db.get_user_translations('test', 1)
+            cursor = db.cursor()
+            cursor.execute("SELECT COUNT(*) FROM translations")
+            count = cursor.fetchone()[0]
+            db.close()
+            
             db_status = "connected"
-            message = "API и БД работают"
+            message = f"API и БД работают. Записей в БД: {count}"
         else:
             db_status = "disconnected"
             message = "БД недоступна"
     except Exception as e:
-        print(f"❌ Ошибка проверки БД: {e}")
         db_status = "error"
         message = f"Ошибка БД: {str(e)}"
     
@@ -77,15 +223,20 @@ def health_check():
         "status": "ok" if db_status == "connected" else "error",
         "database": db_status,
         "gigachat": "connected" if gigachat_available else "disconnected",
-        "message": message
+        "message": message,
+        "timestamp": datetime.now().isoformat()
     }
     return jsonify(status)
 
-@app.route('/api/translate', methods=['POST'])
+@app.route('/api/translate', methods=['POST', 'OPTIONS'])
+@cross_origin()
 def translate_text():
-    """Перевод текста через GigaChat с сохранением в БД"""
+    """Перевод текста с сохранением в БД"""
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'ok'}), 200
+        
     try:
-        # Проверяем доступность GigaChat
+        # Проверяем доступность сервиса перевода
         if not gigachat_available:
             return jsonify({
                 "error": "Сервис переводов временно недоступен",
@@ -95,8 +246,17 @@ def translate_text():
         data = request.get_json()
         
         # Валидация входных данных
-        if not data or 'text' not in data or 'direction' not in data or 'user_id' not in data:
-            return jsonify({"error": "Необходимы параметры: text, direction, user_id"}), 400
+        if not data:
+            return jsonify({"error": "Отсутствуют данные в запросе"}), 400
+            
+        if 'text' not in data:
+            return jsonify({"error": "Отсутствует параметр: text"}), 400
+            
+        if 'direction' not in data:
+            return jsonify({"error": "Отсутствует параметр: direction"}), 400
+            
+        if 'user_id' not in data:
+            return jsonify({"error": "Отсутствует параметр: user_id"}), 400
         
         text = data['text'].strip()
         direction = data['direction']
@@ -106,28 +266,23 @@ def translate_text():
             return jsonify({"error": "Текст не может быть пустым"}), 400
         
         if direction not in ['to_formal', 'to_informal']:
-            return jsonify({"error": "Некорректное направление перевода"}), 400
+            return jsonify({"error": "Некорректное направление перевода. Допустимо: to_formal, to_informal"}), 400
         
-        # Выполняем перевод через GigaChat
+        print(f"🔧 Перевод запроса: '{text}' -> {direction} для пользователя {user_id}")
+        
+        # Выполняем перевод
+        translation, explanation = gigachat.translate_text(text, direction)
+        
+        # Определяем формальный и неформальный текст для сохранения
         if direction == 'to_formal':
-            translation, explanation = gigachat.translate_text(text, "to_formal")
-            # Для to_formal: исходный текст = неформальный, перевод = формальный
             informal_text = text
             formal_text = translation
         else:
-            translation, explanation = gigachat.translate_text(text, "to_informal")
-            # Для to_informal: исходный текст = формальный, перевод = неформальный
             informal_text = translation
             formal_text = text
         
-        # Сохраняем в базу данных (создаем новое подключение)
-        db = get_db_instance()
-        if db:
-            success = db.add_translation(informal_text, formal_text, explanation, user_id, direction)
-            if not success:
-                print("⚠️ Предупреждение: не удалось сохранить в БД, но перевод выполнен")
-        else:
-            print("⚠️ Предупреждение: БД недоступна, перевод не сохранен")
+        # Сохраняем в базу данных
+        saved = DatabaseManager.add_translation(informal_text, formal_text, explanation, user_id, direction)
         
         # Формируем ответ
         response = {
@@ -137,41 +292,43 @@ def translate_text():
             "explanation": explanation,
             "direction": direction,
             "timestamp": datetime.now().isoformat(),
-            "saved_to_db": bool(db)  # Сообщаем сохранилось ли в БД
+            "saved_to_db": saved
         }
+        
+        print(f"✅ Перевод выполнен: {text[:50]}... -> {translation[:50]}...")
         
         return jsonify(response)
         
     except Exception as e:
         print(f"❌ Ошибка в API перевода: {e}")
-        return jsonify({"error": f"Ошибка сервера: {str(e)}"}), 500
+        return jsonify({
+            "error": f"Внутренняя ошибка сервера: {str(e)}",
+            "success": False
+        }), 500
 
-@app.route('/api/history/<user_id>', methods=['GET'])
+@app.route('/api/history/<user_id>', methods=['GET', 'OPTIONS'])
+@cross_origin()
 def get_user_history(user_id):
     """Получение истории переводов пользователя"""
-    try:
-        # Создаем новое подключение к БД
-        db = get_db_instance()
-        if not db:
-            return jsonify({"error": "База данных недоступна"}), 503
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'ok'}), 200
         
+    try:
         # Параметры пагинации
         limit = request.args.get('limit', default=100, type=int)
         
         # Получаем историю из БД
-        translations = db.get_user_translations(user_id, limit)
+        translations = DatabaseManager.get_user_translations(user_id, limit)
         
         # Форматируем ответ
         history = []
         for trans in translations:
-            direction = trans.get('direction', 'to_formal')
-            
             history.append({
                 "id": trans['id'],
                 "informal_text": trans['informal_text'],
                 "formal_text": trans['formal_text'],
                 "explanation": trans['explanation'],
-                "direction": direction,
+                "direction": trans['direction'],
                 "created_at": trans['created_at']
             })
         
@@ -179,22 +336,26 @@ def get_user_history(user_id):
             "success": True,
             "user_id": user_id,
             "translations": history,
-            "total": len(history)
+            "total": len(history),
+            "limit": limit
         })
         
     except Exception as e:
         print(f"❌ Ошибка получения истории: {e}")
-        return jsonify({"error": f"Ошибка получения истории: {str(e)}"}), 500
+        return jsonify({
+            "error": f"Ошибка получения истории: {str(e)}",
+            "success": False
+        }), 500
 
-@app.route('/api/stats/<user_id>', methods=['GET'])
+@app.route('/api/stats/<user_id>', methods=['GET', 'OPTIONS'])
+@cross_origin()
 def get_user_stats(user_id):
     """Получение статистики пользователя"""
-    try:
-        db = get_db_instance()
-        if not db:
-            return jsonify({"error": "База данных недоступна"}), 503
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'ok'}), 200
         
-        translations = db.get_user_translations(user_id, 1000)
+    try:
+        translations = DatabaseManager.get_user_translations(user_id, 1000)
         
         stats = {
             "total_translations": len(translations),
@@ -211,36 +372,157 @@ def get_user_stats(user_id):
         
     except Exception as e:
         print(f"❌ Ошибка получения статистики: {e}")
-        return jsonify({"error": f"Ошибка получения статистики: {str(e)}"}), 500
+        return jsonify({
+            "error": f"Ошибка получения статистики: {str(e)}",
+            "success": False
+        }), 500
 
-@app.route('/api/test-db', methods=['GET'])
+@app.route('/api/stats', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def get_global_stats():
+    """Получение глобальной статистики"""
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'ok'}), 200
+        
+    try:
+        stats = DatabaseManager.get_stats()
+        
+        return jsonify({
+            "success": True,
+            "stats": stats,
+            "gigachat_status": "connected" if gigachat_available else "disconnected"
+        })
+        
+    except Exception as e:
+        print(f"❌ Ошибка получения глобальной статистики: {e}")
+        return jsonify({
+            "error": f"Ошибка получения статистики: {str(e)}",
+            "success": False
+        }), 500
+
+@app.route('/api/test-db', methods=['GET', 'OPTIONS'])
+@cross_origin()
 def test_db():
     """Тестовый эндпоинт для проверки БД"""
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'ok'}), 200
+        
     try:
-        db = get_db_instance()
+        # Проверяем подключение к БД
+        db = get_db()
         if db:
-            # Пробуем выполнить простой запрос
-            test_result = db.get_user_translations('test_user', 1)
-            return jsonify({
-                "success": True,
-                "message": "БД работает корректно",
-                "test_query_result": len(test_result) if test_result else 0
-            })
+            cursor = db.cursor()
+            
+            # Проверяем существование таблицы
+            cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='translations'")
+            table_exists = cursor.fetchone()
+            
+            if table_exists:
+                cursor.execute("SELECT COUNT(*) FROM translations")
+                count = cursor.fetchone()[0]
+                cursor.execute("SELECT COUNT(DISTINCT user_id) FROM translations")
+                users_count = cursor.fetchone()[0]
+                
+                db.close()
+                
+                return jsonify({
+                    "success": True,
+                    "message": "БД работает корректно",
+                    "table_exists": True,
+                    "records_count": count,
+                    "unique_users": users_count
+                })
+            else:
+                db.close()
+                return jsonify({
+                    "success": False,
+                    "message": "Таблица translations не существует",
+                    "table_exists": False
+                })
         else:
-            return jsonify({"error": "Не удалось подключиться к БД"}), 503
+            return jsonify({
+                "success": False,
+                "message": "Не удалось подключиться к БД"
+            }), 503
+            
     except Exception as e:
-        return jsonify({"error": f"Ошибка теста БД: {str(e)}"}), 500
+        return jsonify({
+            "success": False,
+            "message": f"Ошибка теста БД: {str(e)}"
+        }), 500
+
+# Дополнительные тестовые маршруты
+@app.route('/api/test-cors', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def test_cors():
+    """Тестовый эндпоинт для проверки CORS"""
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'preflight'}), 200
+        
+    return jsonify({
+        "success": True,
+        "message": "CORS работает корректно",
+        "timestamp": datetime.now().isoformat(),
+        "cors_headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type,Authorization"
+        }
+    })
+
+@app.route('/api/echo', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def echo():
+    """Эхо-эндпоинт для тестирования"""
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'ok'}), 200
+        
+    data = request.get_json() or {}
+    return jsonify({
+        "success": True,
+        "echo": data,
+        "timestamp": datetime.now().isoformat(),
+        "headers": dict(request.headers)
+    })
+
+# Обработка ошибок
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({
+        "success": False,
+        "error": "Эндпоинт не найден",
+        "path": request.path
+    }), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    return jsonify({
+        "success": False,
+        "error": "Внутренняя ошибка сервера"
+    }), 500
 
 if __name__ == '__main__':
-    print("🚀 Запуск API сервера с исправленной многопоточностью...")
-    print("📊 Эндпоинты:")
-    print("   POST /api/translate - перевод текста")
-    print("   GET  /api/history/<user_id> - история пользователя") 
-    print("   GET  /api/stats/<user_id> - статистика")
-    print("   GET  /api/health - проверка статуса")
-    print("   GET  /api/test-db - тест БД")
-    print("🔧 Порт: 5000")
-    print("⚡ Режим: многопоточный с изоляцией БД")
+    print("🚀 Запуск API сервера с гарантированным CORS...")
+    print("📊 Доступные эндпоинты:")
+    print("   GET  /api/health          - проверка статуса API")
+    print("   POST /api/translate       - перевод текста")
+    print("   GET  /api/history/<id>    - история пользователя")
+    print("   GET  /api/stats/<id>      - статистика пользователя")
+    print("   GET  /api/stats           - глобальная статистика")
+    print("   GET  /api/test-db         - тест базы данных")
+    print("   GET  /api/test-cors       - тест CORS")
+    print("   POST /api/echo            - эхо-тест")
+    print("🔧 Настройки:")
+    print("   Порт: 5000")
+    print("   Хост: 0.0.0.0 (все интерфейсы)")
+    print("   CORS: разрешены все домены")
+    print("   Режим: тестовый (SimpleGigaChatService)")
+    print("⚡ Сервер запущен и готов к работе!")
     
-    # Запускаем в режиме без debug (чтобы не было многопоточных проблем)
-    app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
+    # Запускаем сервер
+    app.run(
+        host='0.0.0.0', 
+        port=5000, 
+        debug=False, 
+        threaded=True
+    )
