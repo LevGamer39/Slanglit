@@ -232,7 +232,7 @@ body {
 /* ========== BIG TRANSLATE BUTTON ========== */
 .big-translate-btn {
     width: 100%;
-    background: linear-gradient(135deg, #44A3B9 0%, #5bc2d8 100%);
+    background: linear-gradient(135deg, #09414E 0%, #1CA6C3 100%);
     color: white;
     border: none;
     border-radius: var(--border-radius);

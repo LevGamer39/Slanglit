@@ -15,9 +15,9 @@ class SlanglitApp {
     getUserId() {
         // 1. Пробуем Telegram Web App (автоматически)
         if (window.Telegram && window.Telegram.WebApp) {
-            const tg = window.Telegram.WebApp;
+            const tg = Telegram.WebApp;
             if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                const userId = tg.initDataUnsafe.user.id.toString();
+                const userId = tg.initDataUnsafe.user.id;
                 console.log('✅ Используем Telegram user_id:', userId);
                 localStorage.setItem('slanglit_user_id', userId);
                 localStorage.setItem('slanglit_user_source', 'telegram');
@@ -197,32 +197,36 @@ class SlanglitApp {
     }
 
     saveUserId() {
-        const input = document.getElementById('userIdInput');
-        const userId = input.value.trim();
-        
-        if (!userId) {
-            alert('❌ Пожалуйста, введите ваш Telegram ID');
-            return;
-        }
-        
-        if (!/^\d+$/.test(userId)) {
-            alert('❌ Telegram ID должен содержать только цифры\n\nПример: 5159491775');
-            return;
-        }
-        
-        if (userId.length < 5) {
-            alert('❌ Telegram ID слишком короткий');
-            return;
-        }
-        
-        // Сохраняем как Telegram ID
-        localStorage.setItem('slanglit_user_id', userId);
-        localStorage.setItem('slanglit_user_source', 'telegram');
-        this.userId = userId;
-        
-        console.log('✅ Сохранен Telegram ID:', userId);
-        this.continueWithApp();
-    }
+		const input = document.getElementById('userIdInput');
+		const userId = input.value.trim();
+		
+		if (!userId) {
+			alert('❌ Пожалуйста, введите ваш Telegram ID');
+			return;
+		}
+		
+		if (!/^\d+$/.test(userId)) {
+			alert('❌ Telegram ID должен содержать только цифры\n\nПример: 5159491775');
+			return;
+		}
+		
+		if (userId.length < 5) {
+			alert('❌ Telegram ID слишком короткий');
+			return;
+		}
+		
+		// Сохраняем как Telegram ID
+		localStorage.setItem('slanglit_user_id', userId);
+		localStorage.setItem('slanglit_user_source', 'telegram');
+		this.userId = userId;
+		
+		console.log('✅ Сохранен Telegram ID:', userId);
+		
+		// ПОЛНОСТЬЮ ПЕРЕЗАГРУЖАЕМ СТРАНИЦУ
+		console.log('🔄 Перезагрузка приложения...');
+		window.location.reload(true); // true - принудительная перезагрузка без кэша
+		location.reload()
+	}
 
     continueWithoutId() {
         // Генерируем временный ID только для текущей сессии (не сохраняем в localStorage)
@@ -350,14 +354,16 @@ class SlanglitApp {
     }
 
     async translateViaApi(text) {
-        // Для временных ID используем специальный маркер
-        const userIdToSend = this.userId.startsWith('temp_') ? 'unknown_user' : this.userId;
-        
-        console.log('🔧 Отправляем запрос на перевод:', { text, direction: this.currentDirection, userId: userIdToSend });
-        
+    // Для временных ID используем специальный маркер
+    const userIdToSend = this.userId.startsWith('temp_') ? 'unknown_user' : this.userId;
+    
+    console.log('🔧 Отправляем запрос на перевод:');
+    console.log('  URL:', `${this.apiBaseUrl}/translate`);
+    console.log('  Данные:', { text, direction: this.currentDirection, userId: userIdToSend });
+    
+    try {
         const response = await fetch(`${this.apiBaseUrl}/translate`, {
             method: 'POST',
-            mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -369,16 +375,44 @@ class SlanglitApp {
             })
         });
 
+        console.log('📊 Ответ получен:');
+        console.log('  Статус:', response.status);
+        console.log('  OK:', response.ok);
+        
+        // Получим текст ответа для отладки
+        const responseText = await response.text();
+        console.log('  Тело ответа:', responseText);
+        
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error('❌ Ошибка API перевода:', response.status, errorText);
-            throw new Error(`Ошибка перевода: ${response.status}`);
+            console.error('❌ Ошибка API перевода:', response.status, responseText);
+            
+            // Попробуем распарсить ошибку
+            let errorData;
+            try {
+                errorData = JSON.parse(responseText);
+                throw new Error(errorData.error || `Ошибка ${response.status}`);
+            } catch (e) {
+                throw new Error(`HTTP ${response.status}: ${responseText.substring(0, 100)}`);
+            }
         }
 
-        const data = await response.json();
+        // Парсим успешный ответ
+        let data;
+        try {
+            data = JSON.parse(responseText);
+        } catch (e) {
+            console.error('❌ Ответ не JSON:', responseText);
+            throw new Error('Сервер вернул невалидный JSON');
+        }
+        
         console.log('✅ Перевод получен:', data);
         return data;
+        
+    } catch (error) {
+        console.error('❌ Ошибка в translateViaApi:', error);
+        throw error;
     }
+}
 
     switchLanguage() {
         const slangInput = document.getElementById('slangInput');
