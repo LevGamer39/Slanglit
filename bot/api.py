@@ -23,27 +23,27 @@ DATABASE = 'translations.db'
 @app.route('/')
 def index():
     """Главная страница - загрузочный экран"""
-    return send_file('index.html')
+    return send_file('site/index.html')
 
 @app.route('/site.html')
 def site():
     """Основное приложение"""
-    return send_file('site.html')
+    return send_file('site/site.html')
 
 @app.route('/style.css')
 def serve_css():
     """Отдаем CSS файл"""
-    return send_file('style.css')
+    return send_file('site/style.css')
 
 @app.route('/script.js')
 def serve_js():
     """Отдаем JavaScript файл"""
-    return send_file('script.js')
+    return send_file('site/script.js')
 @app.route('/fonts/Benzin-Semibold.ttf')
 def serve_benzin_semibold():
     """Отдаем шрифт Benzin Semibold"""
     try:
-        return send_file('fonts/Benzin-Semibold.ttf')
+        return send_file('site/fonts/Benzin-Semibold.ttf')
     except FileNotFoundError:
         return "Font not found", 404
 
@@ -51,7 +51,7 @@ def serve_benzin_semibold():
 def serve_benzin_regular():
     """Отдаем шрифт Benzin Regular"""
     try:
-        return send_file('fonts/Benzin-Regular.ttf')
+        return send_file('site/fonts/Benzin-Regular.ttf')
     except FileNotFoundError:
         return "Font not found", 404
 
