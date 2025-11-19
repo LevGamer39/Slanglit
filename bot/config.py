@@ -1,5 +1,4 @@
 from secret import BOT_TOKEN, GIGACHAT_API_KEY
 from secret import GIGACHAT_API_KEY
 BOT_TOKEN = BOT_TOKEN
-DATABASE_PATH = 'translations.db'
 GIGACHAT_API_KEY = GIGACHAT_API_KEY
